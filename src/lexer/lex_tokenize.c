@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/13 03:20:02 by bbrassar         ###   ########.fr       */
+/*   Updated: 2021/12/13 03:53:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	add_token(t_token_list *list, t_token token, char *input,
 
 int	lex_tokenize(t_token_list *list, char *input)
 {
-	size_t			i;
+	size_t	i;
 
 	while (*input)
 	{
@@ -73,7 +73,7 @@ int	lex_tokenize(t_token_list *list, char *input)
 		}
 		else if (*input == '>')
 		{
-			if (*(input + 1)== '>')
+			if (*(input + 1) == '>')
 			{
 				if (!add_token(list, D_GREAT, ++input, 0))
 					return (0);
@@ -83,7 +83,7 @@ int	lex_tokenize(t_token_list *list, char *input)
 		}
 		else if (*input == '<')
 		{
-			if (*(input + 1)== '<')
+			if (*(input + 1) == '<')
 			{
 				if (!add_token(list, D_LESS, ++input, 0))
 					return (0);
