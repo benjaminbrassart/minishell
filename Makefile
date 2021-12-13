@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2021/12/13 01:42:17 by bbrassar         ###   ########.fr        #
+#    Updated: 2021/12/13 03:14:30 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ NAME_LIBFT			= $(DIR_LIBFT)/libft.a
 CFLAGS				= -Wall -Werror -Wextra -c -MMD -MP -Iinclude
 # LDFLAGS				= -L$(DIR_LIBFT)
 # LDLIBS				= -lreadline -lft
-LDLIBS					= -lreadline
+LDLIBS				= -lreadline
+
+DEBUG				= true
 
 ifeq ($(DEBUG), true)
 CFLAGS				+= -g3
@@ -27,6 +29,7 @@ DIR_SRC				= src
 DIR_OBJ				= obj
 SRC					= \
 						main.c \
+						handle_signal.c \
 						ft/ft_memset.c \
 						ft/ft_strcspn.c \
 						ft/ft_strndup.c \
