@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 00:56:47 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/13 01:53:26 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/10 12:26:00 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static char	*strtoken(t_token token)
 		return ("GREAT");
 	if (token == D_GREAT)
 		return ("D_GREAT");
+	if (token == SEPARATOR)
+		return ("SEPARATOR");
 	return ("(unknown)");
 }
 
@@ -38,9 +40,10 @@ void	lex_dump(t_token_list *list)
 	while (node)
 	{
 		if (node->value)
-			printf(" %-7s | %s\n", strtoken(node->token), node->value);
+			printf(" %-9s (%d) | %s\n", strtoken(node->token), node->expandable,
+				node->value);
 		else
-			printf(" %-7s |\n", strtoken(node->token));
+			printf(" %-9s (%d) |\n", strtoken(node->token), node->expandable);
 		node = node->next;
 	}
 }
