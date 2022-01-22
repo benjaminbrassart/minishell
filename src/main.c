@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/21 05:14:45 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/22 07:44:51 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "lexer.h"
 #include "minishell.h"
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <readline/history.h>
 #include <readline/readline.h>
+#include <unistd.h>
 
 static void	setup_signal_handlers(void)
 {
@@ -37,7 +37,7 @@ static int	process_end(t_sh *sh)
 {
 	lex_delete(&sh->tokens);
 	rl_clear_history();
-	printf("exit\n");
+	write(STDERR_FILENO, "exit\n", 5);
 	return (g_exit_status);
 }
 
