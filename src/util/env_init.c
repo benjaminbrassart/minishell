@@ -6,57 +6,59 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:21:24 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/21 05:11:55 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/22 12:17:16 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environ.h"
 #include "ft.h"
-#include "minishell.h"
+#include <stdlib.h>
 
-static t_env	*from_entry(char const *s)
+static t_env	*extract_node(char *env_entry)
 {
-	t_env	*ent;
-	char	*key;
-	char	*value;
-	size_t	n;
+	t_env	*env;
+	int		i;
 
-	n = 0;
-	while (s[n] && s[n] != '=')
-		++n;
-	key = ft_strndup(s, n);
-	value = ft_strdup(s + n + 1);
-	ent = env_newent(key, value);
-	return (ent);
-}
-
-static void	env_addent(t_sh *sh, t_env *slow, t_env *ent)
-{
-	if (slow)
-		slow->next = ent;
-	else
-		sh->env = ent;
+	env = malloc(sizeof (*env));
+	if (env)
+	{
+		i = 0;
+		while (env_entry[i] && env_entry[i] != '=')
+			++i;
+		if (!env_entry[i])
+			return (NULL);
+		env->key = ft_strndup(env_entry, i);
+		env->value = ft_strdup(env_entry + i + 1);
+		env->next = NULL;
+		if (!env->key || !env->value)
+		{
+			free(env->key);
+			free(env->value);
+			free(env);
+			env = NULL;
+		}
+	}
+	return (env);
 }
 
 int	env_init(t_sh *sh, char *ev[])
 {
-	char	*ent;
-	t_env	*slow;
-	t_env	*env;
+	t_env	*last;
+	t_env	*node;
+	int		i;
 
-	env = sh->env;
-	slow = NULL;
-	ent = *ev;
-	while (ent)
+	last = NULL;
+	i = -1;
+	while (ev[++i])
 	{
-		env = from_entry(ent);
-		if (!ent)
-		{
-			env_destroy(sh);
+		node = extract_node(ev[i]);
+		if (!node)
 			return (0);
-		}
-		env_addent(sh, slow, env);
-		++ent;
+		if (last)
+			last->next = node;
+		else
+			sh->env = node;
+		last = node;
 	}
 	return (1);
 }
