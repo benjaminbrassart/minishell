@@ -19,12 +19,6 @@
 #include <readline/readline.h>
 #include <unistd.h>
 
-static void	setup_signal_handlers(void)
-{
-	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, SIG_IGN);
-}
-
 static void	process_line(t_sh *sh, char *line)
 {
 	add_history(line);
@@ -44,14 +38,15 @@ static int	process_end(t_sh *sh)
 int	main(
 	int ac __attribute__((unused)),
 	char *av[] __attribute__((unused)),
+	char *ev[]
 )
 {
 	static t_sh	sh = {{NULL, NULL, 0}, NULL};
 	char		*line;
 
 	g_exit_status = 0;
-	sh.program = av[0];
-	setup_signal_handlers();
+	if (!setup(&sh, ev))
+		return (EXIT_FAILURE);
 	while (1)
 	{
 		line = readline(COMMAND_PROMPT);

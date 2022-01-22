@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/01/19 16:53:20 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/01/22 11:48:24 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ DIR_SRC				= src
 DIR_OBJ				= obj
 SRC					= \
 						main.c \
+						setup.c \
 						handle_signal.c \
 						ft/ft_memset.c \
 						ft/ft_strcspn.c \
