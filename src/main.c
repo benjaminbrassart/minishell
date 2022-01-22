@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/22 07:47:23 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/22 11:47:56 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static int	process_end(t_sh *sh)
 int	main(
 	int ac __attribute__((unused)),
 	char *av[] __attribute__((unused)),
-	char *ev[] __attribute__((unused))
 )
 {
 	static t_sh	sh = {{NULL, NULL, 0}, NULL};
