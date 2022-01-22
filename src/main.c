@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/22 07:44:51 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/22 07:47:23 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	main(
 	char		*line;
 
 	g_exit_status = 0;
+	sh.program = av[0];
 	setup_signal_handlers();
 	while (1)
 	{
