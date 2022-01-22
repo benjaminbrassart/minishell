@@ -1,18 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/11 08:16:58 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/12 08:04:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_isalnum(int c)
+char	*ft_itoa(int i)
 {
-	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
+	char			digits[MAX_INT_DIGITS];
+	unsigned int	n;
+	unsigned int	count;
+
+	if (i < 0)
+		n = -i;
+	else
+		n = i;
+	count = 0;
+	while (n || !count)
+	{
+		digits[sizeof (digits) - count++] = n % 10 + '0';
+		n /= 10;
+	}
+	if (i < 0)
+		digits[sizeof (digits) - count++] = '-';
+	return (ft_strndup(digits + sizeof (digits) - count, count));
 }

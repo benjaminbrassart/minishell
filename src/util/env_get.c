@@ -1,18 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   env_get.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/12 10:08:14 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/12 10:51:06 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "minishell.h"
+#include "type/env.h"
+#include "type/sh.h"
 
-int	ft_isalnum(int c)
+char	*env_get(t_sh *sh, char const *key)
 {
-	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
+	t_env	*env;
+
+	env = sh->env;
+	while (env)
+	{
+		if (ft_strcmp(key, env->key) == 0)
+			break ;
+		env = env->next;
+	}
+	if (env)
+		return (env->key);
+	return (NULL);
 }

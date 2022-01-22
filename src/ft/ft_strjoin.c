@@ -1,18 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/11 07:38:53 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/21 05:11:31 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft.h"
+#include <stdlib.h>
 
-int	ft_isalnum(int c)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
+	char	*orig;
+	char	*s;
+	size_t	len1;
+	size_t	len2;
+
+	len1 = 0;
+	len2 = 0;
+	if (s1)
+		len1 = ft_strlen(s1);
+	if (s2)
+		len2 = ft_strlen(s2);
+	s = malloc(sizeof (*s) * (len1 + len2 + 1));
+	if (s)
+	{
+		orig = s;
+		while (len1--)
+			*orig++ = *s1++;
+		while (len2--)
+			*orig++ = *s2++;
+	}
+	return (s);
 }

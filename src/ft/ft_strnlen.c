@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   ft_strnlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/11 07:40:34 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/11 07:46:12 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stddef.h>
 
-int	ft_isalnum(int c)
+size_t	ft_nsstrlen(char const *s)
 {
-	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
+	size_t	len;
+
+	if (!s)
+		return (0);
+	len = 0;
+	while (s[len])
+		++len;
+	return (len);
 }

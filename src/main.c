@@ -6,10 +6,11 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/07 04:12:40 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/21 05:14:45 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "environ.h"
 #include "lexer.h"
 #include "minishell.h"
 #include <signal.h>
@@ -24,27 +25,42 @@ static void	setup_signal_handlers(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-int	main(void)
+static void	process_line(t_sh *sh, char *line)
 {
-	static t_token_list	list = {NULL, NULL, 0};
-	char				*line;
+	add_history(line);
+	free(line);
+	lex_dump(&sh->tokens);
+	lex_delete(&sh->tokens);
+}
 
+static int	process_end(t_sh *sh)
+{
+	lex_delete(&sh->tokens);
+	rl_clear_history();
+	printf("exit\n");
+	return (g_exit_status);
+}
+
+int	main(
+	int ac __attribute__((unused)),
+	char *av[] __attribute__((unused)),
+	char *ev[] __attribute__((unused))
+)
+{
+	static t_sh	sh = {{NULL, NULL, 0}, NULL};
+	char		*line;
+
+	g_exit_status = 0;
 	setup_signal_handlers();
 	while (1)
 	{
 		line = readline(COMMAND_PROMPT);
 		if (!line)
 			break ;
-		lex_tokenize(&list, line);
-		if (!list.length)
+		lex_tokenize(&sh.tokens, line);
+		if (!sh.tokens.length)
 			continue ;
-		add_history(line);
-		free(line);
-		lex_dump(&list);
-		lex_delete(&list);
+		process_line(&sh, line);
 	}
-	lex_delete(&list);
-	rl_clear_history();
-	printf("exit\n");
-	return (0);
+	return (process_end(&sh));
 }

@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/12 10:31:38 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/12 10:44:26 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef ENV_H
+# define ENV_H
 
-int	ft_isalnum(int c)
+typedef struct s_env	t_env;
+
+struct s_env
 {
-	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
-}
+	char	*key;
+	char	*value;
+	t_env	*next;
+};
+
+#endif

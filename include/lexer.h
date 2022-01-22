@@ -6,53 +6,16 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:16:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/10 12:18:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/19 18:52:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-# include <stddef.h>
+# include "type/token_list.h"
 
-typedef enum e_token			t_token;
-typedef struct s_token_list		t_token_list;
-typedef struct s_token_node		t_token_node;
-typedef struct s_token_param	t_token_param;
-
-enum e_token
-{
-	WORD,
-	PIPE,
-	LESS,
-	D_LESS,
-	GREAT,
-	D_GREAT,
-	SEPARATOR,
-};
-
-struct s_token_list
-{
-	t_token_node	*first_node;
-	t_token_node	*last_node;
-	size_t			length;
-};
-
-struct s_token_node
-{
-	t_token			token;
-	char			*value;
-	int				expandable;
-	t_token_node	*next;
-};
-
-struct s_token_param
-{
-	t_token	token;
-	char	*value;
-	size_t	index;
-	int		expandable;
-};
+# define LEX_BUFFER_SIZE 4096
 
 int		lex_tokenize(t_token_list *list, char *input)
 		__attribute__((nonnull(1, 2)));

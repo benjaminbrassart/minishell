@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   env_newent.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/12 10:39:40 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/12 10:40:35 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "type/env.h"
+#include <stdlib.h>
 
-int	ft_isalnum(int c)
+t_env	*env_newent(char *key, char *value)
 {
-	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
+	t_env	*env;
+
+	env = malloc(sizeof (*env));
+	if (env)
+	{
+		env->key = key;
+		env->value = value;
+		env->next = NULL;
+	}
+	return (env);
 }

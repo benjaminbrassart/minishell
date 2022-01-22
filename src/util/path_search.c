@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   path_search.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/12 11:40:06 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/12 11:45:30 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "environ.h"
 
-int	ft_isalnum(int c)
+char	*path_search(t_sh *sh, char *bin_rel)
 {
-	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
+	t_env	*env;
+	char	*raw_path;
+
+	raw_path = env_get(sh, "PATH");
+	if (!raw_path)
+	env = sh->env;
 }

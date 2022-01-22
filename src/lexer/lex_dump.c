@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 00:56:47 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/10 12:26:00 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/19 16:59:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,12 @@
 
 static char	*strtoken(t_token token)
 {
-	if (token == WORD)
-		return ("WORD");
+	if (token == WORD_NQ)
+		return ("WORD_NQ");
+	if (token == WORD_SQ)
+		return ("WORD_SQ");
+	if (token == WORD_DQ)
+		return ("WORD_DQ");
 	if (token == PIPE)
 		return ("PIPE");
 	if (token == LESS)
@@ -40,10 +44,9 @@ void	lex_dump(t_token_list *list)
 	while (node)
 	{
 		if (node->value)
-			printf(" %-9s (%d) | %s\n", strtoken(node->token), node->expandable,
-				node->value);
+			printf(" %-9s | %s\n", strtoken(node->token), node->value);
 		else
-			printf(" %-9s (%d) |\n", strtoken(node->token), node->expandable);
+			printf(" %-9s |\n", strtoken(node->token));
 		node = node->next;
 	}
 }

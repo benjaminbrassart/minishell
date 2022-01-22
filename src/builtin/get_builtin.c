@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   get_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/19 19:38:56 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/19 19:40:23 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtin.h"
+#include "ft.h"
 
-int	ft_isalnum(int c)
+t_builtin	*get_builtin(char const *name)
 {
-	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
+	size_t	i;
+
+	i = 0;
+	while (i < sizeof (name))
+	{
+		if (ft_strcmp(g_builtins[i].name, name) == 0)
+			return (&g_builtins[i]);
+		++i;
+	}
+	return (NULL);
 }

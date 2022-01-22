@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2021/12/13 03:14:30 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/01/19 16:53:20 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,15 @@ SRC					= \
 						ft/ft_memset.c \
 						ft/ft_strcspn.c \
 						ft/ft_strndup.c \
+						ft/ft_strdup.c \
+						ft/ft_strjoin.c \
+						ft/ft_strlen.c \
 						lexer/lex_dump.c \
 						lexer/lex_tokenize.c \
-						lexer/lex_delete.c
+						lexer/lex_delete.c \
+						util/env_init.c \
+						util/env_destroy.c \
+						util/env_newent.c
 OBJ					= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP					= $(OBJ:.o=.d)
 

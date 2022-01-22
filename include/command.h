@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/07 04:25:50 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/07 04:30:58 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef COMMAND_H
+# define COMMAND_H
 
-int	ft_isalnum(int c)
+typedef struct s_command_list	t_command_list;
+typedef struct s_command_node	t_command_node;
+
+struct s_command_list
 {
-	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
-}
+	t_command_node	*first;
+	unsigned int	length;
+};
+
+struct s_command_node
+{
+	char	*ex_name;
+	char	**args;
+};
+
+#endif

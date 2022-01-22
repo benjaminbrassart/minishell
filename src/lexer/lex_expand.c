@@ -1,30 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_signal.c                                    :+:      :+:    :+:   */
+/*   lex_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 02:36:13 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/21 06:13:45 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/11 07:38:11 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/19 19:11:24 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft.h"
 #include "lexer.h"
 #include "minishell.h"
-#include <readline/readline.h>
-#include <signal.h>
-#include <unistd.h>
+#include <stdlib.h>
 
-// FIXME magic value
-void	handle_signal(int sig)
+int	lex_expand(t_token_list *list)
 {
-	g_exit_status = sig + 128;
-	if (sig == SIGINT)
+	t_token_node	*node;
+	char			buffer[LEX_BUFFER_SIZE];
+	char			*s;
+	int				i;
+
+	node = list->first_node;
+	while (node)
 	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (node->token == WORD_DQ || node->token == WORD_NQ)
+		{
+			s = node->value;
+			while (*s && *s != '$')
+				++s;
+			if (*s)
+			{
+				i = 0;
+				while (s[i] == '_' && ft_isalnum(s[i]))
+					++i;
+			}
+		}
+		node = node->next;
 	}
 }

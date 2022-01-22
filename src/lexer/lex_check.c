@@ -1,18 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   lex_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/21 05:55:58 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/21 06:13:22 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "lexer.h"
 #include "minishell.h"
+#include <stdio.h>
 
-int	ft_isalnum(int c)
+// FIXME magic value
+static int	print_error(t_token_node *node)
 {
-	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
+	g_exit_status = 2;
+	return (0);
+}
+
+int	lex_check(t_token_list *list)
+{
+	t_token_node	*node;
+
+	node = list->first_node;
+	while (node)
+	{
+		if (node->token == PIPE && node == list->first_node)
+			return (print_error(node));
+
+		node = node->next;
+	}
 }

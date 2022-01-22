@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   sh.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/21 05:14:18 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef SH_H
+# define SH_H
 
-int	ft_isalnum(int c)
+# include "type/env.h"
+# include "type/token_list.h"
+
+typedef struct s_sh	t_sh;
+
+struct s_sh
 {
-	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
-}
+	t_token_list	tokens;
+	t_env			*env;
+};
+
+#endif

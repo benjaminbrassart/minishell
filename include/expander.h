@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2021/12/13 03:44:55 by bbrassar          #+#    #+#             */
+/*   Updated: 2021/12/13 03:45:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef EXPANDER_H
+# define EXPANDER_H
 
-int	ft_isalnum(int c)
-{
-	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
-}
+# define EXPANDER_BUFFER_SIZE 1024
+
+#endif

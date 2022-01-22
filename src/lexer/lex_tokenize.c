@@ -6,10 +6,11 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/10 12:30:42 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/21 05:56:00 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft.h"
 #include "lexer.h"
 #include "minishell.h"
 #include <stdlib.h>
@@ -33,7 +34,6 @@ static int	add_token(t_token_list *list, t_token_param param)
 		return (0);
 	}
 	node->token = param.token;
-	node->expandable = param.expandable;
 	node->value = value;
 	node->next = NULL;
 	if (list->length == 0)
@@ -57,49 +57,49 @@ int	lex_tokenize(t_token_list *list, char *input)
 		if (*input == '\'')
 		{
 			i = ft_strcspn(++input, "\'");
-			if (!add_token(list, (t_token_param){WORD, input, i++, 0}))
+			if (!add_token(list, (t_token_param){WORD_SQ, input, i++}))
 				return (0);
 		}
 		else if (*input == '\"')
 		{
 			i = ft_strcspn(++input, "\"");
-			if (!add_token(list, (t_token_param){WORD, input, i++, 1}))
+			if (!add_token(list, (t_token_param){WORD_DQ, input, i++}))
 				return (0);
 		}
 		else if (*input == '|')
 		{
-			if (!add_token(list, (t_token_param){PIPE, ++input, 0, 0}))
+			if (!add_token(list, (t_token_param){PIPE, ++input, 0}))
 				return (0);
 		}
 		else if (*input == '>')
 		{
 			if (*++input == '>')
 			{
-				if (!add_token(list, (t_token_param){D_GREAT, ++input, 0, 0}))
+				if (!add_token(list, (t_token_param){D_GREAT, ++input, 0}))
 					return (0);
 			}
-			else if (!add_token(list, (t_token_param){GREAT, input, 0, 0}))
+			else if (!add_token(list, (t_token_param){GREAT, input, 0}))
 				return (0);
 		}
 		else if (*input == '<')
 		{
 			if (*++input == '<')
 			{
-				if (!add_token(list, (t_token_param){D_LESS, ++input, 0, 0}))
+				if (!add_token(list, (t_token_param){D_LESS, ++input, 0}))
 					return (0);
 			}
-			else if (!add_token(list, (t_token_param){LESS, input, 0, 0}))
+			else if (!add_token(list, (t_token_param){LESS, input, 0}))
 				return (0);
 		}
 		else if (*input)
 		{
 			i = ft_strcspn(input, " \t>|<'\"");
-			if (!add_token(list, (t_token_param){WORD, input, i, 1}))
+			if (!add_token(list, (t_token_param){WORD_NQ, input, i}))
 				return (0);
 		}
 		input += i;
 		if ((*input == ' ' || *input == '\t')
-			&& !add_token(list, (t_token_param){SEPARATOR, "", 0, 0}))
+			&& !add_token(list, (t_token_param){SEPARATOR, "", 0}))
 			return (0);
 	}
 	return (1);
