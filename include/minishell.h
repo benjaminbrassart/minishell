@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 00:06:36 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 08:34:00 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:11:46 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 # define COMMAND_PROMPT "\033[32m$ \033[0m"
 # define PROGRAM_NAME "minishell"
+# define EXIT_MESSAGE "exit"
 # define MAX_INT_DIGITS 11
 
 static volatile sig_atomic_t	g_exit_status;
