@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/01/22 13:08:39 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/01/31 08:57:34 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,8 @@ SRC					= \
 						ft/ft_strdup.c \
 						ft/ft_strjoin.c \
 						ft/ft_strlen.c \
+						ft/ft_strcmp.c \
+						ft/ft_split.c \
 						ft/ft_strcmp.c \
 						lexer/lex_dump.c \
 						lexer/lex_tokenize.c \
