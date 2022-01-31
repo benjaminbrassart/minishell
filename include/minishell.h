@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 00:06:36 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/22 11:48:07 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 08:34:00 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define PROGRAM_NAME "minishell"
 # define MAX_INT_DIGITS 11
 
-volatile sig_atomic_t	g_exit_status;
+static volatile sig_atomic_t	g_exit_status;
 
 void	handle_signal(int sig);
 
