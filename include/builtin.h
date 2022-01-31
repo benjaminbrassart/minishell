@@ -6,38 +6,40 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 19:11:44 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/21 05:16:55 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 04:43:45 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-typedef int				(*t_builtin_fn)(void const *);
+# include "type/env.h"
+
+typedef int				(*t_builtin_fn)(t_env *);
 typedef struct s_builtin
 {
-	char const			*name;
-	t_builtin_fn const	fn;
+	char const		*name;
+	t_builtin_fn	fn;
 }	t_builtin;
 
-int			builtin_cd(void const *a);
-int			builtin_echo(void const *a);
-int			builtin_pwd(void const *a);
-int			builtin_export(void const *a);
-int			builtin_unset(void const *a);
-int			builtin_env(void const *a);
-int			builtin_exit(void const *a);
+int				builtin_cd(t_env *env);
+int				builtin_echo(t_env *env);
+int				builtin_pwd(t_env *env);
+int				builtin_export(t_env *env);
+int				builtin_unset(t_env *env);
+int				builtin_env(t_env *env);
+int				builtin_exit(t_env *env);
 
-t_builtin	*get_builtin(char const *name);
+t_builtin		*get_builtin(char const *name);
 
 static t_builtin const	g_builtins[] = {
-{.name = "cd", .fn = builtin_cd},
-{.name = "echo", .fn = builtin_echo},
-{.name = "pwd", .fn = builtin_pwd},
-{.name = "export", .fn = builtin_export},
-{.name = "unset", .fn = builtin_unset},
-{.name = "env", .fn = builtin_env},
-{.name = "exit", .fn = builtin_exit}
+{"cd", builtin_cd},
+{"echo", builtin_echo},
+{"pwd", builtin_pwd},
+{"export", builtin_export},
+{"unset", builtin_unset},
+{"env", builtin_env},
+{"exit", builtin_exit}
 };
 
 #endif
