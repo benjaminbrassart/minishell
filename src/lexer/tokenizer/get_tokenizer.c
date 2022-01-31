@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:40:12 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 11:45:12 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 12:56:47 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@ t_tokenizer	*get_tokenizer(char *input)
 	while (g_tokenizer[n].characters && ft_strncmp(input,
 			g_tokenizer[n].characters, g_tokenizer[n].length) != 0)
 		++n;
-	return (&g_tokenizer[n]);
+	return ((t_tokenizer *)&g_tokenizer[n]);
 }
