@@ -6,10 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 04:14:06 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/07 04:14:34 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 04:44:57 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	builtin_cd(void)
+#include "builtin.h"
+
+int	builtin_cd(t_env *env)
 {
+	(void)env;
+	return (0);
 }
