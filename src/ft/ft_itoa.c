@@ -6,15 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 08:16:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 08:04:36 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 14:50:18 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft.h"
 
-char	*ft_itoa(int i)
+unsigned int	ft_itoa_b(int i, t_itoa_buffer buffer)
 {
-	char			digits[MAX_INT_DIGITS];
 	unsigned int	n;
 	unsigned int	count;
 
@@ -25,10 +24,20 @@ char	*ft_itoa(int i)
 	count = 0;
 	while (n || !count)
 	{
-		digits[sizeof (digits) - count++] = n % 10 + '0';
+		buffer[sizeof (buffer) - count++] = n % 10 + '0';
 		n /= 10;
 	}
 	if (i < 0)
-		digits[sizeof (digits) - count++] = '-';
-	return (ft_strndup(digits + sizeof (digits) - count, count));
+		buffer[sizeof (buffer) - count++] = '-';
+	ft_memmove(buffer, buffer + sizeof (t_itoa_buffer) - count, count);
+	ft_memset(buffer + count, 0, sizeof (t_itoa_buffer));
+	return (count);
+}
+
+char	*ft_itoa(int i)
+{
+	t_itoa_buffer	digits;
+	int const		count = ft_itoa_b(i, digits);
+
+	return (ft_strndup(digits, count));
 }
