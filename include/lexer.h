@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:16:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 08:42:16 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 09:57:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,9 @@ void	lex_delete(t_token_list *list)
 
 void	lex_dump(t_token_list *list)
 		__attribute__((nonnull(1)));
+
+int		lex_add_token(t_token_list *list, t_token_param param)
+		__attribute__((nonnull(1)));
+
 
 #endif
