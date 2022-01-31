@@ -6,12 +6,12 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:08:14 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 10:51:06 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 09:46:39 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "minishell.h"
+#include "environ.h"
+#include "ft.h"
 #include "type/env.h"
 #include "type/sh.h"
 
@@ -27,6 +27,6 @@ char	*env_get(t_sh *sh, char const *key)
 		env = env->next;
 	}
 	if (env)
-		return (env->key);
+		return (env->value);
 	return (NULL);
 }
