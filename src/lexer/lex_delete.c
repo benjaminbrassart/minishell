@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:40:55 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/12 23:42:30 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:27:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 void	lex_delete(t_token_list *list)
 {
 	t_token_node	*node;
-	t_token_node	*slow;
+	t_token_node	*fast;
 
 	node = list->first_node;
 	while (node)
 	{
-		slow = node->next;
+		fast = node->next;
 		free(node->value);
 		free(node);
-		node = slow;
+		node = fast;
 	}
 	list->first_node = NULL;
 	list->last_node = NULL;
