@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/01/22 11:48:24 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/01/22 13:08:39 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +31,21 @@ SRC					= \
 						main.c \
 						setup.c \
 						handle_signal.c \
+						builtin/get_builtin.c \
+						builtin/cd.c \
+						builtin/echo.c \
+						builtin/pwd.c \
+						builtin/export.c \
+						builtin/unset.c \
+						builtin/env.c \
+						builtin/exit.c \
 						ft/ft_memset.c \
 						ft/ft_strcspn.c \
 						ft/ft_strndup.c \
 						ft/ft_strdup.c \
 						ft/ft_strjoin.c \
 						ft/ft_strlen.c \
+						ft/ft_strcmp.c \
 						lexer/lex_dump.c \
 						lexer/lex_tokenize.c \
 						lexer/lex_delete.c \
