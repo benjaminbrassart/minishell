@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 19:38:56 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 04:43:05 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 08:31:50 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_builtin	*get_builtin(char const *name)
 	{
 		res = ft_strcmp(g_builtins[i].name, name);
 		if (res == 0)
-			return (&g_builtins[i]);
+			return ((t_builtin *)&g_builtins[i]);
 		++i;
 	}
 	return (NULL);
