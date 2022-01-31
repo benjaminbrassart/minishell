@@ -6,15 +6,23 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:36:43 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 11:36:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:00:18 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft.h"
+#include "lexer.h"
 #include "tokenizer.h"
 
 int	tokenize_word_dquote(t_token_list *list, char **input)
 {
-	(void)list;
-	(void)input;
-	return (0);
+	size_t	i;
+	int		res;
+
+	i = ft_strcspn(++(*input), "\"");
+	res = lex_add_token(list, (t_token_param){WORD_DQ, *input, i});
+	*input += i + 1;
+	if (res && ft_isspace(**input))
+		res = lex_add_token(list, (t_token_param){SEPARATOR, "", 0});
+	return (res);
 }
