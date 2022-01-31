@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:16:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/19 18:52:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 08:42:16 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "type/token_list.h"
 
 # define LEX_BUFFER_SIZE 4096
+# define LEX_SYNTAX_ERRNUM 127
 
 int		lex_tokenize(t_token_list *list, char *input)
 		__attribute__((nonnull(1, 2)));
