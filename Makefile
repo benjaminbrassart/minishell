@@ -51,9 +51,11 @@ SRC					= \
 						lexer/lex_dump.c \
 						lexer/lex_tokenize.c \
 						lexer/lex_delete.c \
+						util/env_get.c \
 						util/env_init.c \
 						util/env_destroy.c \
-						util/env_newent.c
+						util/env_newent.c \
+						util/path_search.c
 OBJ					= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP					= $(OBJ:.o=.d)
 
