@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 17:04:23 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 11:33:49 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 12:59:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_isalnum(int c);
 
 int		ft_isalpha(int c);
+
+int		ft_isspace(int c);
 
 char	**ft_split(char const *s, int c);
 
