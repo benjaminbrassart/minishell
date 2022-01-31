@@ -52,7 +52,10 @@
 - [tgoto]()
 - [tputs]()
 
-## Useful links
+## Tips
+
+When creating forks and pipes, if the first executable is a builtin, bash executes it in its main process.
+If a builtin is not the first executable, bash executes it in a child process, causing builtins like `cd` or `export` to do nothing.
 
 - [How builtins work](https://unix.stackexchange.com/a/266824)
 - [zsh use of getcwd()](https://github.com/zsh-users/zsh/blob/00d20ed15e18f5af682f0daec140d6b8383c479a/Src/compat.c#L532)
