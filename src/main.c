@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/22 13:02:47 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:11:44 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	process_line(t_sh *sh, char *line)
 	t_builtin const	*builtin;
 
 	add_history(line);
-	if (token == WORD_NQ || token == WORD_SQ || token == WORD_DQ)
+	if (token & WORD)
 	{
 		builtin = get_builtin(sh->tokens.first_node->value);
 		if (builtin)

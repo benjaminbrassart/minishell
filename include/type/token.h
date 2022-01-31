@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:29:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 08:38:59 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:10:24 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ enum e_token
 	WORD_NQ = 1 << 0,
 	WORD_SQ = 1 << 1,
 	WORD_DQ = 1 << 2,
-	WORD = WORD_NQ | WORD_SQ | WORD_SQ,
+	WORD = WORD_NQ | WORD_SQ | WORD_DQ,
 	PIPE = 1 << 3,
 	LESS = 1 << 4,
 	D_LESS = 1 << 5,
