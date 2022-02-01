@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 09:52:42 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/01 08:06:41 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/01 08:55:50 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,11 @@ static size_t	ft_split_size(char const *s, int c)
 
 void	*ft_split_destroy(char **array)
 {
-	char	*item;
+	int	n;
 
-	item = *array;
-	while (item)
-	{
-		free(item);
-		++item;
-	}
+	n = 0;
+	while (array[n])
+		free(array[n++]);
 	free(array);
 	return (NULL);
 }
