@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 08:16:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 14:50:18 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/01 08:50:46 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ unsigned int	ft_itoa_b(int i, t_itoa_buffer buffer)
 	count = 0;
 	while (n || !count)
 	{
-		buffer[sizeof (buffer) - count++] = n % 10 + '0';
+		buffer[sizeof (t_itoa_buffer) - count++] = n % 10 + '0';
 		n /= 10;
 	}
 	if (i < 0)
-		buffer[sizeof (buffer) - count++] = '-';
+		buffer[sizeof (t_itoa_buffer) - count++] = '-';
 	ft_memmove(buffer, buffer + sizeof (t_itoa_buffer) - count, count);
 	ft_memset(buffer + count, 0, sizeof (t_itoa_buffer));
 	return (count);
