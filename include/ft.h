@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 17:04:23 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 14:44:35 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/01 08:06:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int				ft_isalpha(int c);
 int				ft_isspace(int c);
 
 char			**ft_split(char const *s, int c);
+
+void			*ft_split_destroy(char **array);
 
 int				ft_strncmp(char const *s1, char const *s2, size_t n);
 

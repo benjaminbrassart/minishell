@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 09:52:42 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 09:10:30 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/01 08:06:41 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ static size_t	ft_split_size(char const *s, int c)
 	return (size);
 }
 
-static void	*ft_split_destroy(char **array_p)
+void	*ft_split_destroy(char **array)
 {
 	char	*item;
 
-	item = *array_p;
+	item = *array;
 	while (item)
 	{
 		free(item);
 		++item;
 	}
-	free(array_p);
+	free(array);
 	return (NULL);
 }
 
