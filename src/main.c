@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:13:14 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/01 08:53:08 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	process_line(t_sh *sh, char *line)
 {
 	t_token const	token = sh->tokens.first_node->token;
 	t_builtin const	*builtin;
+	char			*program;
 
 	add_history(line);
 	if (token & WORD)
@@ -33,6 +34,12 @@ static void	process_line(t_sh *sh, char *line)
 		{
 			printf("builtin `%s'\n", builtin->name);
 			builtin->fn(sh->env);
+		}
+		else
+		{
+			program = path_search(sh, line);
+			if (program)
+				printf("program `%s'\n", program);
 		}
 	}
 	free(line);
