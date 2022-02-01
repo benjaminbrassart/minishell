@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/01 08:53:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/01 09:32:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 static void	process_line(t_sh *sh, char *line)
 {
-	t_token const	token = sh->tokens.first_node->token;
+	int const		token = sh->tokens.first_node->token;
 	t_builtin const	*builtin;
 	char			*program;
 

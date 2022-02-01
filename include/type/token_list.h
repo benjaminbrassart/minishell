@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:30:11 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/19 16:59:04 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/01 09:32:07 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ struct s_token_list
 
 struct s_token_node
 {
-	t_token			token;
+	int				token;
 	char			*value;
 	t_token_node	*next;
 };
 
 struct s_token_param
 {
-	t_token	token;
+	int		token;
 	char	*value;
 	size_t	index;
 };
