@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/01 09:32:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/03 15:48:24 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "environ.h"
 #include "lexer.h"
 #include "minishell.h"
+#include "status.h"
 #include <signal.h>
 #include <stdlib.h>
 #include <readline/history.h>
@@ -22,12 +23,11 @@
 
 static void	process_line(t_sh *sh, char *line)
 {
-	int const		token = sh->tokens.first_node->token;
-	t_builtin const	*builtin;
-	char			*program;
+	t_builtin	*builtin;
+	char		*program;
 
 	add_history(line);
-	if (token & WORD)
+	if (sh->tokens.first_node->token & WORD)
 	{
 		builtin = get_builtin(sh->tokens.first_node->value);
 		if (builtin)
@@ -73,6 +73,7 @@ int	main(
 		if (!line)
 			break ;
 		lex_tokenize(&sh.tokens, line);
+		lex_expand(&sh);
 		if (!sh.tokens.length)
 			continue ;
 		process_line(&sh, line);
