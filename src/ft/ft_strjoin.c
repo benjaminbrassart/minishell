@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 07:38:53 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/21 05:11:31 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/03 16:05:01 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*orig;
 	char	*s;
 	size_t	len1;
 	size_t	len2;
@@ -29,11 +28,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	s = malloc(sizeof (*s) * (len1 + len2 + 1));
 	if (s)
 	{
-		orig = s;
-		while (len1--)
-			*orig++ = *s1++;
-		while (len2--)
-			*orig++ = *s2++;
+		ft_memmove(s, s1, len1);
+		ft_memmove(s + len1, s2, len2);
+		s[len1 + len2] = 0;
 	}
 	return (s);
 }
