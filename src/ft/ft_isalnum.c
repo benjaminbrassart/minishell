@@ -6,11 +6,11 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 03:55:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 09:52:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/03 15:50:39 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft.h"
 
 int	ft_isalnum(int c)
 {
