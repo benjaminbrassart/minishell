@@ -6,12 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 05:55:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 08:42:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/03 21:06:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "minishell.h"
+#include "status.h"
 #include <stdio.h>
 #include <unistd.h>
 
@@ -28,8 +29,8 @@ int	lex_check(t_token_list *list)
 	node = list->first_node;
 	while (node)
 	{
-		if ((node == list->first_node && node->token | PIPE)
-			|| (node == list->last_node && !(node->token | WORD)))
+		if ((node == list->first_node && node->token & PIPE)
+			|| (node == list->last_node && !(node->token & WORD)))
 			return (print_error(node));
 		node = node->next;
 	}
