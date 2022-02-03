@@ -6,13 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:16:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 11:21:28 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/03 15:48:44 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
+# include "type/sh.h"
 # include "type/token_list.h"
 
 # define LEX_BUFFER_SIZE 4096
@@ -29,5 +30,7 @@ void	lex_dump(t_token_list *list)
 
 int		lex_add_token(t_token_list *list, t_token_param param)
 		__attribute__((nonnull(1)));
+
+int		lex_expand(t_sh *sh);
 
 #endif

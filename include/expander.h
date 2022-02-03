@@ -6,13 +6,15 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 03:44:55 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/13 03:45:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/03 15:46:26 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
-# define EXPANDER_BUFFER_SIZE 1024
+# include "type/sh.h"
+
+char	*exp_expand(t_sh *sh, char const *s);
 
 #endif
