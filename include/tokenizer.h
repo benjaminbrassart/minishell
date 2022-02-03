@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:08:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 11:26:16 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/03 14:13:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 
 # include "type/token_list.h"
 
+typedef int					(t_tokenizer_fn)(t_token_list *, char **);
 typedef struct s_tokenizer	t_tokenizer;
 
 struct s_tokenizer
 {
-	char const	*characters;
-	size_t		length;
-	int			(*fn)(t_token_list *, char **);
+	char const		*characters;
+	size_t			length;
+	t_tokenizer_fn	*fn;
 };
 
 int				tokenize_word_nquote(t_token_list *list, char **input);
