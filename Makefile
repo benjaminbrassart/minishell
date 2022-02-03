@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/01/31 14:25:22 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/02/03 15:51:01 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,10 @@ SRC					= \
 						builtin/unset.c \
 						builtin/env.c \
 						builtin/exit.c \
+						buffer/buffer_init.c \
+						buffer/buffer_delete.c \
+						buffer/buffer_flush.c \
+						buffer/buffer_append.c \
 						ft/ft_memset.c \
 						ft/ft_strcspn.c \
 						ft/ft_strndup.c \
@@ -52,10 +56,13 @@ SRC					= \
 						ft/ft_isspace.c \
 						ft/ft_memmove.c \
 						ft/ft_itoa.c \
+						ft/ft_isalnum.c \
+						ft/ft_isalpha.c \
 						lexer/lex_dump.c \
 						lexer/lex_tokenize.c \
 						lexer/lex_delete.c \
 						lexer/lex_add_token.c \
+						lexer/lex_expand.c \
 						lexer/tokenizer/get_tokenizer.c \
 						lexer/tokenizer/tokenize_dgreat.c \
 						lexer/tokenizer/tokenize_dless.c \
@@ -65,6 +72,7 @@ SRC					= \
 						lexer/tokenizer/tokenize_word_dquote.c \
 						lexer/tokenizer/tokenize_word_nquote.c \
 						lexer/tokenizer/tokenize_word_squote.c \
+						expander/exp_expand.c \
 						util/env_get.c \
 						util/env_init.c \
 						util/env_destroy.c \
