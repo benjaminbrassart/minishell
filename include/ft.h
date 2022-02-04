@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 17:04:23 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/01 08:06:32 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/03 21:44:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,7 @@ unsigned int	ft_itoa_b(int i, t_itoa_buffer buffer);
 
 char			*ft_itoa(int i)
 				__attribute__((malloc));
+
+char			*ft_strchr(char const *s, int c);
 
 #endif
