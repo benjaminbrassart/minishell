@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 09:52:42 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/01 08:55:50 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/03 21:40:29 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/03 21:40:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,19 @@
 static size_t	ft_split_size(char const *s, int c)
 {
 	size_t	size;
+	int		j;
 
 	size = 0;
 	while (*s)
 	{
 		while (*s && *s == c)
 			++s;
-		while (*s && *s != c)
-			++s;
-		if (*s == c)
+		j = 0;
+		while (s[j] && s[j] != c)
+			++j;
+		if (j > 0)
 			++size;
+		s += j;
 	}
 	return (size);
 }
@@ -35,8 +38,11 @@ void	*ft_split_destroy(char **array)
 	int	n;
 
 	n = 0;
-	while (array[n])
-		free(array[n++]);
+	if (array)
+	{
+		while (array[n])
+			free(array[n++]);
+	}
 	free(array);
 	return (NULL);
 }
@@ -51,7 +57,7 @@ char	**ft_split(char const *s, int c)
 	array = malloc(sizeof (*array) * (size + 1));
 	if (array)
 	{
-		ft_memset(array, 0, sizeof (*array) * (size + 1));
+		array[size] = NULL;
 		i = 0;
 		while (i < size)
 		{
