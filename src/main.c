@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/03 15:48:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/03 21:19:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	main(
 			break ;
 		lex_tokenize(&sh.tokens, line);
 		lex_expand(&sh);
+		lex_postexpand(&sh);
 		if (!sh.tokens.length)
 			continue ;
 		process_line(&sh, line);

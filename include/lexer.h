@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:16:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/03 15:48:44 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/03 21:18:35 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@ int		lex_add_token(t_token_list *list, t_token_param param)
 		__attribute__((nonnull(1)));
 
 int		lex_expand(t_sh *sh);
+
+int		lex_postexpand(t_sh *sh);
 
 #endif
