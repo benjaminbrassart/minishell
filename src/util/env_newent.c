@@ -6,11 +6,11 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:39:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 10:40:35 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/05 12:26:02 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "type/env.h"
+#include "type/t_env.h"
 #include <stdlib.h>
 
 t_env	*env_newent(char *key, char *value)

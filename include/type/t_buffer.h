@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_destroy.c                                      :+:      :+:    :+:   */
+/*   t_buffer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 11:32:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/05 12:09:41 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/05 12:02:44 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/05 12:03:13 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include <stdlib.h>
+#ifndef T_BUFFER_H
+# define T_BUFFER_H
 
-void	env_destroy(t_env **env_p)
+# include <stddef.h>
+
+# define STATIC_BUFFER_SIZE 2048
+
+typedef struct s_buffer	t_buffer;
+
+struct s_buffer
 {
-	t_env	*env;
-	t_env	*fast;
+	size_t	position;
+	char	st_buf[STATIC_BUFFER_SIZE];
+	size_t	length;
+	char	*buf;
+};
 
-	env = *env_p;
-	while (env)
-	{
-		fast = env->next;
-		free(env->key);
-		free(env->value);
-		free(env);
-		env = fast;
-	}
-	*env_p = NULL;
-}
+#endif

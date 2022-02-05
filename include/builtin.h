@@ -6,21 +6,15 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 19:11:44 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 04:43:45 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/05 12:05:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include "type/env.h"
-
-typedef int				(*t_builtin_fn)(t_env *);
-typedef struct s_builtin
-{
-	char const		*name;
-	t_builtin_fn	fn;
-}	t_builtin;
+# include "type/t_builtin.h"
+# include "type/t_env.h"
 
 int				builtin_cd(t_env *env);
 int				builtin_echo(t_env *env);

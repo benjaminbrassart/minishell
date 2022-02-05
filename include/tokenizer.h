@@ -6,24 +6,15 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:08:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/03 14:13:54 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/05 12:18:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
 
-# include "type/token_list.h"
-
-typedef int					(t_tokenizer_fn)(t_token_list *, char **);
-typedef struct s_tokenizer	t_tokenizer;
-
-struct s_tokenizer
-{
-	char const		*characters;
-	size_t			length;
-	t_tokenizer_fn	*fn;
-};
+# include "type/t_token_list.h"
+# include "type/t_tokenizer.h"
 
 int				tokenize_word_nquote(t_token_list *list, char **input);
 int				tokenize_word_squote(t_token_list *list, char **input);

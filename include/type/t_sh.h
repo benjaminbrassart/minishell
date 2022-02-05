@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh.h                                               :+:      :+:    :+:   */
+/*   t_sh.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/22 09:15:11 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/05 12:01:49 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SH_H
-# define SH_H
+#ifndef T_SH_H
+# define T_SH_H
 
-# include "type/env.h"
-# include "type/token_list.h"
+# include "type/t_env.h"
+# include "type/t_token_list.h"
 
 typedef struct s_sh	t_sh;
 

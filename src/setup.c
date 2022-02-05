@@ -6,12 +6,12 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 09:24:19 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/22 11:47:03 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/05 12:22:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "minishell.h"
-#include "environ.h"
 #include <signal.h>
 
 static void	setup_signal_handlers(void)
@@ -30,5 +30,5 @@ static void	setup_signal_handlers(void)
 int	setup(t_sh *sh, char *ev[])
 {
 	setup_signal_handlers();
-	return (env_init(sh, ev));
+	return (env_init(&sh->env, ev));
 }

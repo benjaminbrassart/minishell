@@ -6,12 +6,12 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 09:54:07 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 09:58:21 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/05 12:22:43 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft.h"
-#include "type/token_list.h"
+#include "type/t_token_list.h"
 #include <stdlib.h>
 
 static void	_add_node(t_token_list *list, t_token_node *node)

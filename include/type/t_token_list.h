@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_list.h                                       :+:      :+:    :+:   */
+/*   t_token_list.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:30:11 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/01 09:32:07 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/08 00:51:06 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN_LIST_H
-# define TOKEN_LIST_H
+#ifndef T_TOKEN_LIST_H
+# define T_TOKEN_LIST_H
 
-# include "type/token.h"
+# include "token.h"
 # include <stddef.h>
 
 typedef struct s_token_list		t_token_list;

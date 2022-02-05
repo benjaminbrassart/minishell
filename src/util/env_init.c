@@ -6,27 +6,23 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:21:24 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/22 12:17:16 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/05 12:25:56 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ.h"
+#include "env.h"
 #include "ft.h"
 #include <stdlib.h>
 
 static t_env	*extract_node(char *env_entry)
 {
 	t_env	*env;
-	int		i;
+	size_t	i;
 
 	env = malloc(sizeof (*env));
 	if (env)
 	{
-		i = 0;
-		while (env_entry[i] && env_entry[i] != '=')
-			++i;
-		if (!env_entry[i])
-			return (NULL);
+		i = ft_strcspn(env_entry, "=");
 		env->key = ft_strndup(env_entry, i);
 		env->value = ft_strdup(env_entry + i + 1);
 		env->next = NULL;
@@ -41,7 +37,7 @@ static t_env	*extract_node(char *env_entry)
 	return (env);
 }
 
-int	env_init(t_sh *sh, char *ev[])
+int	env_init(t_env **env_p, char *ev[])
 {
 	t_env	*last;
 	t_env	*node;
@@ -57,7 +53,7 @@ int	env_init(t_sh *sh, char *ev[])
 		if (last)
 			last->next = node;
 		else
-			sh->env = node;
+			*env_p = node;
 		last = node;
 	}
 	return (1);

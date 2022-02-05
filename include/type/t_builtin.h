@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.h                                              :+:      :+:    :+:   */
+/*   t_builtin.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 10:31:38 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 10:44:26 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/05 12:04:14 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/08 00:52:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#ifndef T_BUILTIN_H
+# define T_BUILTIN_H
 
-typedef struct s_env	t_env;
+# include "type/t_env.h"
 
-struct s_env
+typedef int	(*t_builtin_fn)(int, char *[], t_env *);
+typedef struct s_builtin
 {
-	char	*key;
-	char	*value;
-	t_env	*next;
-};
+	char const		*name;
+	t_builtin_fn	fn;
+}	t_builtin;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 07:38:11 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/03 16:03:27 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/05 12:25:42 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@
 #include "minishell.h"
 #include <stdlib.h>
 
-int	lex_expand(t_sh *sh)
+int	lex_expand(t_token_list *list, t_env *env)
 {
 	t_token_node	*node;
 	char			*s;
 
-	node = sh->tokens.first_node;
-	while (node)
+	node = list->first_node;
+	while (node != NULL)
 	{
 		if (node->token & (WORD_NQ | WORD_DQ))
 		{
-			s = exp_expand(sh, node->value);
-			if (s)
-				node->value = (free(node->value), s);
-			else
+			s = exp_expand(env, node->value);
+			if (s == NULL)
 				return (0);
+			free(node->value);
+			node->value = s;
 		}
 		node = node->next;
 	}
