@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/05 12:25:30 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/08 02:47:00 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	process_line(t_sh *sh, char *line)
 		}
 		else
 		{
-			program = path_search(sh->env, line);
+			program = path_search(&sh->env, line);
 			if (program)
 				printf("program `%s'\n", program);
 		}
@@ -61,7 +61,7 @@ int	main(
 	char *ev[]
 )
 {
-	static t_sh	sh = {{NULL, NULL, 0}, NULL};
+	static t_sh	sh = {{NULL, NULL, 0}, {NULL, NULL, 0}};
 	char		*line;
 
 	g_exit_status = 0;
@@ -73,7 +73,7 @@ int	main(
 		if (!line)
 			break ;
 		lex_tokenize(&sh.tokens, line);
-		lex_expand(&sh.tokens, sh.env);
+		lex_expand(&sh.tokens, &sh.env);
 		lex_postexpand(&sh.tokens);
 		if (!sh.tokens.length)
 			continue ;

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:13:56 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 00:51:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/08 02:45:12 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,20 @@
 
 # define PATH_VAR_NAME "PATH"
 
-int		env_init(t_env **env_p, char *ev[]);
+void	__env_push(t_env_table *env, t_env *entry);
 
-t_env	*env_newent(char *key, char *value);
+int		env_init(t_env_table *env, char *envp[]);
 
-void	env_destroy(t_env **env_p);
+t_env	*env_new_entry(char const *key, char const *value);
 
-char	*env_get(t_env *env, char const *key);
+void	env_destroy(t_env_table *env);
 
-char	*env_getn(t_env *env, char const *key, size_t n);
+char	*env_get(t_env_table *env, char const *key);
 
-char	*path_search(t_env *env, char *bin_name);
+char	*env_getn(t_env_table *env, char const *key, size_t n);
+
+int		env_set(t_env_table *env, char const *key, char const *value);
+
+char	*path_search(t_env_table *env, char const *bin_name);
 
 #endif

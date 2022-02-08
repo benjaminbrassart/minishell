@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_unset.c                                        :+:      :+:    :+:   */
+/*   t_env_table.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/31 09:29:27 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 09:36:47 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/08 01:45:56 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/08 01:47:00 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ.h"
-#include "ft.h"
-#include <stdlib.h>
+#ifndef T_ENV_TABLE_H
+# define T_ENV_TABLE_H
 
-void	env_unset(t_sh *sh, char const *key)
+# include "type/t_env.h"
+# include <stddef.h>
+
+typedef struct s_env_table	t_env_table;
+
+struct s_env_table
 {
-	t_env	*env;
-	t_env	*slow;
+	t_env	*first_entry;
+	t_env	*last_entry;
+	size_t	count;
+};
 
-	env = sh->env;
-	slow = NULL;
-	while (env)
-	{
-		if (ft_strcmp(key, env->key) == 0)
-		{
-			if (slow)
-				slow->next = env->next;
-			else
-				sh->env = env->next;
-			free(env->key);
-			free(env->value);
-			free(env);
-			break ;
-		}
-		slow = env;
-		env = env->next;
-	}
-}
+#endif

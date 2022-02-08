@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 10:21:24 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/05 12:25:56 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/08 02:15:14 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/08 02:51:27 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft.h"
 #include <stdlib.h>
 
-static t_env	*extract_node(char *env_entry)
+static t_env	*extract_node(char const *env_entry)
 {
 	t_env	*env;
 	size_t	i;
@@ -37,24 +37,19 @@ static t_env	*extract_node(char *env_entry)
 	return (env);
 }
 
-int	env_init(t_env **env_p, char *ev[])
+int	env_init(t_env_table *env, char *envp[])
 {
-	t_env	*last;
-	t_env	*node;
-	int		i;
+	int		n;
+	t_env	*entry;
 
-	last = NULL;
-	i = -1;
-	while (ev[++i])
+	n = 0;
+	while (envp[n])
 	{
-		node = extract_node(ev[i]);
-		if (!node)
+		entry = extract_node(envp[n]);
+		if (entry == NULL)
 			return (0);
-		if (last)
-			last->next = node;
-		else
-			*env_p = node;
-		last = node;
+		__env_push(env, entry);
+		++n;
 	}
 	return (1);
 }

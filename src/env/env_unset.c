@@ -1,38 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_expand.c                                       :+:      :+:    :+:   */
+/*   env_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 07:38:11 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 02:47:14 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/08 02:04:26 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/08 02:14:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
+#include "env.h"
 #include "ft.h"
-#include "lexer.h"
-#include "minishell.h"
 #include <stdlib.h>
 
-int	lex_expand(t_token_list *list, t_env_table *env)
+void	env_unset(t_env_table *env, char const *key)
 {
-	t_token_node	*node;
-	char			*s;
+	t_env	*entry;
+	t_env	*slow;
 
-	node = list->first_node;
-	while (node != NULL)
+	entry = env->first_entry;
+	slow = NULL;
+	while (entry)
 	{
-		if (node->token & (WORD_NQ | WORD_DQ))
+		if (ft_strcmp(key, entry->key) == 0)
 		{
-			s = exp_expand(env, node->value);
-			if (s == NULL)
-				return (0);
-			free(node->value);
-			node->value = s;
+			free(entry->key);
+			free(entry->value);
+			if (slow == NULL)
+				env->first_entry = entry->next;
+			else
+				slow->next = entry->next;
+			free(entry);
+			return ;
 		}
-		node = node->next;
+		slow = entry;
+		entry = entry->next;
 	}
-	return (1);
 }

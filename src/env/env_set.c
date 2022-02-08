@@ -5,49 +5,40 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 10:36:19 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/12 10:49:39 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/08 01:52:03 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/08 02:45:34 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ.h"
-#include "minishell.h"
-#include "type/sh.h"
+#include "env.h"
+#include "ft.h"
 #include <stdlib.h>
 
-static void	env_addent(t_sh *sh, t_env *slow, t_env *ent)
+static int	env_add_new(t_env_table *env, char const *key, char const *value)
 {
-	if (slow)
-		slow->next = ent;
-	else
-		sh->env = ent;
+	t_env	*entry;
+
+	entry = env_new_entry(key, value);
+	if (entry == NULL)
+		return (0);
+	__env_push(env, entry);
+	return (1);
 }
 
-int	env_set(t_sh *sh, char const *key, char const *value)
+int	env_set(t_env_table *env, char const *key, char const *value)
 {
-	t_env	*env;
-	t_env	*slow;
+	t_env	*entry;
 
-	env = sh->env;
-	slow = NULL;
-	while (env)
+	entry = env->first_entry;
+	while (entry)
 	{
-		slow = env;
-		if (ft_strcmp(key, env->key) == 0)
-			break ;
-		env = env->next;
+		if (ft_strcmp(entry->key, key) == 0)
+		{
+			free(entry->value);
+			entry->value = ft_strdup(value);
+			return (entry->value != NULL);
+		}
+		entry = entry->next;
 	}
-	if (!env)
-	{
-		env = env_newent(key, value);
-		if (!env)
-			return (0);
-		env_addent(sh, slow, env);
-	}
-	else
-	{
-		free(env->value);
-		env->value = value;
-	}
-	return (1);
+	return (env_add_new(env, key, value));
 }

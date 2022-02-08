@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/02/03 21:46:08 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/02/08 03:33:08 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,10 +75,13 @@ SRC					= \
 						lexer/tokenizer/tokenize_word_nquote.c \
 						lexer/tokenizer/tokenize_word_squote.c \
 						expander/exp_expand.c \
-						util/env_get.c \
-						util/env_init.c \
-						util/env_destroy.c \
-						util/env_newent.c \
+						env/__env_push.c \
+						env/env_destroy.c \
+						env/env_get.c \
+						env/env_init.c \
+						env/env_new_entry.c \
+						env/env_set.c \
+						env/env_unset.c \
 						util/path_search.c
 OBJ					= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP					= $(OBJ:.o=.d)

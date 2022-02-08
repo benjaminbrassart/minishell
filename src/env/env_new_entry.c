@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_sh.h                                             :+:      :+:    :+:   */
+/*   env_new_entry.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 01:48:13 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/08 02:42:48 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/08 02:44:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_SH_H
-# define T_SH_H
+#include "env.h"
+#include "ft.h"
+#include <stdlib.h>
 
-# include "type/t_env_table.h"
-# include "type/t_token_list.h"
-
-typedef struct s_sh	t_sh;
-
-struct s_sh
+t_env	*env_new_entry(char const *key, char const *value)
 {
-	t_token_list	tokens;
-	t_env_table		env;
-};
+	t_env	*env;
 
-#endif
+	env = malloc(sizeof (*env));
+	if (!env)
+		return (NULL);
+	env->key = ft_strdup(key);
+	env->value = ft_strdup(value);
+	if (env->key == NULL || env->value == NULL)
+	{
+		free(env->key);
+		free(env->value);
+		free(env);
+		env = NULL;
+	}
+	return (env);
+}

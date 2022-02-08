@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:51:21 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/05 12:16:22 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/08 03:31:42 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "type/t_sh.h"
 #include <stdio.h>
 
-static int	env_buffer_append(t_env *env, t_buffer *buffer, char const *s,
+static int	env_buffer_append(t_env_table *env, t_buffer *buffer, char const *s,
 int n)
 {
 	char	*env_val;
@@ -37,9 +37,8 @@ static int	st_buffer_append(t_buffer *buffer)
 	return (buffer_append(buffer, s));
 }
 
-char	*exp_expand(t_env *env, char const *s)
+char	*exp_expand(t_env_table *env, char const *s)
 {
-	char		*new_s;
 	t_buffer	buffer;
 	int			n;
 
@@ -69,7 +68,5 @@ char	*exp_expand(t_env *env, char const *s)
 		s += n;
 	}
 	buffer_flush(&buffer);
-	new_s = ft_strdup(buffer.buf);
-	buffer_delete(&buffer);
-	return (new_s);
+	return (buffer.buf);
 }
