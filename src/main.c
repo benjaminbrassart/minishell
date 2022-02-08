@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 02:47:00 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/08 03:37:04 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	process_line(t_sh *sh, char *line)
 		if (builtin)
 		{
 			printf("builtin `%s'\n", builtin->name);
-			builtin->fn(sh->env);
+			builtin->fn(0, NULL, &sh->env);
 		}
 		else
 		{

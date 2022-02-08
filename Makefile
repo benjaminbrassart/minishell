@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/02/08 03:33:08 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/02/08 03:37:09 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC					= \
 						builtin/unset.c \
 						builtin/env.c \
 						builtin/exit.c \
+						builtin/builtin_error.c \
 						buffer/buffer_init.c \
 						buffer/buffer_delete.c \
 						buffer/buffer_flush.c \
