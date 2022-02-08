@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 19:11:44 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 02:49:11 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/08 03:46:45 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,26 @@
 # define BUILTIN_ENV "env"
 # define BUILTIN_EXIT "exit"
 
+/* cd <path> */
 int			builtin_cd(int argc, char *argv[], t_env_table *env);
+/* echo [-n] [string...] */
 int			builtin_echo(int argc, char *argv[], t_env_table *env);
+/* pwd */
 int			builtin_pwd(int argc, char *argv[], t_env_table *env);
+/* export <var1=val1> [var2=val2...] */
 int			builtin_export(int argc, char *argv[], t_env_table *env);
+/* unset [var...] */
 int			builtin_unset(int argc, char *argv[], t_env_table *env);
+/* env */
 int			builtin_env(int argc, char *argv[], t_env_table *env);
+/* exit [code] */
 int			builtin_exit(int argc, char *argv[], t_env_table *env);
 
+/**
+ * Get a builtin by its name
+ *
+ * @return NULL if not found
+ */
 t_builtin	*get_builtin(char const *name);
 
 void		builtin_error(char const *name, char const *msg);
