@@ -63,3 +63,4 @@ If a builtin is not the first executable, bash executes it in a child process, c
 
 - [How builtins work](https://unix.stackexchange.com/a/266824)
 - [zsh use of getcwd()](https://github.com/zsh-users/zsh/blob/00d20ed15e18f5af682f0daec140d6b8383c479a/Src/compat.c#L532)
+- [Bash builtins](https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html)
