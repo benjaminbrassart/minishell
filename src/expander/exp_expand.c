@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:51:21 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 03:31:42 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/08 04:04:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,24 @@ static int	st_buffer_append(t_buffer *buffer)
 	return (buffer_append(buffer, s));
 }
 
+static int	append(t_buffer *buffer, t_env_table *env, char const *s, int n)
+{
+	if (n == 0)
+	{
+		if (*s == '?')
+		{
+			if (!st_buffer_append(buffer))
+				return (0);
+			++s;
+		}
+		else if (!buffer_cappend(buffer, '$'))
+			return (0);
+	}
+	else if (!env_buffer_append(env, buffer, s, n))
+		return (0);
+	return (1);
+}
+
 char	*exp_expand(t_env_table *env, char const *s)
 {
 	t_buffer	buffer;
@@ -52,18 +70,7 @@ char	*exp_expand(t_env_table *env, char const *s)
 		n = 0;
 		while (s[n] && (s[n] == '_' || ft_isalnum(s[n])))
 			++n;
-		if (n == 0)
-		{
-			if (*s == '?')
-			{
-				if (!st_buffer_append(&buffer))
-					return (buffer_delete(&buffer), NULL);
-				++s;
-			}
-			else if (!buffer_cappend(&buffer, '$'))
-				return (buffer_delete(&buffer), NULL);
-		}
-		else if (!env_buffer_append(env, &buffer, s, n))
+		if (!append(&buffer, env, s, n))
 			return (buffer_delete(&buffer), NULL);
 		s += n;
 	}
