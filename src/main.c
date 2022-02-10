@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 03:37:04 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/11 00:27:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static void	process_line(t_sh *sh, char *line)
 				printf("program `%s'\n", program);
 		}
 	}
-	free(line);
 	lex_dump(&sh->tokens);
 	lex_delete(&sh->tokens);
 }
@@ -75,9 +74,9 @@ int	main(
 		lex_tokenize(&sh.tokens, line);
 		lex_expand(&sh.tokens, &sh.env);
 		lex_postexpand(&sh.tokens);
-		if (!sh.tokens.length)
-			continue ;
-		process_line(&sh, line);
+		if (sh.tokens.length > 0)
+			process_line(&sh, line);
+		free(line);
 	}
 	return (process_end(&sh));
 }
