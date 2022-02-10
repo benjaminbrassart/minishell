@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:13:56 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 03:51:41 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/11 00:31:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ char	*env_getn(t_env_table *env, char const *key, size_t n);
  * @return 0 if malloc failed
  */
 int		env_set(t_env_table *env, char const *key, char const *value);
+
+/**
+ * Unset a value in an environment table
+ */
+void	env_unset(t_env_table *env, char const *key);
 
 /**
  * Search an executable in the path variable
