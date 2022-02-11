@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/11 00:27:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/11 00:58:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	process_end(t_sh *sh)
 	lex_delete(&sh->tokens);
 	clear_history();
 	write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof EXIT_MESSAGE);
-	return (g_exit_status);
+	return (g_exit_status % EXIT_STATUS_MAX);
 }
 
 int	main(
