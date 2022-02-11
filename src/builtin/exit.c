@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:06:36 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/11 01:17:40 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/11 02:41:39 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ int	builtin_exit(
 	t_env_table *env __attribute__((unused))
 )
 {
-	int	status;
-
 	if (argc > 2)
 	{
 		builtin_error(BUILTIN_EXIT, "too many arguments");
