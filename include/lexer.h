@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:16:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/11 04:59:47 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/11 05:46:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int		lex_add_token(t_token_list *list, t_token_param param)
 		__attribute__((nonnull(1)));
 
 int		lex_expand(t_token_list *list, t_env_table *env);
+
+int		lex_concat(t_token_list *list);
 
 int		lex_postexpand(t_token_list *list);
 
