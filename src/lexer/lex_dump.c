@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 00:56:47 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/01 09:25:12 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/11 03:46:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 static char	*strtoken(int token)
 {
+	if (token == WORD)
+		return ("WORD");
 	if (token == WORD_NQ)
 		return ("WORD_NQ");
 	if (token == WORD_SQ)
