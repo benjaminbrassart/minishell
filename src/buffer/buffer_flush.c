@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:36:05 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/03 14:43:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/11 05:08:28 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	buffer_flush(t_buffer *buffer)
 {
 	char	*new_buf;
 
+	if (buffer->position == 0)
+		return (1);
 	new_buf = malloc(buffer->length + buffer->position + 1);
 	if (!new_buf)
 		return (0);
