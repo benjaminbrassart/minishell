@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/11 00:58:53 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/11 02:59:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	process_line(t_sh *sh, char *line)
 			program = path_search(&sh->env, line);
 			if (program)
 				printf("program `%s'\n", program);
+			free(program);
 		}
 	}
 	lex_dump(&sh->tokens);
@@ -49,6 +50,7 @@ static void	process_line(t_sh *sh, char *line)
 static int	process_end(t_sh *sh)
 {
 	lex_delete(&sh->tokens);
+	env_destroy(&sh->env);
 	clear_history();
 	write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof EXIT_MESSAGE);
 	return (g_exit_status % EXIT_STATUS_MAX);
