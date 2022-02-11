@@ -6,23 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 09:54:07 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/05 12:22:43 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/11 05:00:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft.h"
-#include "type/t_token_list.h"
+#include "lexer.h"
 #include <stdlib.h>
-
-static void	_add_node(t_token_list *list, t_token_node *node)
-{
-	if (list->length == 0)
-		list->first_node = node;
-	else
-		list->last_node->next = node;
-	list->last_node = node;
-	++list->length;
-}
 
 int	lex_add_token(t_token_list *list, t_token_param param)
 {
@@ -45,6 +35,6 @@ int	lex_add_token(t_token_list *list, t_token_param param)
 	node->token = param.token;
 	node->value = value;
 	node->next = NULL;
-	_add_node(list, node);
+	__lex_add(list, node);
 	return (1);
 }
