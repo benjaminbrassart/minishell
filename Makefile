@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/02/12 01:14:38 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/02/12 06:10:16 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,6 +87,7 @@ SRC					= \
 						env/env_new_entry.c \
 						env/env_set.c \
 						env/env_unset.c \
+						env/env_toarray.c \
 						util/path_search.c
 OBJ					= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP					= $(OBJ:.o=.d)
