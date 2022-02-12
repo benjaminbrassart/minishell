@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:08:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/05 12:18:10 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/12 02:10:42 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static t_tokenizer const	g_tokenizer[] = {
 {"|", 1, tokenize_pipe},
 {">>", 2, tokenize_dgreat},
 {">", 1, tokenize_great},
-{"<<", 2, tokenize_less},
-{"<", 1, tokenize_dless},
+{"<<", 2, tokenize_dless},
+{"<", 1, tokenize_less},
 {NULL, 0, tokenize_word_nquote},
 };
 
