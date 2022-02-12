@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 09:54:07 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/11 05:00:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/12 01:29:24 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	lex_add_token(t_token_list *list, t_token_param param)
 	char			*value;
 
 	value = NULL;
-	if (param.index && param.value)
+	if (param.value)
 	{
 		value = ft_strndup(param.value, param.index);
 		if (!value)
