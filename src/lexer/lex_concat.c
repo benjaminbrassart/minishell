@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 03:27:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/11 05:45:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/12 06:06:20 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,23 @@ static int	list_add(t_token_list *list, int token, char *value)
 	return (1);
 }
 
+static int	lex_concat_inline(t_buffer *buffer, t_token_list *new_list,
+t_token_node *node)
+{
+	if ((node->token & WORD) && !buffer_append(buffer, node->value))
+		return (0);
+	if (!(node->token & WORD))
+	{
+		if ((buffer->length || buffer->position) && (!buffer_flush(buffer)
+				|| !list_add(new_list, WORD, buffer->buf)))
+			return (0);
+		if (node->token != SEPARATOR && !list_add(new_list, node->token, NULL))
+			return (0);
+		buffer_init(buffer);
+	}
+	return (1);
+}
+
 int	lex_concat(t_token_list *list)
 {
 	t_buffer		buffer;
@@ -40,17 +57,8 @@ int	lex_concat(t_token_list *list)
 	buffer_init(&buffer);
 	while (node)
 	{
-		if ((node->token & WORD) && !buffer_append(&buffer, node->value))
+		if (!lex_concat_inline(&buffer, &new_list, node))
 			return (buffer_delete(&buffer), 0);
-		if (!(node->token & WORD))
-		{
-			if ((buffer.length || buffer.position) && (!buffer_flush(&buffer)
-					|| !list_add(&new_list, WORD, buffer.buf)))
-				return (buffer_delete(&buffer), 0);
-			if (node->token != SEPARATOR && !list_add(&new_list, node->token, NULL))
-				return (0);
-			buffer_init(&buffer);
-		}
 		node = node->next;
 	}
 	if (!buffer_flush(&buffer)
