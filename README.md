@@ -67,6 +67,16 @@ If a builtin is not the first executable, bash executes it in a child process, c
 
 [Subject (PDF)](https://cdn.intra.42.fr/pdf/pdf/39166/en.subject.pdf)
 
+## Valgrind
+
+To avoid memory leak of readline being reported by valgrind
+
+```sh
+valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all ./minishell
+```
+
+Thanks to [JonathanDUFOUR](https://github.com/JonathanDUFOUR/minishell/blob/master/ignoreliberror)
+
 ## Project architecture
 
 - `include/` header files
@@ -74,7 +84,6 @@ If a builtin is not the first executable, bash executes it in a child process, c
 	- `builtin.h` builtins (export, env...) and utilities
 	- `env.h` environment utilities
 	- `exec.h`
-	- `expander.h` expander utilities
 	- `ft.h` libft
 	- `lexer.h` lexer utilities
 	- `minishell.h`
@@ -116,8 +125,6 @@ If a builtin is not the first executable, bash executes it in a child process, c
 		- `env_set.c`
 		- `env_toarray.c`
 		- `env_unset.c`
-	- `exp/` variable expansion
-		- `exp_expand.c`
 	- `ft/` libft
 		- `ft_isalnum.c`
 		- `ft_isalpha.c`
@@ -164,3 +171,7 @@ If a builtin is not the first executable, bash executes it in a child process, c
 	- `main.c` entry
 	- `setup` initializers
 - `Makefile`
+
+A typical execution goes through these steps
+
+`main` -> `setup` -> `lex_tokenize` -> `lex_expand` -> `lex_postexpand` -> `lex_check_syntax` -> `lex_delete`
