@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/02/11 05:10:34 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/02/12 01:14:38 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,7 @@ SRC					= \
 						lexer/lex_expand.c \
 						lexer/lex_postexpand.c \
 						lexer/lex_concat.c \
+						lexer/lex_check_syntax.c \
 						lexer/tokenizer/get_tokenizer.c \
 						lexer/tokenizer/tokenize_dgreat.c \
 						lexer/tokenizer/tokenize_dless.c \
