@@ -66,3 +66,101 @@ If a builtin is not the first executable, bash executes it in a child process, c
 - [Bash builtins](https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html)
 
 [Subject (PDF)](https://cdn.intra.42.fr/pdf/pdf/39166/en.subject.pdf)
+
+## Project architecture
+
+- `include/` header files
+	- `buffer.h` buffer utilitiess
+	- `builtin.h` builtins (export, env...) and utilities
+	- `env.h` environment utilities
+	- `exec.h`
+	- `expander.h` expander utilities
+	- `ft.h` libft
+	- `lexer.h` lexer utilities
+	- `minishell.h`
+	- `status.h` global exit status
+	- `token.h` tokens
+	- `tokenizer.h` tokenizers and utilities
+	- `type/` type-only headers
+		- `t_buffer.h`
+		- `t_builtin.h`
+		- `t_complex.h`
+		- `t_env.h`
+		- `t_env_table.h`
+		- `t_exec.h`
+		- `t_sh.h`
+		- `t_tokenizer.h`
+		- `t_token_list.h`
+- `src/` source files
+	- `buffer/` buffer utilities
+		- `buffer_append.c`
+		- `buffer_delete.c`
+		- `buffer_flush.c`
+		- `buffer_init.c`
+	- `builtin/` builtins and utilities
+		- `builtin_error.c`
+		- `cd.c`
+		- `echo.c`
+		- `env.c`
+		- `exit.c`
+		- `export.c`
+		- `get_builtin.c`
+		- `pwd.c`
+		- `unset.c`
+	- `env/` envirionment utilities
+		- `__env_push.c`
+		- `env_destroy.c`
+		- `env_get.c`
+		- `env_init.c`
+		- `env_new_entry.c`
+		- `env_set.c`
+		- `env_toarray.c`
+		- `env_unset.c`
+	- `exp/` variable expansion
+		- `exp_expand.c`
+	- `ft/` libft
+		- `ft_isalnum.c`
+		- `ft_isalpha.c`
+		- `ft_isdigit.c`
+		- `ft_isspace.c`
+		- `ft_itoa.c`
+		- `ft_memmove.c`
+		- `ft_memset.c`
+		- `ft_split.c`
+		- `ft_strchr.c`
+		- `ft_strcmp.c`
+		- `ft_strcspn.c`
+		- `ft_strdup.c`
+		- `ft_strjoin.c`
+		- `ft_strlcat.c`
+		- `ft_strlen.c`
+		- `ft_strncat.c`
+		- `ft_strncmp.c`
+		- `ft_strndup.c`
+		- `ft_strnlen.c`
+	- `lexer/` lexer utilities
+		- `__lex_add.c`
+		- `lex_add_token.c`
+		- `lex_check_syntax.c`
+		- `lex_concat.c`
+		- `lex_delete.c`
+		- `lex_dump.c`
+		- `lex_expand.c`
+		- `lex_postexpand.c`
+		- `lex_tokenize.c`
+		- `tokenizer/` tokenizers
+			- `get_tokenizer.c`
+			- `tokenize_dgreat.c`
+			- `tokenize_dless.c`
+			- `tokenize_great.c`
+			- `tokenize_less.c`
+			- `tokenize_pipe.c`
+			- `tokenize_word_dquote.c`
+			- `tokenize_word_nquote.c`
+			- `tokenize_word_squote.c`
+	- `util/` uncategorized utilities
+		- `path_search.c`
+	- `handle_signal.c` signal handlers
+	- `main.c` entry
+	- `setup` initializers
+- `Makefile`
