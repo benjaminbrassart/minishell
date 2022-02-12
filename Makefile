@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/02/12 06:10:16 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/02/12 06:48:02 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,6 @@ SRC					= \
 						lexer/tokenizer/tokenize_word_dquote.c \
 						lexer/tokenizer/tokenize_word_nquote.c \
 						lexer/tokenizer/tokenize_word_squote.c \
-						expander/exp_expand.c \
 						env/__env_push.c \
 						env/env_destroy.c \
 						env/env_get.c \
