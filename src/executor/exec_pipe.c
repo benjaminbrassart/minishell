@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.h                                         :+:      :+:    :+:   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/12 04:48:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 13:46:35 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/14 13:43:42 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/14 13:50:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTOR_H
-# define EXECUTOR_H
+#include "executor.h"
+#include <unistd.h>
 
-# include "type/t_exec.h"
+int	exec_pipe(t_exec_meta *meta)
+{
+	int		fds[2];
+	size_t	n;
 
-int		exec_build(t_token_list *list, t_exec_meta *meta_p);
-
-int		exec_pipe(t_exec_meta *meta);
-
-int		exec_run(t_exec_meta *meta);
-
-void	exec_delete(t_exec_meta *meta);
-
-#endif
+	n = 0;
+	while (n < meta->count - 1)
+	{
+		if (pipe(fds) == -1)
+			return (0);
+		meta->exec[n].fd_out = fds[1];
+		meta->exec[n + 1].fd_in = fds[0];
+		++n;
+	}
+	return (1);
+}

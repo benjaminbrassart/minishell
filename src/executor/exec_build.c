@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 07:15:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 10:27:51 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/14 14:07:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 #include "env.h"
 #include "executor.h"
 #include "ft.h"
+#include <errno.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 static size_t	count_commands(t_token_list *list)
@@ -77,12 +80,20 @@ static void	set_path(t_exec *exec)
 {
 	t_builtin	*builtin;
 
+	exec->interface.path = NULL;
 	exec->is_builtin = 0;
 	builtin = get_builtin(exec->argv[0]);
 	if (builtin)
 	{
 		exec->is_builtin = 1;
 		exec->interface.builtin = builtin->fn;
+	}
+	else if (ft_strchr(exec->argv[0], '/'))
+	{
+		if (access(exec->argv[0], X_OK) == 0)
+			exec->interface.path = exec->argv[0];
+		else
+			builtin_error(exec->argv[0], strerror(errno));
 	}
 	else
 		exec->interface.path = path_search(&exec->meta->sh->env, exec->argv[0]);
@@ -106,5 +117,5 @@ int	exec_build(t_token_list *list, t_exec_meta *meta_p)
 			return (0);
 		set_path(&meta_p->exec[n++]);
 	}
-	return (1);
+	return (exec_pipe(meta_p));
 }
