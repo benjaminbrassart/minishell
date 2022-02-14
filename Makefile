@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/02/14 07:33:06 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/02/14 11:24:23 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC					= \
 						builtin/unset.c \
 						builtin/env.c \
 						builtin/exit.c \
+						builtin/type.c \
 						builtin/builtin_error.c \
 						buffer/buffer_init.c \
 						buffer/buffer_delete.c \
@@ -88,6 +89,10 @@ SRC					= \
 						env/env_set.c \
 						env/env_unset.c \
 						env/env_toarray.c \
+						env/env_from_literal.c \
+						executor/exec_build.c \
+						executor/exec_run.c \
+						executor/exec_delete.c \
 						util/path_search.c
 OBJ					= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP					= $(OBJ:.o=.d)
