@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 07:38:11 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/12 06:48:09 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/14 09:47:39 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,28 @@ int n)
 	return (1);
 }
 
-static int	st_buffer_append(t_buffer *buffer)
+static int	status_buffer_append(t_buffer *buffer)
 {
-	char				*s;
+	char				itoabuff[11];
+	unsigned int const	n = ft_itoa_b(g_exit_status, itoabuff);
 
-	s = ft_itoa(g_exit_status);
-	return (buffer_append(buffer, s));
+	return (buffer_nappend(buffer, itoabuff, n));
 }
 
-static int	append(t_buffer *buffer, t_env_table *env, char const *s, int n)
+static int	append(t_buffer *buffer, t_env_table *env, char const **s, int n)
 {
 	if (n == 0)
 	{
-		if (*s == '?')
+		if (**s == '?')
 		{
-			if (!st_buffer_append(buffer))
+			++*s;
+			if (!status_buffer_append(buffer))
 				return (0);
-			++s;
 		}
 		else if (!buffer_cappend(buffer, '$'))
 			return (0);
 	}
-	else if (!env_buffer_append(env, buffer, s, n))
+	else if (!env_buffer_append(env, buffer, *s, n))
 		return (0);
 	return (1);
 }
@@ -70,7 +70,7 @@ static char	*exp_expand(t_env_table *env, char const *s)
 		n = 0;
 		while (s[n] && (s[n] == '_' || ft_isalnum(s[n])))
 			++n;
-		if (!append(&buffer, env, s, n))
+		if (!append(&buffer, env, &s, n))
 			return (buffer_delete(&buffer), NULL);
 		s += n;
 	}
