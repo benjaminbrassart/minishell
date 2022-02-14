@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 00:48:06 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 03:26:42 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/14 13:59:34 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	builtin_error(char const *name, char const *msg)
 
 	buffer_init(&buffer);
 	if (buffer_append(&buffer, PROGRAM_NAME ": ")
-		&& buffer_append(&buffer, name)
-		&& buffer_append(&buffer, ": ")
+		&& (name == NULL || (buffer_append(&buffer, name)
+				&& buffer_append(&buffer, ": ")))
 		&& buffer_append(&buffer, msg)
 		&& buffer_append(&buffer, "\n")
 		&& buffer_flush(&buffer))
