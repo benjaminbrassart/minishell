@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 21:07:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/11 03:43:34 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/14 07:13:41 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ int	lex_postexpand(t_token_list *list)
 	t_token_node	*node;
 	t_token_node	*fast;
 
-	new_list.first_node = NULL;
-	new_list.last_node = NULL;
-	new_list.length = 0;
+	ft_memset(&new_list, 0, sizeof (new_list));
 	node = list->first_node;
 	while (node)
 	{
