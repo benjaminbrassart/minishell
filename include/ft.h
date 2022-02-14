@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 17:04:23 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 01:37:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/14 07:30:49 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,8 @@ char			*ft_itoa(int i)
 				__attribute__((malloc));
 
 char			*ft_strchr(char const *s, int c);
+
+void			*ft_calloc(size_t n, size_t size)
+				__attribute__((malloc));
 
 #endif

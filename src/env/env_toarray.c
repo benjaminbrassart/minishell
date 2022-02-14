@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 05:50:51 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/12 05:58:18 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/14 07:35:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ char	**env_toarray(t_env_table *env)
 	t_env		*node;
 	size_t		n;
 
-	envp = malloc(sizeof (*envp) * (env->count + 1));
+	envp = ft_calloc(env->count + 1, sizeof (*envp));
 	if (!envp)
 		return (NULL);
-	ft_memset(envp, 0, sizeof (*envp) * (env->count + 1));
 	node = env->first_entry;
 	n = 0;
 	while (node != NULL)
