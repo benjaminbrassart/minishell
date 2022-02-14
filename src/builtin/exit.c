@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:06:36 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/11 02:41:39 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/14 14:08:21 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ int	builtin_exit(
 {
 	if (argc > 2)
 	{
-		builtin_error(BUILTIN_EXIT, "too many arguments");
+		builtin_error(BUILTIN_EXIT, "Too many arguments");
 		return (EXIT_STATUS_MINOR);
 	}
 	if (argc == 2 && !get_exit_status(argv[1]))
 	{
-		builtin_error(BUILTIN_EXIT, "numeric argument required");
+		builtin_error(BUILTIN_EXIT, "Numeric argument required");
 		g_exit_status = EXIT_STATUS_MAJOR;
 	}
 	close(STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 04:14:06 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/11 01:15:00 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/14 14:08:17 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	builtin_cd(
 		builtin_error(BUILTIN_CD, strerror(errno));
 	}
 	else if (argc < 2)
-		builtin_error(BUILTIN_CD, "not enough arguments");
+		builtin_error(BUILTIN_CD, "Not enough arguments");
 	else if (argc > 2)
-		builtin_error(BUILTIN_CD, "too many arguments");
+		builtin_error(BUILTIN_CD, "Too many arguments");
 	return (EXIT_STATUS_MINOR);
 }
