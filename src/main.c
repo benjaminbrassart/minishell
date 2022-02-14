@@ -6,12 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/12 01:20:21 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/14 11:11:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "env.h"
+#include "executor.h"
+#include "ft.h"
 #include "lexer.h"
 #include "minishell.h"
 #include "status.h"
@@ -23,27 +25,16 @@
 
 static void	process_line(t_sh *sh, char *line)
 {
-	t_builtin	*builtin;
-	char		*program;
+	t_exec_meta	meta;
 
-	add_history(line);
-	if (sh->tokens.first_node->token & WORD)
+	ft_memset(&meta, 0, sizeof (meta));
+	meta.sh = sh;
+	if (exec_build(&sh->tokens, &meta))
 	{
-		builtin = get_builtin(sh->tokens.first_node->value);
-		if (builtin)
-		{
-			printf("builtin `%s'\n", builtin->name);
-			builtin->fn(0, NULL, &sh->env);
-		}
-		else
-		{
-			program = path_search(&sh->env, line);
-			if (program)
-				printf("program `%s'\n", program);
-			free(program);
-		}
+		exec_run(&meta);
+		exec_delete(&meta);
 	}
-	lex_dump(&sh->tokens);
+	add_history(line);
 }
 
 static int	process_end(t_sh *sh)
@@ -51,7 +42,7 @@ static int	process_end(t_sh *sh)
 	lex_delete(&sh->tokens);
 	env_destroy(&sh->env);
 	clear_history();
-	write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof EXIT_MESSAGE);
+	write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof (EXIT_MESSAGE));
 	return (g_exit_status % EXIT_STATUS_MAX);
 }
 
