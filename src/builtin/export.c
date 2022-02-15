@@ -48,7 +48,7 @@ int	builtin_export(int argc, char *argv[], t_env_table *env)
 		if (!is_var_name(argv[i]))
 		{
 			res = EXIT_STATUS_MINOR;
-			builtin_ferror(BUILTIN_EXPORT, argv[i], "Not a valid identifier");
+			builtin_aerror(BUILTIN_EXPORT, argv[i], "Not a valid identifier");
 		}
 		else
 		{

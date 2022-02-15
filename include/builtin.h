@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 19:11:44 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 03:46:45 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/15 03:07:41 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_builtin	*get_builtin(char const *name);
 
 void		builtin_error(char const *name, char const *msg);
 void		builtin_ferror(char const *name, char const *file, char const *msg);
+void		builtin_aerror(char const *name, char const *arg, char const *msg);
 
 static t_builtin const	g_builtins[] = {
 {BUILTIN_CD, builtin_cd},
