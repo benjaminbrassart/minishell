@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 14:12:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/15 03:23:44 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,39 @@
 #include "lexer.h"
 #include "minishell.h"
 #include "status.h"
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
 static void	exec_child(t_exec *exec)
 {
 	char	**envp;
+	int		status;
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (exec->is_builtin)
-		exit(exec->interface.builtin(exec->argc, exec->argv,
-				&exec->meta->sh->env));
+	{
+		status = exec->interface.builtin(exec->argc, exec->argv,
+				&exec->meta->sh->env);
+		exit(status);
+	}
 	else if (exec->interface.path == NULL)
 	{
-		builtin_error(exec->argv[0], "Command not found");
+		if (exec->search_path)
+			builtin_error(exec->argv[0], "Command not found");
 		exit(EXIT_STATUS_NOT_FOUND);
 	}
 	envp = env_toarray(&exec->meta->sh->env);
 	free(envp);
-	if (envp && dup2(STDIN_FILENO, exec->fd_in) != -1
-		&& dup2(STDOUT_FILENO, exec->fd_out) != -1)
+	if (envp && dup2(exec->fd_in, STDIN_FILENO) != -1
+		&& dup2(exec->fd_out, STDOUT_FILENO) != -1)
 		execve(exec->interface.path, exec->argv, envp);
+	perror(PROGRAM_NAME);
+	child_destroy(exec);
 	exit(EXIT_STATUS_MAJOR);
 }
 
@@ -66,7 +75,7 @@ int	exec_run(t_exec_meta *meta)
 	{
 		if (n == 0 && offset)
 			g_exit_status = meta->exec[n].interface.builtin(meta->exec[n].argc,
-				meta->exec[n].argv, &meta->exec[n].meta->sh->env);
+					meta->exec[n].argv, &meta->exec[n].meta->sh->env);
 		else
 		{
 			pids[n] = fork();
@@ -83,7 +92,7 @@ int	exec_run(t_exec_meta *meta)
 		++n;
 	while (n < meta->count)
 	{
-		if (waitpid(pids[n], &status, 0) == (pid_t)-1)
+		if (waitpid(pids[n], &status, 0) == -1)
 			return (perror(PROGRAM_NAME), 0);
 		++n;
 	}

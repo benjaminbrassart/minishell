@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 07:15:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 14:07:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/15 03:19:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ static void	set_path(t_exec *exec)
 {
 	t_builtin	*builtin;
 
-	exec->interface.path = NULL;
-	exec->is_builtin = 0;
 	builtin = get_builtin(exec->argv[0]);
 	if (builtin)
 	{
@@ -96,7 +94,10 @@ static void	set_path(t_exec *exec)
 			builtin_error(exec->argv[0], strerror(errno));
 	}
 	else
+	{
+		exec->search_path = 1;
 		exec->interface.path = path_search(&exec->meta->sh->env, exec->argv[0]);
+	}
 }
 
 int	exec_build(t_token_list *list, t_exec_meta *meta_p)

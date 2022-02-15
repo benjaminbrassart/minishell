@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 02:29:20 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 10:28:05 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/15 03:17:13 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ struct s_exec
 	int						fd_in;
 	int						fd_out;
 	int						fd_save;
+	int						search_path;
 };
 
 #endif
