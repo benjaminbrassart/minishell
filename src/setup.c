@@ -6,31 +6,32 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 09:24:19 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/11 00:15:42 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/18 18:47:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "ft.h"
 #include "minishell.h"
 #include <signal.h>
 
 static void	setup_signal_handlers(void)
 {
-	struct sigaction	sa_int;
-	struct sigaction	sa_quit;
-
-	sa_int.sa_handler = handle_signal;
-	sa_quit.sa_handler = SIG_IGN;
-	sigemptyset(&sa_int.sa_mask);
-	sigemptyset(&sa_quit.sa_mask);
-	sa_int.sa_flags = 0;
-	sa_quit.sa_flags = 0;
-	sigaction(SIGINT, &sa_int, NULL);
-	sigaction(SIGQUIT, &sa_quit, NULL);
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, handle_signal);
 }
 
 int	setup(t_sh *sh, char *ev[])
 {
+	const t_sh	sh_init = {
+		.tokens = {NULL, NULL, 0},
+		.env = {NULL, NULL, 0},
+		.heredoc = {NULL, 0},
+		.prompt = DEFAULT_PROMPT
+	};
+
+	ft_memmove(sh, &sh_init, sizeof (sh_init));
+	handle_signal((int)(long)sh);
 	setup_signal_handlers();
 	return (env_init(&sh->env, ev));
 }
