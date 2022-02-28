@@ -2,11 +2,9 @@
     "configurations": [
         {
             "name": "Linux",
-            "includePath": [
-				"${workspaceFolder}/include"
-            ],
-            "compilerPath": "/usr/bin/clang",
-            "intelliSenseMode": "linux-clang-x64"
+            "includePath": ["${workspaceFolder}/include"],
+            "compilerPath": "/usr/bin/gcc"
+            //"configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4

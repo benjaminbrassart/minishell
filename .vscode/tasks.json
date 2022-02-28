@@ -8,6 +8,7 @@
 			"type": "shell",
 			"command": "make",
 			"args": ["DEBUG=true"],
+			"problemMatcher": "$gcc",
 			"group": {
 				"kind": "build",
 				"isDefault": true
@@ -38,6 +39,6 @@
 				"showReuseMessage": true,
 				"clear": false
 			}
-		}
+		},
 	]
 }
