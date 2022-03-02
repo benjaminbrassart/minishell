@@ -1,0 +1,2 @@
+builtins:
+  unset -> when unset variable is last in ENV, invalid pointer
