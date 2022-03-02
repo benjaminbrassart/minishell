@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 02:04:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/15 02:22:58 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/02 18:46:57 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	env_unset(t_env_table *env, char const *key)
 				env->first_entry = entry->next;
 			else
 				slow->next = entry->next;
+			if (entry == env->last_entry)
+				env->last_entry = slow;
 			free(entry);
 			--env->count;
 			return ;

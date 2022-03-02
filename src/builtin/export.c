@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:09:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/15 02:08:15 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/18 19:05:35 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,27 @@ static int	is_var_name(char const *s)
 	return (1);
 }
 
+static void	export_var(t_env_table *env, char *entry, int *res_ptr)
+{
+	int	n;
+
+	n = 0;
+	while (entry[n] && entry[n] != '=')
+		++n;
+	if (entry[n] == 0)
+		return ;
+	entry[n] = 0;
+	if (!env_set(env, entry, entry + n + 1))
+	{
+		*res_ptr = EXIT_STATUS_MAJOR;
+		builtin_error(BUILTIN_EXPORT, strerror(errno));
+	}
+}
+
 int	builtin_export(int argc, char *argv[], t_env_table *env)
 {
-	int		i;
-	int		res;
-	t_env	*entry;
+	int	i;
+	int	res;
 
 	if (argc < 2)
 		return (builtin_error(BUILTIN_EXPORT, "Not enough arguments"), 1);
@@ -47,20 +63,12 @@ int	builtin_export(int argc, char *argv[], t_env_table *env)
 	{
 		if (!is_var_name(argv[i]))
 		{
-			res = EXIT_STATUS_MINOR;
+			if (EXIT_STATUS_MINOR > res)
+				res = EXIT_STATUS_MINOR;
 			builtin_aerror(BUILTIN_EXPORT, argv[i], "Not a valid identifier");
 		}
 		else
-		{
-			entry = env_from_literal(argv[i]);
-			if (entry)
-				__env_push(env, entry);
-			else
-			{
-				builtin_error(BUILTIN_EXPORT, strerror(errno));
-				res = EXIT_STATUS_MAJOR;
-			}
-		}
+			export_var(env, argv[i], &res);
 		++i;
 	}
 	return (res);
