@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/02 18:09:11 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/02 20:54:50 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,14 @@
 #include <readline/readline.h>
 #include <unistd.h>
 
-static void	process_line(t_sh *sh, char *line)
+static void	process_line(t_sh *sh)
 {
 	t_exec_meta	meta;
 
 	ft_memset(&meta, 0, sizeof (meta));
 	meta.sh = sh;
 	if (exec_build(&sh->tokens, &meta))
-	{
 		exec_run(&meta);
-		exec_delete(&meta);
-	}
-	add_history(line);
 }
 
 static int	process_end(t_sh *sh)
