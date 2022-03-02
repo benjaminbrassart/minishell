@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 07:15:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/15 03:19:29 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/18 10:18:57 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ static size_t	count_commands(t_token_list *list)
 	size_t			n;
 
 	node = list->first_node;
-	n = 1;
+	n = 0;
 	while (node)
 	{
+		if (n == 0 && (node->token & WORD))
+			++n;
 		if (node->token == PIPE)
 			++n;
 		node = node->next;
@@ -106,6 +108,8 @@ int	exec_build(t_token_list *list, t_exec_meta *meta_p)
 	size_t			n;
 
 	meta_p->count = count_commands(list);
+	if (meta_p->count == 0)
+		return (1);
 	meta_p->exec = ft_calloc(meta_p->count, sizeof (*meta_p->exec));
 	if (!meta_p->exec)
 		return (0);
