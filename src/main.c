@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 11:11:36 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/02 18:09:11 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,30 +43,36 @@ static int	process_end(t_sh *sh)
 	env_destroy(&sh->env);
 	clear_history();
 	write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof (EXIT_MESSAGE));
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 	return (g_exit_status % EXIT_STATUS_MAX);
 }
 
 int	main(
-	int ac __attribute__((unused)),
-	char *av[] __attribute__((unused)),
-	char *ev[]
+	int argc __attribute__((unused)),
+	char *argv[] __attribute__((unused)),
+	char *envp[]
 )
 {
-	static t_sh	sh = {{NULL, NULL, 0}, {NULL, NULL, 0}};
-	char		*line;
+	t_sh	sh;
+	char	*line;
 
 	g_exit_status = 0;
-	if (!setup(&sh, ev))
+	if (!setup(&sh, envp))
 		return (EXIT_FAILURE);
 	while (1)
 	{
-		line = readline(COMMAND_PROMPT);
+		line = readline(sh.prompt);
+		sh.prompt = DEFAULT_PROMPT;
 		if (!line)
 			break ;
-		if (lex_tokenize(&sh.tokens, line) && lex_expand(&sh.tokens, &sh.env)
-			&& lex_postexpand(&sh.tokens) && lex_check_syntax(&sh.tokens)
-			&& sh.tokens.length > 0)
-			process_line(&sh, line);
+		if (lex_tokenize(&sh.tokens, line)
+			&& lex_expand(&sh.tokens, &sh.env)
+			&& lex_postexpand(&sh.tokens)
+			&& lex_check_syntax(&sh.tokens) && sh.tokens.length > 0)
+			process_line(&sh);
+		add_history(line);
 		lex_delete(&sh.tokens);
 		free(line);
 	}
