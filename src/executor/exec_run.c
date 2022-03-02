@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/02 14:26:03 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:44:39 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "executor.h"
 #include "lexer.h"
 #include "minishell.h"
+#include "sighandler.h"
 #include "status.h"
 #include <errno.h>
 #include <stdio.h>
@@ -55,8 +56,8 @@ static void	exec_child(t_exec *exec)
 	char				**envp;
 	int					status;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	sigint_default();
+	sigquit_default();
 	if (exec->is_builtin)
 	{
 		status = exec->interface.builtin(exec->argc, exec->argv, env);
@@ -91,6 +92,7 @@ int	exec_run(t_exec_meta *meta)
 	pids = malloc(sizeof (*pids) * meta->count);
 	if (!pids)
 		return (0);
+	sigint_ignore();
 	n = 0;
 	while (n < meta->count)
 	{
@@ -115,18 +117,19 @@ int	exec_run(t_exec_meta *meta)
 	{
 		if (waitpid(pids[n], &status, 0) == -1)
 			return (perror(PROGRAM_NAME), 0);
-		if (WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
+		g_exit_status = get_exit_status(status);
+		if (n == meta->count - 1 && WIFSIGNALED(status))
 		{
 			if (WTERMSIG(status) == SIGINT)
-				meta->sh->prompt = NULL;
-			g_exit_status = WTERMSIG(status) + 128;
+				handle_sigint(0);
+			if (WTERMSIG(status) == SIGQUIT)
+				write(STDERR_FILENO, "Quit\n", 5);
+			if (WTERMSIG(status) == SIGSEGV)
+				write(STDERR_FILENO, "Segmentation fault\n", 19);
 		}
-		else if (WIFSTOPPED(status))
-			g_exit_status = WSTOPSIG(status) + 128;
 		++n;
 	}
 	free(pids);
+	sigint_install();
 	return (1);
 }

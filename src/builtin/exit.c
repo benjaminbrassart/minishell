@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:06:36 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 14:08:21 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:54:43 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <errno.h>
 #include <unistd.h>
 
-static int	get_exit_status(char const *arg)
+static int	parse_exit_status(char const *arg)
 {
 	int	n;
 	int	sign;
@@ -52,7 +52,7 @@ int	builtin_exit(
 		builtin_error(BUILTIN_EXIT, "Too many arguments");
 		return (EXIT_STATUS_MINOR);
 	}
-	if (argc == 2 && !get_exit_status(argv[1]))
+	if (argc == 2 && !parse_exit_status(argv[1]))
 	{
 		builtin_error(BUILTIN_EXIT, "Numeric argument required");
 		g_exit_status = EXIT_STATUS_MAJOR;

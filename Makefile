@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/02/15 02:11:28 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/02 16:12:27 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,9 @@ DIR_OBJ				= obj
 SRC					= \
 						main.c \
 						setup.c \
-						handle_signal.c \
+						signal/sigint.c \
+						signal/sigquit.c \
+						signal/get_exit_status.c \
 						builtin/get_builtin.c \
 						builtin/cd.c \
 						builtin/echo.c \
@@ -115,5 +117,7 @@ fclean:				clean
 					$(RM) $(NAME)
 
 re:					fclean all
+
+-include mk/valgrind.mk
 
 .PHONY:				all clean fclean re
