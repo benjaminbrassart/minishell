@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 02:29:20 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/15 03:17:13 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/02 14:26:21 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef struct s_exec		t_exec;
 
 union u_exec_interface
 {
-	char const		*path;
+	char			*path;
 	t_builtin_fn	builtin;
 };
 
