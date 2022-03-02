@@ -1,2 +1,3 @@
-builtins:
-  unset -> when unset variable is last in ENV, invalid pointer
+exec:
+  when command is not found, huge memory leak (child)
+  fix exit status $?
