@@ -6,13 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/02 16:44:39 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/05 02:55:17 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "env.h"
 #include "executor.h"
+//#include "heredoc.h"
 #include "lexer.h"
 #include "minishell.h"
 #include "sighandler.h"
@@ -48,6 +49,14 @@ static void	child_destroy(t_exec *exec)
 	env_destroy(&exec->meta->sh->env);
 	lex_delete(&exec->meta->sh->tokens);
 	parent_close(exec->meta, (int)(exec - exec->meta->exec));
+	//lex_heredoc_delete(&exec->meta->sh->heredoc);
+	free(exec->argv);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+	if (!exec->is_builtin)
+		free(exec->interface.path);
+	free(exec->meta->exec);
 }
 
 static void	exec_child(t_exec *exec)
@@ -68,6 +77,7 @@ static void	exec_child(t_exec *exec)
 	{
 		if (exec->search_path)
 			builtin_error(exec->argv[0], "Command not found");
+		child_destroy(exec);
 		exit(EXIT_STATUS_NOT_FOUND);
 	}
 	envp = env_toarray(&exec->meta->sh->env);
@@ -105,11 +115,13 @@ int	exec_run(t_exec_meta *meta)
 			if (pids[n] == -1)
 				return (perror(PROGRAM_NAME), 0);
 			if (pids[n] == 0)
+			{
+				free(pids);
 				exec_child(&meta->exec[n]);
+			}
 		}
 		++n;
 	}
-	parent_close(meta, -1);
 	n = 0;
 	if (offset)
 		++n;
@@ -129,6 +141,7 @@ int	exec_run(t_exec_meta *meta)
 		}
 		++n;
 	}
+	parent_close(meta, -1);
 	free(pids);
 	sigint_install();
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 09:24:19 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/02 15:38:16 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/05 02:55:35 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	setup(t_sh *sh, char *ev[])
 	const t_sh	sh_init = {
 		.tokens = {NULL, NULL, 0},
 		.env = {NULL, NULL, 0},
-		.heredoc = {NULL, 0},
+		//.heredoc = {NULL, 0},
 		.prompt = DEFAULT_PROMPT
 	};
 

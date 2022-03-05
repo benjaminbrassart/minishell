@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/02 16:12:27 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/05 02:56:33 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,12 +95,17 @@ SRC					= \
 						executor/exec_run.c \
 						executor/exec_delete.c \
 						executor/exec_pipe.c \
-						util/path_search.c
+						util/path_search.c \
+						#lexer/heredoc/lex_heredoc.c \
+						#lexer/heredoc/lex_heredoc_delete.c \
+						#lexer/heredoc/lex_heredoc_read.c \
+						#lexer/heredoc/lex_heredoc_build.c
+
 OBJ					= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP					= $(OBJ:.o=.d)
 
 $(NAME):			$(OBJ)
-					$(CC) $^ -o $@ $(LDFLAGS) $(LDLIBS)
+					$(CC) -g3 $^ -o $@ $(LDFLAGS) $(LDLIBS)
 
 -include $(DEP)
 

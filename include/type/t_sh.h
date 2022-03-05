@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/02 20:55:35 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/05 02:55:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define T_SH_H
 
 # include "type/t_env_table.h"
-# include "type/t_heredoc.h"
+//# include "type/t_heredoc.h"
 # include "type/t_token_list.h"
 
 typedef struct s_sh	t_sh;
