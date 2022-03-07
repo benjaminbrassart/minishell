@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 07:15:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/18 10:18:57 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/05 03:01:35 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int	exec_build(t_token_list *list, t_exec_meta *meta_p)
 	node = list->first_node;
 	while (n < meta_p->count)
 	{
+		meta_p->exec[n].fd_out = 1;
 		meta_p->exec[n].meta = meta_p;
 		if (!copy_argv(&node, &meta_p->exec[n]))
 			return (0);

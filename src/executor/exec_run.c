@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/05 02:55:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/05 03:11:07 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,20 @@ static void	parent_close(t_exec_meta *meta, int index)
 	if (index < 0)
 		free(meta->exec);
 }
+
+//static void	close_fds(t_exec_meta *meta, int index)
+//{
+//	size_t	n;
+
+//	n = 0;
+//	while (n < meta->count)
+//	{
+//		if ((index == -1 || (int)n != index) && meta->exec[n].fd_in != 0)
+//			close(meta->exec[n].fd_in);
+//		if ((index == -1 || (int)n + 1 != index) && meta->exec[n].fd_out != 1)
+//			close(meta->exec[n].fd_out);
+//	}
+//}
 
 static void	child_destroy(t_exec *exec)
 {
@@ -117,11 +131,13 @@ int	exec_run(t_exec_meta *meta)
 			if (pids[n] == 0)
 			{
 				free(pids);
+				//close_fds(meta, n);
 				exec_child(&meta->exec[n]);
 			}
 		}
 		++n;
 	}
+	//close_fds(meta, -1);
 	n = 0;
 	if (offset)
 		++n;
