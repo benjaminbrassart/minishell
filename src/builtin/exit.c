@@ -6,13 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:06:36 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/02 15:54:43 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/08 00:30:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "ft.h"
 #include "status.h"
+#include "type/t_sh.h"
 #include <errno.h>
 #include <unistd.h>
 
@@ -57,6 +58,7 @@ int	builtin_exit(
 		builtin_error(BUILTIN_EXIT, "Numeric argument required");
 		g_exit_status = EXIT_STATUS_MAJOR;
 	}
+	((t_sh *)(env->sh))->force_exit = 1;
 	close(STDIN_FILENO);
 	return (0);
 }

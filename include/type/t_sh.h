@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/05 02:55:32 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/08 00:29:20 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ struct s_sh
 {
 	t_token_list	tokens;
 	t_env_table		env;
-	char const		*prompt;
+	int				force_exit;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/05 02:55:45 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/08 00:31:17 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static int	process_end(t_sh *sh)
 	lex_delete(&sh->tokens);
 	env_destroy(&sh->env);
 	clear_history();
-	write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof (EXIT_MESSAGE));
+	if (!sh->force_exit)
+		write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof (EXIT_MESSAGE));
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
@@ -60,8 +61,9 @@ int	main(
 		return (EXIT_FAILURE);
 	while (1)
 	{
-		line = readline(sh.prompt);
-		sh.prompt = DEFAULT_PROMPT;
+		if (sh.force_exit)
+			break ;
+		line = readline(DEFAULT_PROMPT);
 		if (!line)
 			break ;
 		if (lex_tokenize(&sh.tokens, line)

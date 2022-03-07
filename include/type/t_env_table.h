@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 01:45:56 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 01:47:00 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/08 00:24:15 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_env_table	t_env_table;
 
 struct s_env_table
 {
+	void	*sh;
 	t_env	*first_entry;
 	t_env	*last_entry;
 	size_t	count;
