@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   buffer_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/03 14:33:46 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/03 14:35:08 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft.h"
-#include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
-#include <stdlib.h>
+#include "buffer.h"
 
-int	lex_tokenize(t_token_list *list, char *input)
+void	buffer_init(t_buffer *buffer)
 {
-	t_tokenizer	*tokenizer;
-
-	while (*input)
-	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
-	}
-	return (1);
+	buffer->buf = NULL;
+	buffer->length = 0;
+	buffer->position = 0;
 }

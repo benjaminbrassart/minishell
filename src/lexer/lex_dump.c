@@ -6,17 +6,23 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 00:56:47 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/13 01:53:26 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/02/11 03:46:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include <stdio.h>
 
-static char	*strtoken(t_token token)
+static char	*strtoken(int token)
 {
 	if (token == WORD)
 		return ("WORD");
+	if (token == WORD_NQ)
+		return ("WORD_NQ");
+	if (token == WORD_SQ)
+		return ("WORD_SQ");
+	if (token == WORD_DQ)
+		return ("WORD_DQ");
 	if (token == PIPE)
 		return ("PIPE");
 	if (token == LESS)
@@ -27,6 +33,8 @@ static char	*strtoken(t_token token)
 		return ("GREAT");
 	if (token == D_GREAT)
 		return ("D_GREAT");
+	if (token == SEPARATOR)
+		return ("SEPARATOR");
 	return ("(unknown)");
 }
 
@@ -38,9 +46,9 @@ void	lex_dump(t_token_list *list)
 	while (node)
 	{
 		if (node->value)
-			printf(" %-7s | %s\n", strtoken(node->token), node->value);
+			printf(" %-9s | %s\n", strtoken(node->token), node->value);
 		else
-			printf(" %-7s |\n", strtoken(node->token));
+			printf(" %-9s |\n", strtoken(node->token));
 		node = node->next;
 	}
 }

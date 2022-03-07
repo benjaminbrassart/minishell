@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   buffer_flush.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/03 14:36:05 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/02 18:14:12 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "buffer.h"
 #include "ft.h"
-#include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
 #include <stdlib.h>
 
-int	lex_tokenize(t_token_list *list, char *input)
+int	buffer_flush(t_buffer *buffer)
 {
-	t_tokenizer	*tokenizer;
+	char	*new_buf;
 
-	while (*input)
-	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
-	}
+	new_buf = malloc(buffer->length + buffer->position + 1);
+	if (!new_buf)
+		return (0);
+	ft_memmove(new_buf, buffer->buf, buffer->length);
+	ft_memmove(new_buf + buffer->length, buffer->st_buf, buffer->position);
+	new_buf[buffer->length + buffer->position] = '\0';
+	free(buffer->buf);
+	buffer->buf = new_buf;
+	buffer->length += buffer->position;
+	buffer->position = 0;
 	return (1);
 }

@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   __lex_add.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/11 04:59:12 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/11 04:59:21 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft.h"
 #include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
-#include <stdlib.h>
 
-int	lex_tokenize(t_token_list *list, char *input)
+void	__lex_add(t_token_list *list, t_token_node *node)
 {
-	t_tokenizer	*tokenizer;
-
-	while (*input)
-	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
-	}
-	return (1);
+	if (list->length == 0)
+		list->first_node = node;
+	else
+		list->last_node->next = node;
+	list->last_node = node;
+	++list->length;
 }

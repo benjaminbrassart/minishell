@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   get_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/19 19:38:56 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/31 08:31:50 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtin.h"
 #include "ft.h"
-#include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
-#include <stdlib.h>
 
-int	lex_tokenize(t_token_list *list, char *input)
+t_builtin	*get_builtin(char const *name)
 {
-	t_tokenizer	*tokenizer;
+	size_t	i;
+	int		res;
 
-	while (*input)
+	i = 0;
+	while (i < (sizeof (g_builtins) / sizeof (g_builtins[0])))
 	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
+		res = ft_strcmp(g_builtins[i].name, name);
+		if (res == 0)
+			return ((t_builtin *)&g_builtins[i]);
+		++i;
 	}
-	return (1);
+	return (NULL);
 }

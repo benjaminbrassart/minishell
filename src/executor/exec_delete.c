@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   exec_delete.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/14 09:53:17 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/14 09:53:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft.h"
-#include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
+#include "executor.h"
 #include <stdlib.h>
 
-int	lex_tokenize(t_token_list *list, char *input)
+void	exec_delete(t_exec_meta *meta)
 {
-	t_tokenizer	*tokenizer;
-
-	while (*input)
-	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
-	}
-	return (1);
+	free(meta->exec);
+	meta->exec = NULL;
+	meta->count = 0;
 }

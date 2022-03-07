@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/22 09:24:19 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/05 02:55:35 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "ft.h"
-#include "lexer.h"
 #include "minishell.h"
-#include "tokenizer.h"
-#include <stdlib.h>
+#include "sighandler.h"
+#include <signal.h>
 
-int	lex_tokenize(t_token_list *list, char *input)
+static void	setup_signal_handlers(void)
 {
-	t_tokenizer	*tokenizer;
+	sigint_install();
+	sigquit_ignore();
+}
 
-	while (*input)
-	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
-	}
-	return (1);
+int	setup(t_sh *sh, char *ev[])
+{
+	const t_sh	sh_init = {
+		.tokens = {NULL, NULL, 0},
+		.env = {NULL, NULL, 0},
+		//.heredoc = {NULL, 0},
+		.prompt = DEFAULT_PROMPT
+	};
+
+	ft_memmove(sh, &sh_init, sizeof (sh_init));
+	setup_signal_handlers();
+	return (env_init(&sh->env, ev));
 }

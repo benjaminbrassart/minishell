@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   tokenize_dless.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/31 11:37:17 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/01/31 13:01:59 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft.h"
 #include "lexer.h"
-#include "minishell.h"
 #include "tokenizer.h"
-#include <stdlib.h>
 
-int	lex_tokenize(t_token_list *list, char *input)
+int	tokenize_dless(t_token_list *list, char **input)
 {
-	t_tokenizer	*tokenizer;
+	int	res;
 
-	while (*input)
-	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
-	}
-	return (1);
+	res = lex_add_token(list, (t_token_param){D_LESS, *input, 0});
+	(*input) += 2;
+	return (res);
 }

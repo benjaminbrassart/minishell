@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/08 02:15:14 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/14 11:24:08 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "ft.h"
-#include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
 #include <stdlib.h>
 
-int	lex_tokenize(t_token_list *list, char *input)
+int	env_init(t_env_table *env, char *envp[])
 {
-	t_tokenizer	*tokenizer;
+	int		n;
+	t_env	*entry;
 
-	while (*input)
+	n = 0;
+	while (envp[n])
 	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
+		entry = env_from_literal(envp[n]);
+		if (entry == NULL)
 			return (0);
+		__env_push(env, entry);
+		++n;
 	}
 	return (1);
 }

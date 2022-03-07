@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   get_exit_status.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/03/02 15:45:25 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/02 15:49:57 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft.h"
-#include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
-#include <stdlib.h>
+#include "status.h"
+#include <wait.h>
 
-int	lex_tokenize(t_token_list *list, char *input)
+int	get_exit_status(int raw_status)
 {
-	t_tokenizer	*tokenizer;
-
-	while (*input)
-	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
-	}
-	return (1);
+	if (WIFEXITED(raw_status))
+		return (WEXITSTATUS(raw_status));
+	if (WIFSIGNALED(raw_status))
+		return (WTERMSIG(raw_status) + EXIT_STATUS_SIGNAL_OFFSET);
+	if (WIFSTOPPED(raw_status))
+		return (WSTOPSIG(raw_status) + EXIT_STATUS_SIGNAL_OFFSET);
+	return (raw_status);
 }

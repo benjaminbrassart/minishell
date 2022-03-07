@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/11 07:38:53 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/03 16:05:01 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft.h"
-#include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
 #include <stdlib.h>
 
-int	lex_tokenize(t_token_list *list, char *input)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	t_tokenizer	*tokenizer;
+	char	*s;
+	size_t	len1;
+	size_t	len2;
 
-	while (*input)
+	len1 = 0;
+	len2 = 0;
+	if (s1)
+		len1 = ft_strlen(s1);
+	if (s2)
+		len2 = ft_strlen(s2);
+	s = malloc(sizeof (*s) * (len1 + len2 + 1));
+	if (s)
 	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
+		ft_memmove(s, s1, len1);
+		ft_memmove(s + len1, s2, len2);
+		s[len1 + len2] = 0;
 	}
-	return (1);
+	return (s);
 }

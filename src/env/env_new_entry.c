@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   env_new_entry.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/08 02:42:48 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/08 02:44:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "ft.h"
-#include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
 #include <stdlib.h>
 
-int	lex_tokenize(t_token_list *list, char *input)
+t_env	*env_new_entry(char const *key, char const *value)
 {
-	t_tokenizer	*tokenizer;
+	t_env	*env;
 
-	while (*input)
+	env = malloc(sizeof (*env));
+	if (!env)
+		return (NULL);
+	env->key = ft_strdup(key);
+	env->value = ft_strdup(value);
+	if (env->key == NULL || env->value == NULL)
 	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
+		free(env->key);
+		free(env->value);
+		free(env);
+		env = NULL;
 	}
-	return (1);
+	return (env);
 }

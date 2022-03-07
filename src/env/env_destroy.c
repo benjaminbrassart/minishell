@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   env_destroy.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/08 01:47:46 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/08 01:51:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft.h"
-#include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
+#include "env.h"
 #include <stdlib.h>
 
-int	lex_tokenize(t_token_list *list, char *input)
+void	env_destroy(t_env_table *env)
 {
-	t_tokenizer	*tokenizer;
+	t_env	*entry;
+	t_env	*fast;
 
-	while (*input)
+	entry = env->first_entry;
+	while (entry)
 	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
+		fast = entry->next;
+		free(entry->key);
+		free(entry->value);
+		free(entry);
+		entry = fast;
 	}
-	return (1);
+	env->first_entry = NULL;
+	env->last_entry = NULL;
+	env->count = 0;
 }

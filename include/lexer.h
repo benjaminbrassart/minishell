@@ -6,50 +6,61 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:16:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/13 01:15:37 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/02 14:43:31 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-# include <stddef.h>
+# include "type/t_sh.h"
+# include "type/t_token_list.h"
 
-typedef enum e_token		t_token;
-typedef struct s_token_list	t_token_list;
-typedef struct s_token_node	t_token_node;
+/**
+ * add NODE to LIST
+ */
+void	__lex_add(t_token_list *list, t_token_node *node)
+		__attribute__((nonnull(1, 2)));
 
-enum e_token
-{
-	WORD,
-	PIPE,
-	LESS,
-	D_LESS,
-	GREAT,
-	D_GREAT,
-};
-
-struct s_token_list
-{
-	t_token_node	*first_node;
-	t_token_node	*last_node;
-	size_t			length;
-};
-
-struct s_token_node
-{
-	t_token			token;
-	char			*value;
-	t_token_node	*next;
-};
-
+/**
+ * break INPUT into tokens, and add them to LIST
+ */
 int		lex_tokenize(t_token_list *list, char *input)
 		__attribute__((nonnull(1, 2)));
 
+/**
+ * free all nodes in LIST
+ */
 void	lex_delete(t_token_list *list)
 		__attribute__((nonnull(1)));
 
+/**
+ * print every element of LIST to STDOUT
+ *
+ * TODO remove: debug only
+ */
 void	lex_dump(t_token_list *list)
 		__attribute__((nonnull(1)));
+
+/**
+ * add a node deduced from PARAM to LIST
+ */
+int		lex_add_token(t_token_list *list, t_token_param param)
+		__attribute__((nonnull(1)));
+
+/**
+ * check if the order of the elements of LIST is a correct shell syntax
+ */
+int		lex_check_syntax(t_token_list *list);
+
+/**
+ * expand variables in the elements of LIST from ENV
+ * example: `$TERM' becomes `xterm-256color'
+ */
+int		lex_expand(t_token_list *list, t_env_table *env);
+
+int		lex_concat(t_token_list *list);
+
+int		lex_postexpand(t_token_list *list);
 
 #endif

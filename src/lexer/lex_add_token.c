@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   lex_add_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/31 09:54:07 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/12 01:29:24 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft.h"
 #include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
 #include <stdlib.h>
 
-int	lex_tokenize(t_token_list *list, char *input)
+int	lex_add_token(t_token_list *list, t_token_param param)
 {
-	t_tokenizer	*tokenizer;
+	t_token_node	*node;
+	char			*value;
 
-	while (*input)
+	value = NULL;
+	if (param.value)
 	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
+		value = ft_strndup(param.value, param.index);
+		if (!value)
 			return (0);
 	}
+	node = malloc(sizeof (*node));
+	if (!node)
+	{
+		free(value);
+		return (0);
+	}
+	node->token = param.token;
+	node->value = value;
+	node->next = NULL;
+	__lex_add(list, node);
 	return (1);
 }

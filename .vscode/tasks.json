@@ -8,6 +8,7 @@
 			"type": "shell",
 			"command": "make",
 			"args": ["DEBUG=true"],
+			"problemMatcher": "$gcc",
 			"group": {
 				"kind": "build",
 				"isDefault": true
@@ -20,6 +21,24 @@
 				"showReuseMessage": true,
 				"clear": false
 			}
-		}
+		},
+		{
+			"label": "norminette",
+			"type": "shell",
+			"command": "norminette",
+			"args": [],
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false,
+				"panel": "dedicated",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
 	]
 }

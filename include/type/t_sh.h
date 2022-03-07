@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   t_sh.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/05 02:55:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft.h"
-#include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
-#include <stdlib.h>
+#ifndef T_SH_H
+# define T_SH_H
 
-int	lex_tokenize(t_token_list *list, char *input)
+# include "type/t_env_table.h"
+//# include "type/t_heredoc.h"
+# include "type/t_token_list.h"
+
+typedef struct s_sh	t_sh;
+
+struct s_sh
 {
-	t_tokenizer	*tokenizer;
+	t_token_list	tokens;
+	t_env_table		env;
+	char const		*prompt;
+};
 
-	while (*input)
-	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
-	}
-	return (1);
-}
+#endif

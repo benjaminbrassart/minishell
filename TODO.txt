@@ -1,0 +1,3 @@
+exec:
+  when command is not found, huge memory leak (child)
+  fix exit status $?

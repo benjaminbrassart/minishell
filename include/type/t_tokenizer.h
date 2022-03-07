@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_tokenize.c                                     :+:      :+:    :+:   */
+/*   t_tokenizer.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/05 12:17:51 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/02/05 12:18:34 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft.h"
-#include "lexer.h"
-#include "minishell.h"
-#include "tokenizer.h"
-#include <stdlib.h>
+#ifndef T_TOKENIZER_H
+# define T_TOKENIZER_H
 
-int	lex_tokenize(t_token_list *list, char *input)
+# include "type/t_token_list.h"
+# include <stddef.h>
+
+typedef int					(t_tokenizer_fn)(t_token_list *, char **);
+typedef struct s_tokenizer	t_tokenizer;
+
+struct s_tokenizer
 {
-	t_tokenizer	*tokenizer;
+	char const		*characters;
+	size_t			length;
+	t_tokenizer_fn	*fn;
+};
 
-	while (*input)
-	{
-		while (ft_isspace(*input))
-			++input;
-		if (!*input)
-			break ;
-		tokenizer = get_tokenizer(input);
-		if (!tokenizer->fn(list, &input))
-			return (0);
-	}
-	return (1);
-}
+#endif
