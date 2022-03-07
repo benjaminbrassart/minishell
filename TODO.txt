@@ -1,3 +1,5 @@
 exec:
-  when command is not found, huge memory leak (child)
-  fix exit status $?
+  fix variable expansion $?
+
+add file redirection > >> <
+add heredoc <<
