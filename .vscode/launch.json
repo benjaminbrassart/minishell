@@ -22,7 +22,7 @@
 					"ignoreFailures": true
 				},
 				{
-					"text": "-gdb-set follow-fork-mode child"
+					"text": "-gdb-set follow-fork-mode parent"
 				}
 			],
 			"preLaunchTask": "build"
