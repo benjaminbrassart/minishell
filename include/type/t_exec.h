@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 02:29:20 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/02 14:26:21 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/07 23:53:01 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ struct s_exec
 	t_exec_meta				*meta;
 	union u_exec_interface	interface;
 	size_t					argc;
+	size_t					index;
 	char					**argv;
 	int						is_builtin;
 	int						fd_in;
 	int						fd_out;
-	int						fd_save;
 	int						search_path;
 };
 

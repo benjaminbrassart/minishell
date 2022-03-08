@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/05 03:11:07 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/08 00:09:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	parent_close(t_exec_meta *meta, int index)
 		if (index < 0 || (size_t)index != n)
 		{
 			free(meta->exec[n].argv);
-			if (!meta->exec[n].is_builtin)
+			if (meta->exec[n].search_path)
 				free(meta->exec[n].interface.path);
 		}
 		++n;
@@ -44,19 +44,20 @@ static void	parent_close(t_exec_meta *meta, int index)
 		free(meta->exec);
 }
 
-//static void	close_fds(t_exec_meta *meta, int index)
-//{
-//	size_t	n;
+static void	close_fds(t_exec_meta *meta)
+{
+	size_t	n;
 
-//	n = 0;
-//	while (n < meta->count)
-//	{
-//		if ((index == -1 || (int)n != index) && meta->exec[n].fd_in != 0)
-//			close(meta->exec[n].fd_in);
-//		if ((index == -1 || (int)n + 1 != index) && meta->exec[n].fd_out != 1)
-//			close(meta->exec[n].fd_out);
-//	}
-//}
+	n = 0;
+	while (n < meta->count)
+	{
+		if (meta->exec[n].fd_in != STDIN_FILENO)
+			close(meta->exec[n].fd_in);
+		if (meta->exec[n].fd_out != STDOUT_FILENO)
+			close(meta->exec[n].fd_out);
+		++n;
+	}
+}
 
 static void	child_destroy(t_exec *exec)
 {
@@ -97,7 +98,10 @@ static void	exec_child(t_exec *exec)
 	envp = env_toarray(&exec->meta->sh->env);
 	if (envp && dup2(exec->fd_in, STDIN_FILENO) != -1
 		&& dup2(exec->fd_out, STDOUT_FILENO) != -1)
+	{
+		close_fds(exec->meta);
 		execve(exec->interface.path, exec->argv, envp);
+	}
 	perror(PROGRAM_NAME);
 	child_destroy(exec);
 	exit(EXIT_STATUS_MAJOR);
@@ -131,16 +135,15 @@ int	exec_run(t_exec_meta *meta)
 			if (pids[n] == 0)
 			{
 				free(pids);
-				//close_fds(meta, n);
 				exec_child(&meta->exec[n]);
 			}
 		}
 		++n;
 	}
-	//close_fds(meta, -1);
 	n = 0;
 	if (offset)
 		++n;
+	close_fds(meta);
 	while (n < meta->count)
 	{
 		if (waitpid(pids[n], &status, 0) == -1)
