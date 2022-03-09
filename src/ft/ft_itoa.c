@@ -6,47 +6,30 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 08:16:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/09 01:01:20 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/09 10:45:24 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft.h"
 #include <stdlib.h>
 
-static size_t	ft_itoa_size(int n)
+char	*ft_itoa(int i)
 {
-	size_t			sz;
+	char			buffer[11];
+	unsigned int	n;
+	unsigned int	pos;
 
-	sz = 1;
-	while (n / 10)
+	if (i < 0)
+		n = -i;
+	else
+		n = i;
+	pos = 0;
+	while (n > 0 || pos == 0)
 	{
-		++sz;
+		buffer[sizeof (buffer) - ++pos] = n % 10 + '0';
 		n /= 10;
 	}
-	return (sz);
-}
-
-char	*ft_itoa(int n)
-{
-	size_t			sz;
-	unsigned int	num;
-	char			*s;
-
-	sz = ft_itoa_size(n);
-	s = ft_calloc(sz + !!(n < 0) + 1, sizeof (char));
-	if (n < 0)
-		num = -n;
-	else
-		num = n;
-	if (s)
-	{
-		while (sz)
-		{
-			s[--sz + !!(n < 0)] = (num % 10) + '0';
-			num /= 10;
-		}
-		if (n < 0)
-			s[0] = '-';
-	}
-	return (s);
+	if (i < 0)
+		buffer[sizeof (buffer) - ++pos] = '-';
+	return (ft_strndup(buffer + sizeof (buffer) - pos, pos));
 }
