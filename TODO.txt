@@ -1,3 +1,4 @@
 add file redirection > >> <
 add heredoc <<
-fix builtin pipes and redirections (dup)
+
+fix fd leak when command not found
