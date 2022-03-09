@@ -1,2 +1,3 @@
 add file redirection > >> <
 add heredoc <<
+fix builtin pipes and redirections (dup)
