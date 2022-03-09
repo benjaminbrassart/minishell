@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 17:04:23 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 07:30:49 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/09 01:01:39 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define FT_H
 
 # include <stddef.h>
-
-typedef char	t_itoa_buffer[11];
 
 int				ft_strcmp(char const *s1, char const *s2);
 
@@ -50,8 +48,6 @@ char			**ft_split(char const *s, int c);
 void			*ft_split_destroy(char **array);
 
 int				ft_strncmp(char const *s1, char const *s2, size_t n);
-
-unsigned int	ft_itoa_b(int i, t_itoa_buffer buffer);
 
 char			*ft_itoa(int i)
 				__attribute__((malloc));

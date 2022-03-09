@@ -6,38 +6,47 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 08:16:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/03 20:57:59 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/09 01:01:20 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft.h"
+#include <stdlib.h>
 
-unsigned int	ft_itoa_b(int i, t_itoa_buffer buffer)
+static size_t	ft_itoa_size(int n)
 {
-	unsigned int	n;
-	unsigned int	count;
+	size_t			sz;
 
-	if (i < 0)
-		n = -i;
-	else
-		n = i;
-	count = 0;
-	while (n || !count)
+	sz = 1;
+	while (n / 10)
 	{
-		buffer[sizeof (t_itoa_buffer) - ++count] = n % 10 + '0';
+		++sz;
 		n /= 10;
 	}
-	if (i < 0)
-		buffer[sizeof (t_itoa_buffer) - ++count] = '-';
-	ft_memmove(buffer, buffer + sizeof (t_itoa_buffer) - count, count);
-	ft_memset(buffer + count, 0, sizeof (t_itoa_buffer));
-	return (count);
+	return (sz);
 }
 
-char	*ft_itoa(int i)
+char	*ft_itoa(int n)
 {
-	t_itoa_buffer	digits;
-	int const		count = ft_itoa_b(i, digits);
+	size_t			sz;
+	unsigned int	num;
+	char			*s;
 
-	return (ft_strndup(digits, count));
+	sz = ft_itoa_size(n);
+	s = ft_calloc(sz + !!(n < 0) + 1, sizeof (char));
+	if (n < 0)
+		num = -n;
+	else
+		num = n;
+	if (s)
+	{
+		while (sz)
+		{
+			s[--sz + !!(n < 0)] = (num % 10) + '0';
+			num /= 10;
+		}
+		if (n < 0)
+			s[0] = '-';
+	}
+	return (s);
 }

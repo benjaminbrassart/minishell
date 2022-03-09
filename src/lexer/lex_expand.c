@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 07:38:11 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 09:47:39 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/09 01:02:57 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,15 @@ int n)
 
 static int	status_buffer_append(t_buffer *buffer)
 {
-	char				itoabuff[11];
-	unsigned int const	n = ft_itoa_b(g_exit_status, itoabuff);
+	char	*s;
+	int		res;
 
-	return (buffer_nappend(buffer, itoabuff, n));
+	s = ft_itoa(g_exit_status);
+	if (!s)
+		return (0);
+	res = buffer_append(buffer, s);
+	free(s);
+	return (res);
 }
 
 static int	append(t_buffer *buffer, t_env_table *env, char const **s, int n)
