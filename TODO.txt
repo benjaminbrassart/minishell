@@ -1,5 +1,2 @@
-exec:
-  fix variable expansion $?
-
 add file redirection > >> <
 add heredoc <<
