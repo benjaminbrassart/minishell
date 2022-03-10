@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 02:29:20 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/07 23:53:01 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/10 15:58:01 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,21 @@
 
 typedef struct s_exec_meta	t_exec_meta;
 typedef struct s_exec		t_exec;
+typedef struct s_exec_red	t_exec_red;
 
 union u_exec_interface
 {
 	char			*path;
 	t_builtin_fn	builtin;
+};
+
+struct s_exec_red
+{
+	char		*path;
+	int			type;
+	int			fd;
+	int			heredoc_index;
+	t_exec_red	*next;
 };
 
 struct s_exec_meta
@@ -44,6 +54,7 @@ struct s_exec
 	int						fd_in;
 	int						fd_out;
 	int						search_path;
+	t_exec_red				*red;
 };
 
 #endif
