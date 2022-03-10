@@ -1,12 +1,5 @@
-/*
-!/src/
-!/*.*
-!/Makefile
-/minishell
-/*.out
 /obj/
 /.vscode/*.log
+/minishell
 /*.c
-/*.log
-/test*
-/out*
+*.log
