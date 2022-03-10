@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 07:15:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/10 03:47:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/10 07:45:43 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,5 @@ int	exec_build(t_token_list *list, t_exec_meta *meta_p)
 			return (0);
 		set_path(&meta_p->exec[n++]);
 	}
-	return (exec_pipe(meta_p));
+	return (exec_build_redirect(meta_p) && exec_pipe(meta_p));
 }

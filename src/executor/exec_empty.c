@@ -1,35 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_pipe.c                                        :+:      :+:    :+:   */
+/*   exec_empty.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/14 13:43:42 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/10 07:50:20 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/03/10 02:36:24 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/10 02:40:17 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
-#include <unistd.h>
 
-int	exec_pipe(t_exec_meta *meta)
+static size_t	command_count(t_token_list *tokens)
 {
-	int		fds[2];
-	size_t	n;
+	t_token_node	*node;
+	size_t			count;
 
-	n = 0;
-	while (n < meta->count - 1)
+	node = tokens->first_node;
+	count = 0;
+	while (node)
 	{
-		if (pipe(fds) == -1)
-			return (0);
-		meta->exec[n].fd_out = fds[1];
-		meta->exec[n + 1].fd_in = fds[0];
-		++n;
+		if (node->token & WORD)
+		{
+			++count;
+			while (node && node->token == WORD)
+				node = node->next;
+		}
+		else if (node->token & (RED_IN | RED_OUT))
+			node = node->next;
+		if (node)
+			node = node->next;
 	}
-	n = 0;
-	while (n < meta->count)
-		if (!exec_redirect(&meta->exec[n++]))
-			return (0);
-	return (1);
+	return (count);
+}
+
+int	exec_empty(t_token_list *tokens)
+{
 }

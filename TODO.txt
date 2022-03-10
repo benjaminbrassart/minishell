@@ -1,4 +1,8 @@
-add file redirection > >> <
 add heredoc <<
 
 fix fd leak when command not found
+fix memory leak when error on redirection
+fix segfault when redirecting with no command
+	-> < Makefile
+	-> >> test.log
+	etc.
