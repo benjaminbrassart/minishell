@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 07:15:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/07 23:19:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/10 03:47:08 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,17 @@ static size_t	count_argc(t_token_node *node)
 	size_t	n;
 
 	n = 0;
-	while (node && node->token == WORD)
+	while (node)
 	{
-		++n;
+		if (node->token == PIPE)
+			break ;
+		if (node->token & (RED_IN | RED_OUT))
+		{
+			node = node->next->next;
+			continue ;
+		}
 		node = node->next;
+		++n;
 	}
 	return (n);
 }
@@ -71,6 +78,8 @@ static int	copy_argv(t_token_node **node, t_exec *exec)
 		return (0);
 	while (n < exec->argc)
 	{
+		while ((*node)->token & (RED_IN | RED_OUT))
+			*node = (*node)->next->next;
 		exec->argv[n] = (*node)->value;
 		*node = (*node)->next;
 		++n;
