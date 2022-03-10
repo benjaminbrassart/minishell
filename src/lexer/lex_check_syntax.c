@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 05:55:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/12 05:59:03 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/10 03:40:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-static char const	*get_token_symbol(t_token_node *node)
+static char const	*_get_token_symbol(t_token_node *node)
 {
 	int	token;
 
@@ -38,7 +38,7 @@ static char const	*get_token_symbol(t_token_node *node)
 	return ("newline");
 }
 
-static void	print_error(t_token_node *node)
+static int	_print_error(t_token_node *node)
 {
 	t_buffer	buffer;
 
@@ -46,10 +46,11 @@ static void	print_error(t_token_node *node)
 	buffer_init(&buffer);
 	if (buffer_append(&buffer, PROGRAM_NAME)
 		&& buffer_append(&buffer, ": syntax error near unexpected token `")
-		&& buffer_append(&buffer, get_token_symbol(node))
+		&& buffer_append(&buffer, _get_token_symbol(node))
 		&& buffer_append(&buffer, "'\n") && buffer_flush(&buffer))
 		write(STDERR_FILENO, buffer.buf, buffer.length);
 	buffer_delete(&buffer);
+	return (0);
 }
 
 int	lex_check_syntax(t_token_list *list)
@@ -60,13 +61,13 @@ int	lex_check_syntax(t_token_list *list)
 	while (node)
 	{
 		if (node == list->first_node && (node->token == PIPE))
-			return (print_error(node), 0);
+			return (_print_error(node));
 		if (node == list->last_node && (node->token
-				& (PIPE | LESS | D_LESS | GREAT | D_GREAT)))
-			return (print_error(node->next), 0);
-		if (node->token & (PIPE | LESS | D_LESS | GREAT | D_GREAT)
+				& (PIPE | RED_IN | RED_OUT)))
+			return (_print_error(node->next));
+		if (node->token & (PIPE | RED_IN | RED_OUT)
 			&& (node->next->token & ~WORD))
-			return (print_error(node->next), 0);
+			return (_print_error(node->next));
 		node = node->next;
 	}
 	return (1);
