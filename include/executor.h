@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 04:48:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/10 07:44:41 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/11 08:21:31 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define EXECUTOR_H
 
 # define REDIRECTION_UMASK 0644
+# define MESSAGE_CHILD_QUIT "Quit"
+# define MESSAGE_CHILD_SEGV "Segmentation fault"
 
 # include "type/t_exec.h"
 

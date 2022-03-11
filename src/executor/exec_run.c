@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/11 06:59:10 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/11 08:23:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,9 +181,11 @@ int	exec_run(t_exec_meta *meta)
 			if (WTERMSIG(status) == SIGINT)
 				handle_sigint(0);
 			if (WTERMSIG(status) == SIGQUIT)
-				write(STDERR_FILENO, "Quit\n", 5);
+				write(STDERR_FILENO, MESSAGE_CHILD_QUIT "\n",
+					sizeof (MESSAGE_CHILD_QUIT));
 			if (WTERMSIG(status) == SIGSEGV)
-				write(STDERR_FILENO, "Segmentation fault\n", 19);
+				write(STDERR_FILENO, MESSAGE_CHILD_SEGV "\n",
+					sizeof (MESSAGE_CHILD_SEGV));
 		}
 		++n;
 	}

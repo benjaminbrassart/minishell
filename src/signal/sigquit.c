@@ -6,10 +6,11 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 14:51:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/02 15:37:47 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/11 08:22:13 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "executor.h"
 #include "sighandler.h"
 #include "status.h"
 #include <signal.h>
@@ -19,7 +20,7 @@
 static void	handle_sigquit(int sig)
 {
 	g_exit_status = EXIT_STATUS_SIGNAL_OFFSET + sig;
-	write(STDERR_FILENO, "Quit\n", 5);
+	write(STDERR_FILENO, MESSAGE_CHILD_QUIT "\n", sizeof (MESSAGE_CHILD_QUIT));
 }
 
 void	sigquit_default(void)
