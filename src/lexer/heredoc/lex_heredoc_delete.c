@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_sh.h                                             :+:      :+:    :+:   */
+/*   lex_heredoc_delete.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/11 08:06:06 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/15 06:03:43 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/10 08:22:11 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_SH_H
-# define T_SH_H
+#include "buffer.h"
+#include "heredoc.h"
+#include <stdlib.h>
 
-# include "type/t_env_table.h"
-# include "type/t_heredoc.h"
-# include "type/t_token_list.h"
-
-typedef struct s_sh	t_sh;
-
-struct s_sh
+void	lex_heredoc_delete(t_heredoc *heredoc)
 {
-	t_token_list	tokens;
-	t_env_table		env;
-	t_heredoc		heredoc;
-	int				force_exit;
-};
+	size_t	n;
 
-#endif
+	n = 0;
+	while (n < heredoc->count)
+		buffer_delete(&heredoc->buffers[n++].buffer);
+	free(heredoc->buffers);
+	heredoc->buffers = 0;
+	heredoc->count = 0;
+}

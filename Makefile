@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/10 07:46:14 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/11 08:06:48 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,10 +98,11 @@ SRC					= \
 						executor/exec_build_redirect.c \
 						executor/exec_redirect.c \
 						util/path_search.c \
-						#lexer/heredoc/lex_heredoc.c \
-						#lexer/heredoc/lex_heredoc_delete.c \
-						#lexer/heredoc/lex_heredoc_read.c \
-						#lexer/heredoc/lex_heredoc_build.c
+						lexer/heredoc/lex_heredoc.c \
+						lexer/heredoc/lex_heredoc_delete.c \
+						lexer/heredoc/lex_heredoc_read.c \
+						lexer/heredoc/lex_heredoc_build.c \
+						lexer/heredoc/lex_heredoc_write.c
 
 OBJ					= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP					= $(OBJ:.o=.d)

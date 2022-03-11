@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/10 00:15:27 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/11 06:59:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,22 @@ static void	exec_child(t_exec *exec)
 	child_destroy(exec);
 	exit(EXIT_STATUS_MAJOR);
 }
+
+//static t_exec_red	*get_last_heredoc(t_exec *exec)
+//{
+//	t_exec_red	*iter;
+//	t_exec_red	*red;
+
+//	iter = exec->red;
+//	red = NULL;
+//	while (iter)
+//	{
+//		if (iter->type == D_LESS)
+//			red = iter;
+//		iter = iter->next;
+//	}
+//	return (red);
+//}
 
 int	exec_run(t_exec_meta *meta)
 {

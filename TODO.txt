@@ -1,6 +1,4 @@
-add heredoc <<
-	-> maybe pipe in parent process to pass lines?
-	-> special case for first builtin if any?
+heredoc special case for first builtin if any?
 
 fix fd leak when command not found
 close pipes when error on redirection

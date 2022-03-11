@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_sh.h                                             :+:      :+:    :+:   */
+/*   heredoc.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/11 08:06:06 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/15 06:05:52 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/11 07:15:41 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_SH_H
-# define T_SH_H
+#ifndef HEREDOC_H
+# define HEREDOC_H
 
-# include "type/t_env_table.h"
+# define HEREDOC_PROMPT "heredoc> "
+
+# include "type/t_exec.h"
 # include "type/t_heredoc.h"
 # include "type/t_token_list.h"
 
-typedef struct s_sh	t_sh;
+int		lex_heredoc(t_token_list *list, t_heredoc *heredoc);
 
-struct s_sh
-{
-	t_token_list	tokens;
-	t_env_table		env;
-	t_heredoc		heredoc;
-	int				force_exit;
-};
+int		lex_heredoc_build(t_token_list *list, t_heredoc *heredoc);
+
+void	lex_heredoc_delete(t_heredoc *heredoc);
+
+int		lex_heredoc_read(t_heredoc *heredoc);
+
+int		lex_heredoc_write(t_exec_meta *meta);
 
 #endif

@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_sh.h                                             :+:      :+:    :+:   */
+/*   t_heredoc.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/11 08:06:06 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/02/15 05:50:54 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/11 06:52:56 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_SH_H
-# define T_SH_H
+#ifndef T_HEREDOC_H
+# define T_HEREDOC_H
 
-# include "type/t_env_table.h"
-# include "type/t_heredoc.h"
-# include "type/t_token_list.h"
+# include "type/t_buffer.h"
 
-typedef struct s_sh	t_sh;
+typedef struct s_heredoc_buffer	t_heredoc_buffer;
+typedef struct s_heredoc		t_heredoc;
 
-struct s_sh
+struct s_heredoc_buffer
 {
-	t_token_list	tokens;
-	t_env_table		env;
-	t_heredoc		heredoc;
-	int				force_exit;
+	t_buffer	buffer;
+	char		*delimiter;
+	int			fd;
+};
+
+struct s_heredoc
+{
+	t_heredoc_buffer	*buffers;
+	size_t				count;
 };
 
 #endif

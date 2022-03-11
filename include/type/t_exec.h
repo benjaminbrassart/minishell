@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 02:29:20 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/10 15:58:01 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/11 08:17:34 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ struct s_exec_red
 	char		*path;
 	int			type;
 	int			fd;
-	int			heredoc_index;
+	int			hd_idx;
+	t_exec		*exec;
 	t_exec_red	*next;
 };
 
