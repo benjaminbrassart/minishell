@@ -9,3 +9,5 @@ fix segfault when redirecting with no command
 	etc.
 handle errors properly and print messages
 norminette!
+
+print "Is a directory" instead of "Permission denied" when executing a directory
