@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 04:48:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 17:16:49 by user42           ###   ########.fr       */
+/*   Updated: 2022/03/14 17:38:40 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define MESSAGE_CHILD_QUIT "Quit"
 # define MESSAGE_CHILD_SEGV "Segmentation fault"
 # define MESSAGE_COMMAND_NF "Command not found"
+# define MESSAGE_EXEC_DIR "Is a directory"
 
 # include "type/t_exec.h"
 
@@ -29,6 +30,8 @@ int		exec_pipe(t_exec_meta *meta);
 int		exec_redirect(t_exec *exec);
 
 int		exec_run(t_exec_meta *meta);
+
+int		exec_empty(t_token_list *list);
 
 void	exec_delete(t_exec_meta *meta);
 

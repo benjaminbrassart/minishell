@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 17:16:55 by user42           ###   ########.fr       */
+/*   Updated: 2022/03/14 17:39:13 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -79,6 +80,7 @@ static void	exec_child(t_exec *exec)
 	t_env_table *const	env = &exec->meta->sh->env;
 	char				**envp;
 	int					status;
+	struct stat			st;
 
 	sigint_default();
 	sigquit_default();
@@ -94,6 +96,15 @@ static void	exec_child(t_exec *exec)
 			builtin_error(exec->argv[0], MESSAGE_COMMAND_NF);
 		child_destroy(exec);
 		exit(EXIT_STATUS_NOT_FOUND);
+	}
+	else
+	{
+		if (stat(exec->interface.path, &stat))
+		{
+			builtin_error(exec->argv[0], MESSAGE_EXEC_DIR);
+			child_destroy(exec);
+			exit(EXIT_STATUS_MAJOR);
+		}
 	}
 	envp = env_toarray(&exec->meta->sh->env);
 	if (envp && dup2(exec->fd_in, STDIN_FILENO) != -1
