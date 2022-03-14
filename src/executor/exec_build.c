@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 07:15:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 15:41:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/14 16:59:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,7 @@ static void	set_path(t_exec *exec)
 		exec->interface.builtin = builtin->fn;
 	}
 	else if (ft_strchr(exec->argv[0], '/'))
-	{
-		if (access(exec->argv[0], X_OK) == 0)
-			exec->interface.path = exec->argv[0];
-		else
-			builtin_error(exec->argv[0], strerror(errno));
-	}
+		exec->interface.path = exec->argv[0];
 	else
 	{
 		exec->search_path = 1;
