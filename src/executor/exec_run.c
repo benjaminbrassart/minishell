@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 18:53:19 by msainton         ###   ########.fr       */
+/*   Updated: 2022/03/14 19:45:22 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,12 @@ static void	exec_child(t_exec *exec)
 
 	sigint_default();
 	sigquit_default();
+	if (dup2(exec->fd_in, STDIN_FILENO) == -1 || dup2(exec->fd_out, STDOUT_FILENO) == -1)
+	{
+		perror(PROGRAM_NAME);
+		child_destroy(exec);
+		exit(EXIT_STATUS_MAJOR);
+	}
 	if (exec->is_builtin)
 	{
 		status = exec->interface.builtin(exec->argc, exec->argv, env);
@@ -107,8 +113,7 @@ static void	exec_child(t_exec *exec)
 		}
 	}
 	envp = env_toarray(&exec->meta->sh->env);
-	if (envp && dup2(exec->fd_in, STDIN_FILENO) != -1
-		&& dup2(exec->fd_out, STDOUT_FILENO) != -1)
+	if (envp)
 	{
 		close_fds(exec->meta);
 		execve(exec->interface.path, exec->argv, envp);
