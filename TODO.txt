@@ -14,3 +14,4 @@ norminette!
 handle empty quoted string as command not found
 handle " "
 export =
+rename builtin_*error
