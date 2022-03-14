@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 11:40:06 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 15:50:37 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/14 17:57:42 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 static char	*path_join(char const *dir_name, char const *bin_name)
@@ -35,14 +36,16 @@ static char	*path_join(char const *dir_name, char const *bin_name)
 
 static char	*path_search_entries(char **entries, char const *bin_name)
 {
-	size_t	n;
-	char	*path;
+	struct stat	st;
+	size_t		n;
+	char		*path;
 
 	n = 0;
 	while (entries[n])
 	{
 		path = path_join(entries[n], bin_name);
-		if (path && access(path, X_OK) == 0)
+		if (path && stat(path, &st) == 0
+			&& !S_ISDIR(st.st_mode) && access(path, X_OK) == 0)
 			return (path);
 		free(path);
 		++n;
