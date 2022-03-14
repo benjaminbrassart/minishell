@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:07:04 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 18:45:41 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/14 19:16:37 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	builtin_echo(
 	nl = 1;
 	while (argv[i])
 	{
-		if (ft_strcmp("-n", argv[i]) == 0)
+		if (ft_strncmp("-n", argv[i], 2) == 0)
 		{
 			nl = 0;
 			++argv;
