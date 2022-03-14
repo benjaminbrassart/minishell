@@ -8,6 +8,9 @@ fix segfault when redirecting with no command
 	-> >> test.log
 	etc.
 handle errors properly and print messages
+set proper error exit status
 norminette!
 
-print "Is a directory" instead of "Permission denied" when executing a directory
+handle empty quoted string as command not found
+handle " "
+export =
