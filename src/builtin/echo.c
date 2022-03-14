@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:07:04 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 11:35:47 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/14 18:45:41 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,29 @@
 #include "unistd.h"
 
 int	builtin_echo(
-	int argc,
+	int argc __attribute__((unused)),
 	char *argv[],
 	t_env_table *env __attribute__((unused)))
 {
-	int			i;
-	int			newline;
+	int	i;
+	int	nl;
 
 	i = 1;
-	newline = 1;
-	while (i < argc)
+	nl = 1;
+	while (argv[i])
 	{
-		if (i == 1 && ft_strcmp(argv[i], "-n") == 0)
+		if (ft_strcmp("-n", argv[i]) == 0)
 		{
-			newline = 0;
-			++i;
+			nl = 0;
+			++argv;
 			continue ;
 		}
-		if (i != (1 + !newline) && write(STDOUT_FILENO, " ", 1) < 0)
-			return (1);
-		if (write(STDOUT_FILENO, argv[i], ft_strlen(argv[i])) < 0)
-			return (1);
+		if (i > 1)
+			write(STDOUT_FILENO, " ", 1);
+		write(STDOUT_FILENO, argv[i], ft_strlen(argv[i]));
 		++i;
 	}
-	if (newline && write(STDOUT_FILENO, "\n", 1) < 0)
-		return (1);
+	if (nl)
+		write(STDOUT_FILENO, "\n", 1);
 	return (0);
 }
