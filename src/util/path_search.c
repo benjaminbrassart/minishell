@@ -6,13 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 11:40:06 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 03:32:27 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/14 15:50:37 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "buffer.h"
 #include "env.h"
 #include "ft.h"
+#include "utils.h"
 #include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>

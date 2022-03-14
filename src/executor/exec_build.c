@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 07:15:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/10 07:45:43 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/14 15:41:17 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,12 @@
 #include "env.h"
 #include "executor.h"
 #include "ft.h"
+#include "utils.h"
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
-static size_t	count_commands(t_token_list *list)
-{
-	t_token_node	*node;
-	size_t			n;
-
-	node = list->first_node;
-	n = 0;
-	while (node)
-	{
-		if (n == 0 && (node->token & WORD))
-			++n;
-		if (node->token == PIPE)
-			++n;
-		node = node->next;
-	}
-	return (n);
-}
 
 static size_t	count_argc(t_token_node *node)
 {
@@ -116,7 +99,7 @@ int	exec_build(t_token_list *list, t_exec_meta *meta_p)
 	t_token_node	*node;
 	size_t			n;
 
-	meta_p->count = count_commands(list);
+	meta_p->count = command_count(list);
 	if (meta_p->count == 0)
 		return (1);
 	meta_p->exec = ft_calloc(meta_p->count, sizeof (*meta_p->exec));

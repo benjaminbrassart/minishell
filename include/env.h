@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:13:56 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 11:21:59 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/14 15:39:38 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,5 @@ void	env_unset(t_env_table *env, char const *key);
 char	**env_toarray(t_env_table *env);
 
 t_env	*env_from_literal(char const *env_entry);
-
-/**
- * Search an executable in the path variable
- *
- * @see PATH_VAR_NAME
- * @return NULL if malloc failed or not found
- */
-char	*path_search(t_env_table *env, char const *bin_name);
 
 #endif
