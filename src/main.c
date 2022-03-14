@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/11 08:06:13 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:49:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "lexer.h"
 #include "minishell.h"
 #include "status.h"
+#include "utils.h"
 #include <signal.h>
 #include <stdlib.h>
 #include <readline/history.h>
@@ -30,8 +31,13 @@ static void	process_line(t_sh *sh)
 
 	ft_memset(&meta, 0, sizeof (meta));
 	meta.sh = sh;
-	if (exec_build(&sh->tokens, &meta) && lex_heredoc_write(&meta))
-		exec_run(&meta);
+	if (command_count(&sh->tokens) > 0)
+	{
+		if (exec_build(&sh->tokens, &meta) && lex_heredoc_write(&meta))
+			exec_run(&meta);
+	}
+	else
+		exec_empty(&meta);
 }
 
 static int	process_end(t_sh *sh)

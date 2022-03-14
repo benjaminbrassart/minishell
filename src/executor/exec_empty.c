@@ -6,35 +6,39 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 02:36:24 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/10 02:40:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:54:45 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtin.h"
 #include "executor.h"
+#include "utils.h"
+#include <errno.h>
+#include <string.h>
+#include <unistd.h>
 
-static size_t	command_count(t_token_list *tokens)
+int	exec_empty(t_exec_meta *meta)
 {
-	t_token_node	*node;
-	size_t			count;
+	t_exec		exec;
+	t_exec_red	*red;
 
-	node = tokens->first_node;
-	count = 0;
-	while (node)
+	meta->exec = &exec;
+	exec.red = NULL;
+	exec.meta = meta;
+	meta->count = 1;
+	if (exec_build_redirect(meta))
 	{
-		if (node->token & WORD)
+		red = exec.red;
+		while (red)
 		{
-			++count;
-			while (node && node->token == WORD)
-				node = node->next;
+			if (!open_red(red))
+			{
+				builtin_error(red->path, strerror(errno));
+				return (0);
+			}
+			close(red->fd);
+			red = red->next;
 		}
-		else if (node->token & (RED_IN | RED_OUT))
-			node = node->next;
-		if (node)
-			node = node->next;
 	}
-	return (count);
-}
-
-int	exec_empty(t_token_list *tokens)
-{
+	return (1);
 }
