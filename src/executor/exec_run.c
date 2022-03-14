@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 17:39:13 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/14 17:51:44 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static void	exec_child(t_exec *exec)
 	}
 	else
 	{
-		if (stat(exec->interface.path, &stat))
+		if (stat(exec->interface.path, &st) == 0 && S_ISDIR(st.st_mode))
 		{
 			builtin_error(exec->argv[0], MESSAGE_EXEC_DIR);
 			child_destroy(exec);
