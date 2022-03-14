@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/08 00:31:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/11 08:06:13 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "env.h"
 #include "executor.h"
 #include "ft.h"
-//#include "heredoc.h"
+#include "heredoc.h"
 #include "lexer.h"
 #include "minishell.h"
 #include "status.h"
@@ -30,7 +30,7 @@ static void	process_line(t_sh *sh)
 
 	ft_memset(&meta, 0, sizeof (meta));
 	meta.sh = sh;
-	if (exec_build(&sh->tokens, &meta))
+	if (exec_build(&sh->tokens, &meta) && lex_heredoc_write(&meta))
 		exec_run(&meta);
 }
 
@@ -67,14 +67,14 @@ int	main(
 		if (!line)
 			break ;
 		if (lex_tokenize(&sh.tokens, line)
-			//&& lex_heredoc(&sh.tokens, &sh.heredoc)
+			&& lex_heredoc(&sh.tokens, &sh.heredoc)
 			&& lex_expand(&sh.tokens, &sh.env)
 			&& lex_postexpand(&sh.tokens)
 			&& lex_check_syntax(&sh.tokens) && sh.tokens.length > 0)
 			process_line(&sh);
 		add_history(line);
 		lex_delete(&sh.tokens);
-		//lex_heredoc_delete(&sh.heredoc);
+		lex_heredoc_delete(&sh.heredoc);
 		free(line);
 	}
 	return (process_end(&sh));

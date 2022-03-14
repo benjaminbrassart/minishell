@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/08 00:09:54 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/11 08:23:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,16 +107,29 @@ static void	exec_child(t_exec *exec)
 	exit(EXIT_STATUS_MAJOR);
 }
 
+//static t_exec_red	*get_last_heredoc(t_exec *exec)
+//{
+//	t_exec_red	*iter;
+//	t_exec_red	*red;
+
+//	iter = exec->red;
+//	red = NULL;
+//	while (iter)
+//	{
+//		if (iter->type == D_LESS)
+//			red = iter;
+//		iter = iter->next;
+//	}
+//	return (red);
+//}
+
 int	exec_run(t_exec_meta *meta)
 {
 	size_t	n;
 	pid_t	*pids;
-	int		offset;
 	int		status;
+	int		save_fd[2];
 
-	offset = 0;
-	if (meta->exec[0].is_builtin)
-		++offset;
 	pids = malloc(sizeof (*pids) * meta->count);
 	if (!pids)
 		return (0);
@@ -124,9 +137,23 @@ int	exec_run(t_exec_meta *meta)
 	n = 0;
 	while (n < meta->count)
 	{
-		if (n == 0 && offset)
+		if (n == 0 && meta->exec->is_builtin)
+		{
+			save_fd[0] = dup(STDIN_FILENO);
+			save_fd[1] = dup(STDOUT_FILENO);
+			dup2(meta->exec->fd_in, STDIN_FILENO);
+			dup2(meta->exec->fd_out, STDOUT_FILENO);
+			if (meta->exec->fd_in != STDIN_FILENO)
+				close(meta->exec->fd_in);
+			if (meta->exec->fd_out != STDOUT_FILENO)
+				close(meta->exec->fd_out);
 			g_exit_status = meta->exec[n].interface.builtin(meta->exec[n].argc,
 					meta->exec[n].argv, &meta->exec[n].meta->sh->env);
+			dup2(save_fd[0], STDIN_FILENO);
+			dup2(save_fd[1], STDOUT_FILENO);
+			close(save_fd[0]);
+			close(save_fd[1]);
+		}
 		else
 		{
 			pids[n] = fork();
@@ -141,7 +168,7 @@ int	exec_run(t_exec_meta *meta)
 		++n;
 	}
 	n = 0;
-	if (offset)
+	if (meta->exec->is_builtin)
 		++n;
 	close_fds(meta);
 	while (n < meta->count)
@@ -154,9 +181,11 @@ int	exec_run(t_exec_meta *meta)
 			if (WTERMSIG(status) == SIGINT)
 				handle_sigint(0);
 			if (WTERMSIG(status) == SIGQUIT)
-				write(STDERR_FILENO, "Quit\n", 5);
+				write(STDERR_FILENO, MESSAGE_CHILD_QUIT "\n",
+					sizeof (MESSAGE_CHILD_QUIT));
 			if (WTERMSIG(status) == SIGSEGV)
-				write(STDERR_FILENO, "Segmentation fault\n", 19);
+				write(STDERR_FILENO, MESSAGE_CHILD_SEGV "\n",
+					sizeof (MESSAGE_CHILD_SEGV));
 		}
 		++n;
 	}

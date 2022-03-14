@@ -40,5 +40,20 @@
 				"clear": false
 			}
 		},
+		{
+			"label": "norminette file",
+			"type": "shell",
+			"command": "norminette",
+			"args": ["${file}"],
+			"group": "test",
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false,
+				"panel": "dedicated",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
 	]
 }

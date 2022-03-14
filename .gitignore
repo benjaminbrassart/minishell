@@ -2,3 +2,4 @@
 /.vscode/*.log
 /minishell
 /*.c
+*.log
