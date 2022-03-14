@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:30:11 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 00:51:06 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/14 16:04:18 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_token_param	t_token_param;
 
 struct s_token_list
 {
+	void			*sh;
 	t_token_node	*first_node;
 	t_token_node	*last_node;
 	size_t			length;
