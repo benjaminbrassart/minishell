@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/14 15:43:11 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/14 17:50:28 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,6 @@ SRC						= \
 							ft/ft_strlen.c \
 							ft/ft_strcmp.c \
 							ft/ft_split.c \
-							ft/ft_strcmp.c \
 							ft/ft_strncmp.c \
 							ft/ft_isspace.c \
 							ft/ft_memmove.c \
