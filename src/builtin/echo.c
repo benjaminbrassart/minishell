@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:07:04 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 19:20:25 by msainton         ###   ########.fr       */
+/*   Updated: 2022/03/14 19:30:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "ft.h"
-#include "unistd.h"
+#include <unistd.h>
 
 int	builtin_echo(
 	int argc __attribute__((unused)),
