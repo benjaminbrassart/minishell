@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/11 08:23:03 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/14 17:16:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	exec_child(t_exec *exec)
 	else if (exec->interface.path == NULL)
 	{
 		if (exec->search_path)
-			builtin_error(exec->argv[0], "Command not found");
+			builtin_error(exec->argv[0], MESSAGE_COMMAND_NF);
 		child_destroy(exec);
 		exit(EXIT_STATUS_NOT_FOUND);
 	}
