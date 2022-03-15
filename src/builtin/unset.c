@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:05:50 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/15 03:11:45 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/15 13:29:34 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "env.h"
 #include "ft.h"
 #include "status.h"
+#include "utils.h"
 
 static int	is_var_name(char const *s)
 {
@@ -41,7 +42,7 @@ int	builtin_unset(
 		if (is_var_name(argv[n]))
 			env_unset(env, argv[n]);
 		else
-			builtin_aerror(BUILTIN_UNSET, argv[n], "Not a valid identifier");
+			ft_paerror(BUILTIN_UNSET, argv[n], "Not a valid identifier");
 		++n;
 	}
 	return (res);

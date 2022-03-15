@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 04:14:06 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 14:08:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/15 13:29:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "builtin.h"
 #include "minishell.h"
 #include "status.h"
+#include "utils.h"
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
@@ -28,11 +29,11 @@ int	builtin_cd(
 	{
 		if (chdir(argv[1]) == 0)
 			return (EXIT_STATUS_OK);
-		builtin_error(BUILTIN_CD, strerror(errno));
+		ft_perror(BUILTIN_CD, strerror(errno));
 	}
 	else if (argc < 2)
-		builtin_error(BUILTIN_CD, "Not enough arguments");
+		ft_perror(BUILTIN_CD, "Not enough arguments");
 	else if (argc > 2)
-		builtin_error(BUILTIN_CD, "Too many arguments");
+		ft_perror(BUILTIN_CD, "Too many arguments");
 	return (EXIT_STATUS_MINOR);
 }

@@ -6,13 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 08:36:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 10:56:47 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/15 13:29:30 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "ft.h"
 #include "status.h"
+#include "utils.h"
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
@@ -36,6 +37,6 @@ int	builtin_pwd(
 			return (free(cwd), EXIT_STATUS_OK);
 	}
 	free(cwd);
-	builtin_error(BUILTIN_PWD, strerror(errno));
+	ft_perror(BUILTIN_PWD, strerror(errno));
 	return (EXIT_STATUS_MINOR);
 }

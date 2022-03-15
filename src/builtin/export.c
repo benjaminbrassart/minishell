@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:09:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/15 10:01:56 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/15 13:29:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "env.h"
 #include "ft.h"
 #include "status.h"
+#include "utils.h"
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
@@ -46,7 +47,7 @@ static void	export_var(t_env_table *env, char *entry, int *res_ptr)
 	if (!env_set(env, entry, entry + n + 1))
 	{
 		*res_ptr = EXIT_STATUS_MAJOR;
-		builtin_error(BUILTIN_EXPORT, strerror(errno));
+		ft_perror(BUILTIN_EXPORT, strerror(errno));
 	}
 }
 
@@ -56,7 +57,7 @@ int	builtin_export(int argc, char *argv[], t_env_table *env)
 	int	res;
 
 	if (argc < 2)
-		return (builtin_error(BUILTIN_EXPORT, "Not enough arguments"), 1);
+		return (ft_perror(BUILTIN_EXPORT, "Not enough arguments"), 1);
 	res = 0;
 	i = 1;
 	while (i < argc)
@@ -65,7 +66,7 @@ int	builtin_export(int argc, char *argv[], t_env_table *env)
 		{
 			if (EXIT_STATUS_MINOR > res)
 				res = EXIT_STATUS_MINOR;
-			builtin_aerror(BUILTIN_EXPORT, argv[i], "Not a valid identifier");
+			ft_paerror(BUILTIN_EXPORT, argv[i], "Not a valid identifier");
 		}
 		else
 			export_var(env, argv[i], &res);

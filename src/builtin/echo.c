@@ -6,12 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:07:04 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 19:30:53 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/15 13:29:15 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "ft.h"
+#include "utils.h"
 #include <unistd.h>
 
 int	builtin_echo(

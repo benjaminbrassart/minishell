@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:06:36 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/08 00:30:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/15 13:29:21 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft.h"
 #include "status.h"
 #include "type/t_sh.h"
+#include "utils.h"
 #include <errno.h>
 #include <unistd.h>
 
@@ -50,12 +51,12 @@ int	builtin_exit(
 {
 	if (argc > 2)
 	{
-		builtin_error(BUILTIN_EXIT, "Too many arguments");
+		ft_perror(BUILTIN_EXIT, "Too many arguments");
 		return (EXIT_STATUS_MINOR);
 	}
 	if (argc == 2 && !parse_exit_status(argv[1]))
 	{
-		builtin_error(BUILTIN_EXIT, "Numeric argument required");
+		ft_perror(BUILTIN_EXIT, "Numeric argument required");
 		g_exit_status = EXIT_STATUS_MAJOR;
 	}
 	((t_sh *)(env->sh))->force_exit = 1;

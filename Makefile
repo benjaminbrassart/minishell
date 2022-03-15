@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/14 21:00:08 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/15 13:34:47 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,6 @@ DIR_LIBFT				= libft
 NAME_LIBFT				= $(DIR_LIBFT)/libft.a
 
 CFLAGS					= -Wall -Werror -Wextra -c -MMD -MP -Iinclude
-# LDFLAGS					= -L$(DIR_LIBFT)
-# LDLIBS					= -lreadline -lft
 LDLIBS					= -lreadline
 
 DEBUG					= true
@@ -41,7 +39,6 @@ SRC						= \
 							builtin/unset.c \
 							builtin/env.c \
 							builtin/exit.c \
-							builtin/builtin_error.c \
 							buffer/buffer_init.c \
 							buffer/buffer_delete.c \
 							buffer/buffer_flush.c \
@@ -100,6 +97,7 @@ SRC						= \
 							util/path_search.c \
 							util/command_count.c \
 							util/open_red.c \
+							util/ft_perror.c \
 							lexer/heredoc/lex_heredoc.c \
 							lexer/heredoc/lex_heredoc_delete.c \
 							lexer/heredoc/lex_heredoc_read.c \

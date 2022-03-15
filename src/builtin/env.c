@@ -6,11 +6,12 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 12:28:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/11 00:39:00 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/15 13:29:17 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include "utils.h"
 #include <stdio.h>
 
 int	builtin_env(

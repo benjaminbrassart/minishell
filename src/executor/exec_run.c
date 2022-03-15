@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 19:45:22 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/15 13:29:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "minishell.h"
 #include "sighandler.h"
 #include "status.h"
+#include "utils.h"
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -99,7 +100,7 @@ static void	exec_child(t_exec *exec)
 	else if (exec->interface.path == NULL)
 	{
 		if (exec->search_path)
-			builtin_error(exec->argv[0], MESSAGE_COMMAND_NF);
+			ft_perror(exec->argv[0], MESSAGE_COMMAND_NF);
 		child_destroy(exec);
 		exit(EXIT_STATUS_NOT_FOUND);
 	}
@@ -107,7 +108,7 @@ static void	exec_child(t_exec *exec)
 	{
 		if (stat(exec->interface.path, &st) == 0 && S_ISDIR(st.st_mode))
 		{
-			builtin_error(exec->argv[0], MESSAGE_EXEC_DIR);
+			ft_perror(exec->argv[0], MESSAGE_EXEC_DIR);
 			child_destroy(exec);
 			exit(EXIT_STATUS_MAJOR);
 		}

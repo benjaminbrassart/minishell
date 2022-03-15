@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 02:36:24 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 20:54:45 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/15 13:28:01 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	exec_empty(t_exec_meta *meta)
 		{
 			if (!open_red(red))
 			{
-				builtin_error(red->path, strerror(errno));
+				ft_perror(red->path, strerror(errno));
 				return (0);
 			}
 			close(red->fd);

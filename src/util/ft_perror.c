@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_error.c                                    :+:      :+:    :+:   */
+/*   ft_perror.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/08 00:48:06 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/15 03:12:39 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/03/15 13:25:27 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/15 13:26:26 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "buffer.h"
-#include "builtin.h"
 #include "minishell.h"
 #include <unistd.h>
 
-void	builtin_error(char const *name, char const *msg)
+void	ft_perror(char const *name, char const *msg)
 {
 	t_buffer	buffer;
 
@@ -30,7 +29,7 @@ void	builtin_error(char const *name, char const *msg)
 	buffer_delete(&buffer);
 }
 
-void	builtin_aerror(char const *name, char const *arg, char const *msg)
+void	ft_paerror(char const *name, char const *arg, char const *msg)
 {
 	t_buffer	buffer;
 
@@ -48,7 +47,7 @@ void	builtin_aerror(char const *name, char const *arg, char const *msg)
 	buffer_delete(&buffer);
 }
 
-void	builtin_ferror(char const *name, char const *file, char const *msg)
+void	ft_pferror(char const *name, char const *file, char const *msg)
 {
 	t_buffer	buffer;
 
