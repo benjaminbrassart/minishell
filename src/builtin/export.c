@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:09:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/18 19:05:35 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/15 10:01:56 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	is_var_name(char const *s)
 			return (0);
 		++n;
 	}
-	return (1);
+	return (n > 0);
 }
 
 static void	export_var(t_env_table *env, char *entry, int *res_ptr)
