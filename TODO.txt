@@ -9,3 +9,23 @@ norminette!
 
 handle empty quoted string as command not found
 handle " "
+export =
+
+manage \    ???
+see attitude of
+	echo \$HOME
+	echo $HOME*
+	echo my shell is [$TERM]
+	echo $UID
+	echo $HOME%
+	echo $""   output:
+	echo $"HOME" output: HOME
+	
+	"$HOMEziodheouihd"
+	$LESS$VAR			output: command not found
+	ctrl-c output: ^C
+	cat | rev ctrl-c pas a la ligne
+	env hola output: no such file or directory
+	env ls output: output de ls
+	export output: output env
+
