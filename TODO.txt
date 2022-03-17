@@ -27,5 +27,66 @@ see attitude of
 	cat | rev ctrl-c pas a la ligne
 	env hola output: no such file or directory
 	env ls output: output de ls
-	export output: output env
+!!	export output: output env
+	
+	export HOLA=hey
+	echo $HOLA$HOLA$HOLA=hey$HOLA	output: heyheyhey=heyhey
 
+	export HOLA="  bonjour hey  "
+	echo wesh""$HOLA   output: weshHOLA
+
+	export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8
+	echo "$A'$B"'$C"$D'$E'"$F'"'$G'$H" output:  1'2$C"$D5"$F'7'8
+
+	unset HOLA=bonjour didnt work
+	unset "" output: not a valid identifier
+	
+	unset PWD
+	cd $PWD		 have to work
+
+	au cas ou
+	unset -HOLA erreur d'option pas d'identifiant
+
+	pwd -p shouldn't work, invalid option 
+
+	unset "" HOLA output: '' not a valid identifier
+
+	cd  should work
+
+	cd '//'
+	pwd   output: //
+
+	cd - output: pwd
+	cd -- output: void
+	cd -- output: invalid option
+
+	unset HOME
+	export HOME
+	cd   output: HOME not set
+
+	history ???????
+
+	mkdir a
+	mkdir a/b
+	cd a/b
+	rm -r ../../a
+	
+	$> cd .. ou $> pwd	output: pwd : erreur de détermination du répertoire actuel : getcwd : ne peut accéder aux répertoires parents : Aucun fichier ou dossier de ce type
+
+	env | grep SHLVL
+	SHLVL=2
+	./minishell
+	env | grep SHLVL
+	SHLVL=3
+	mettre a jour le SHLVL
+
+	exit hola que tal output:	exit
+								bash: exit: hola : argument numérique nécessaire
+								➜  minishell git:(msainton) ✗ 
+	
+
+	exit -99999999999999999 output: numeric argument required
+
+	exit | ls output: ls
+
+!!!!	echo hola > bonjour SEGGG
