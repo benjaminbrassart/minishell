@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 15:12:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/02 16:47:22 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/18 16:17:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,14 @@
 
 void	handle_sigint(int sig)
 {
+	write(STDERR_FILENO, "\n", 1);
 	if (sig == SIGINT)
 	{
-		write(STDERR_FILENO, "^C\n", 3);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_exit_status = EXIT_STATUS_SIGNAL_OFFSET + SIGINT;
 	}
-	else
-		write(STDERR_FILENO, "\n", 1);
-	g_exit_status = EXIT_STATUS_SIGNAL_OFFSET + SIGINT;
 }
 
 void	sigint_ignore(void)
