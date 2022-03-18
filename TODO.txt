@@ -1,5 +1,3 @@
-heredoc special case for first builtin if any?
-
 fix fd leak when command not found
 close pipes when error on redirection
 fix memory leak when error on redirection
@@ -15,4 +13,3 @@ see attitude of
 	pwd   output: //
 
 	history ???????
-
