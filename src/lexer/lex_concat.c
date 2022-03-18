@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 03:27:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/12 06:06:20 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:46:41 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	lex_concat(t_token_list *list)
 	t_token_node	*node;
 
 	ft_memset(&new_list, 0, sizeof (new_list));
+	new_list.sh = list->sh;
 	node = list->first_node;
 	buffer_init(&buffer);
 	while (node)
