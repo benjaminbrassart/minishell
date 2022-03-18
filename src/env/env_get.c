@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 02:10:59 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/08 02:14:42 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/18 17:59:57 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*env_getn(t_env_table *env, char const *key, size_t n)
 		return (NULL);
 	while (entry)
 	{
-		if (ft_strcmp(entry->key, key) == 0)
+		if (ft_strcmp(entry->key, new_key) == 0)
 			return (free(new_key), entry->value);
 		entry = entry->next;
 	}
