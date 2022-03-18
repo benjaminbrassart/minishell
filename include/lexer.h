@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:16:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/02 14:43:31 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/18 17:43:11 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,6 @@ int		lex_tokenize(t_token_list *list, char *input)
  * free all nodes in LIST
  */
 void	lex_delete(t_token_list *list)
-		__attribute__((nonnull(1)));
-
-/**
- * print every element of LIST to STDOUT
- *
- * TODO remove: debug only
- */
-void	lex_dump(t_token_list *list)
 		__attribute__((nonnull(1)));
 
 /**

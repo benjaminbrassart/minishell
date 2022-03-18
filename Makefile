@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/15 13:34:47 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/18 17:43:21 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,6 @@ SRC						= \
 							ft/ft_isdigit.c \
 							ft/ft_calloc.c \
 							lexer/__lex_add.c \
-							lexer/lex_dump.c \
 							lexer/lex_tokenize.c \
 							lexer/lex_delete.c \
 							lexer/lex_add_token.c \
