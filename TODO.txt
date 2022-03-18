@@ -7,30 +7,9 @@ handle errors properly and print messages
 set proper error exit status
 norminette!
 
-handle empty quoted string as command not found
-handle " "
-
-manage \    ???
 see attitude of
-	echo \$HOME
-	echo $HOME*
-	echo my shell is [$TERM]
-	echo $UID
-	echo $HOME%
 	echo $""   output:
 	echo $"HOME" output: HOME
-
-	"$HOMEziodheouihd"
-	$LESS$VAR			output: command not found
-
-	export HOLA=hey
-	echo $HOLA$HOLA$HOLA=hey$HOLA	output: heyheyhey=heyhey
-
-	export HOLA="  bonjour hey  "
-	echo wesh""$HOLA   output: weshHOLA
-
-	export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8
-	echo "$A'$B"'$C"$D'$E'"$F'"'$G'$H" output:  1'2$C"$D5"$F'7'8
 
 	cd '//'
 	pwd   output: //
