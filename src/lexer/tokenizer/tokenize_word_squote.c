@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:36:33 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:00:26 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/18 17:43:59 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ int	tokenize_word_squote(t_token_list *list, char **input)
 	res = lex_add_token(list, (t_token_param){WORD_SQ, *input, i});
 	*input += (i + 1);
 	if (res && ft_isspace(**input))
-		res = lex_add_token(list, (t_token_param){SEPARATOR, "", 0});
+		res = lex_add_token(list, (t_token_param){SEPARATOR, NULL, 0});
 	return (res);
 }
