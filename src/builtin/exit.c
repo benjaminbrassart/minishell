@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:06:36 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/15 13:29:21 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:12:12 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	parse_exit_status(char const *arg)
 	if (*arg == '+' || *arg == '-')
 		if (*arg++ == '-')
 			sign = -1;
+	n = 0;
 	while (ft_isdigit(arg[n]))
 	{
 		prev = value;
