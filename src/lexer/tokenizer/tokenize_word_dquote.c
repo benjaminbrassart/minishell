@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_word_dquote.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:36:43 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 17:32:11 by msainton         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:13:41 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	tokenize_word_dquote(t_token_list *list, char **input)
 {
 	size_t	i;
 	int		res;
-	
+
 	i = ft_strcspn(++(*input), "\"");
 	res = lex_add_token(list, (t_token_param){WORD_DQ, *input, i});
 	*input += i + 1;
