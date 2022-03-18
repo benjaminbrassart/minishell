@@ -5,6 +5,8 @@ handle errors properly and print messages
 set proper error exit status
 norminette!
 
+!! trim line to avoid trailing separators / words
+
 [cat < file] not working
 
 see attitude of
