@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 20:49:29 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:13:12 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <unistd.h>
+
+int	g_exit_status;
 
 static void	process_line(t_sh *sh)
 {

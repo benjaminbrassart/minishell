@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:35:22 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 17:39:29 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:12:26 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define EXIT_STATUS_MAX 256
 
 /* Content of $? */
-int	g_exit_status;
+extern int	g_exit_status;
 
 /**
  * get the real exit status using WAIT macros (WIFEXITED, WTERMSIG, etc.)
