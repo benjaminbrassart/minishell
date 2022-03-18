@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:38:33 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 20:58:04 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/18 16:12:01 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,15 @@ size_t	command_count(t_token_list *list)
 	n = 0;
 	while (node)
 	{
-		if (node->token & (RED_IN | RED_OUT))
+		while (node && (node->token & (RED_IN | RED_OUT)))
 			node = node->next->next;
 		if (node)
 		{
-			if (node->token & WORD)
-			{
+			if (n == 0 && (node->token & WORD))
 				++n;
-				while (node && node->token & WORD)
-					node = node->next;
-			}
-			if (node)
-				node = node->next;
+			if (node->token == PIPE)
+				++n;
+			node = node->next;
 		}
 	}
 	return (n);
