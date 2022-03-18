@@ -1,5 +1,6 @@
 /obj/
 /.vscode/*.log
+/.vscode/pinned-files.json
 /minishell
 /*.c
 *.log
