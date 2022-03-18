@@ -5,6 +5,8 @@ handle errors properly and print messages
 set proper error exit status
 norminette!
 
+[cat < file] not working
+
 see attitude of
 	echo $""   output:
 	echo $"HOME" output: HOME
