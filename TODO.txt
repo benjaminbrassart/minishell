@@ -9,7 +9,6 @@ norminette!
 
 handle empty quoted string as command not found
 handle " "
-export =
 
 manage \    ???
 see attitude of
@@ -20,15 +19,14 @@ see attitude of
 	echo $HOME%
 	echo $""   output:
 	echo $"HOME" output: HOME
-	
+
 	"$HOMEziodheouihd"
 	$LESS$VAR			output: command not found
-	ctrl-c output: ^C
 	cat | rev ctrl-c pas a la ligne
 	env hola output: no such file or directory
 	env ls output: output de ls
 !!	export output: output env
-	
+
 	export HOLA=hey
 	echo $HOLA$HOLA$HOLA=hey$HOLA	output: heyheyhey=heyhey
 
@@ -40,14 +38,14 @@ see attitude of
 
 	unset HOLA=bonjour didnt work
 	unset "" output: not a valid identifier
-	
+
 	unset PWD
 	cd $PWD		 have to work
 
 	au cas ou
 	unset -HOLA erreur d'option pas d'identifiant
 
-	pwd -p shouldn't work, invalid option 
+	pwd -p shouldn't work, invalid option
 
 	unset "" HOLA output: '' not a valid identifier
 
@@ -70,7 +68,7 @@ see attitude of
 	mkdir a/b
 	cd a/b
 	rm -r ../../a
-	
+
 	$> cd .. ou $> pwd	output: pwd : erreur de détermination du répertoire actuel : getcwd : ne peut accéder aux répertoires parents : Aucun fichier ou dossier de ce type
 
 	env | grep SHLVL
@@ -82,11 +80,10 @@ see attitude of
 
 	exit hola que tal output:	exit
 								bash: exit: hola : argument numérique nécessaire
-								➜  minishell git:(msainton) ✗ 
-	
+								➜  minishell git:(msainton) ✗
+
 
 	exit -99999999999999999 output: numeric argument required
 
 	exit | ls output: ls
 
-!!!!	echo hola > bonjour SEGGG
