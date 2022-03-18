@@ -22,10 +22,6 @@ see attitude of
 
 	"$HOMEziodheouihd"
 	$LESS$VAR			output: command not found
-	cat | rev ctrl-c pas a la ligne
-	env hola output: no such file or directory
-	env ls output: output de ls
-!!	export output: output env
 
 	export HOLA=hey
 	echo $HOLA$HOLA$HOLA=hey$HOLA	output: heyheyhey=heyhey
@@ -39,24 +35,8 @@ see attitude of
 	unset HOLA=bonjour didnt work
 	unset "" output: not a valid identifier
 
-	unset PWD
-	cd $PWD		 have to work
-
-	au cas ou
-	unset -HOLA erreur d'option pas d'identifiant
-
-	pwd -p shouldn't work, invalid option
-
-	unset "" HOLA output: '' not a valid identifier
-
-	cd  should work
-
 	cd '//'
 	pwd   output: //
-
-	cd - output: pwd
-	cd -- output: void
-	cd -- output: invalid option
 
 	unset HOME
 	export HOME
@@ -71,17 +51,9 @@ see attitude of
 
 	$> cd .. ou $> pwd	output: pwd : erreur de détermination du répertoire actuel : getcwd : ne peut accéder aux répertoires parents : Aucun fichier ou dossier de ce type
 
-	env | grep SHLVL
-	SHLVL=2
-	./minishell
-	env | grep SHLVL
-	SHLVL=3
-	mettre a jour le SHLVL
-
 	exit hola que tal output:	exit
 								bash: exit: hola : argument numérique nécessaire
 								➜  minishell git:(msainton) ✗
-
 
 	exit -99999999999999999 output: numeric argument required
 
