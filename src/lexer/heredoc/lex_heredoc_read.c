@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 08:14:45 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/10 08:22:15 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/18 18:26:50 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	heredoc_read_eof(char const *delimiter)
 	if (buffer_append(&buffer, "\n" PROGRAM_NAME ": warning: here-document "
 			"delimited by end-of-file (wanted `")
 		&& buffer_append(&buffer, delimiter)
-		&& buffer_append(&buffer, ")'\n") && buffer_flush(&buffer))
+		&& buffer_append(&buffer, "')\n") && buffer_flush(&buffer))
 		write(STDERR_FILENO, buffer.buf, buffer.length);
 	buffer_delete(&buffer);
 }
