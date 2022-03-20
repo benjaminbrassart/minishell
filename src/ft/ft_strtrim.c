@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 19:07:31 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/18 19:13:41 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/20 13:58:56 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,14 @@
 
 char	*ft_strtrim(char const *s)
 {
-	int	last;
-	int	n;
+	size_t	n;
 
 	while (ft_isspace(*s))
 		++s;
-	n = 0;
-	last = 0;
-	while (s[n])
-	{
-		if (!ft_isspace(s[n]))
-			last = n;
-		++n;
-	}
-	return (ft_strndup(s, last));
+	if (*s == 0)
+		return (ft_calloc(1, sizeof (*s)));
+	n = ft_strlen(s);
+	while (n && ft_isspace(s[n - 1]))
+		--n;
+	return (ft_strndup(s, n));
 }
