@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/18 18:08:43 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/20 14:04:46 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,6 @@
 #include <unistd.h>
 
 int	g_exit_status;
-
-static int	is_line_empty(char const *line)
-{
-	while (*line && ft_isspace(*line))
-		++line;
-	return (*line == 0);
-}
 
 static void	process_line(t_sh *sh)
 {
@@ -70,29 +63,30 @@ int	main(
 {
 	t_sh	sh;
 	char	*line;
+	int		n;
 
 	g_exit_status = 0;
 	if (!setup(&sh, envp))
 		return (EXIT_FAILURE);
-	while (1)
+	while (!sh.force_exit)
 	{
-		if (sh.force_exit)
-			break ;
 		line = readline(DEFAULT_PROMPT);
-		if (!line)
+		if (line == NULL)
 			break ;
-		if (!is_line_empty(line))
-		{
-			if (lex_tokenize(&sh.tokens, line)
-				&& lex_heredoc(&sh.tokens, &sh.heredoc)
-				&& lex_expand(&sh.tokens, &sh.env)
-				&& lex_postexpand(&sh.tokens)
-				&& lex_check_syntax(&sh.tokens) && sh.tokens.length > 0)
-				process_line(&sh);
-			add_history(line);
-			lex_delete(&sh.tokens);
-			lex_heredoc_delete(&sh.heredoc);
-		}
+		n = 0;
+		while (ft_isspace(line[n]))
+			++n;
+		if (line[n] == 0)
+			continue ;
+		if (lex_tokenize(&sh.tokens, line)
+			&& lex_heredoc(&sh.tokens, &sh.heredoc)
+			&& lex_expand(&sh.tokens, &sh.env)
+			&& lex_postexpand(&sh.tokens)
+			&& lex_check_syntax(&sh.tokens) && sh.tokens.length > 0)
+			process_line(&sh);
+		add_history(line);
+		lex_delete(&sh.tokens);
+		lex_heredoc_delete(&sh.heredoc);
 		free(line);
 	}
 	return (process_end(&sh));
