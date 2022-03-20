@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/18 19:13:17 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/20 14:10:41 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ LDLIBS					= -lreadline
 DEBUG					= true
 
 ifeq ($(DEBUG), true)
+CURRENT_MAKEFILE		:= $(lastword $(MAKEFILE_LIST))
 CFLAGS					+= -g3
 endif
 
@@ -112,7 +113,7 @@ $(NAME):				$(OBJ)
 
 -include $(DEP)
 
-$(OBJ): $(DIR_OBJ)/%.o:	$(DIR_SRC)/%.c
+$(OBJ): $(DIR_OBJ)/%.o:	$(DIR_SRC)/%.c $(CURRENT_MAKEFILE)
 						@mkdir -p $(@D)
 						$(CC) $(CFLAGS) $< -o $@
 
