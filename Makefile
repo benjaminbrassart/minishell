@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/20 14:10:41 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/20 14:11:44 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,6 @@ NAME_LIBFT				= $(DIR_LIBFT)/libft.a
 
 CFLAGS					= -Wall -Werror -Wextra -c -MMD -MP -Iinclude
 LDLIBS					= -lreadline
-
-DEBUG					= true
 
 ifeq ($(DEBUG), true)
 CURRENT_MAKEFILE		:= $(lastword $(MAKEFILE_LIST))
