@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/31 13:03:37 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/20 13:54:12 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,21 @@
 #include "lexer.h"
 #include "minishell.h"
 #include "tokenizer.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 int	lex_tokenize(t_token_list *list, char *input)
 {
 	t_tokenizer	*tokenizer;
+	char		*line;
 
+	line = ft_strtrim(input);
+	if (line == NULL)
+	{
+		perror(PROGRAM_NAME);
+		return (0);
+	}
+	input = line;
 	while (*input)
 	{
 		while (ft_isspace(*input))
@@ -28,7 +37,12 @@ int	lex_tokenize(t_token_list *list, char *input)
 			break ;
 		tokenizer = get_tokenizer(input);
 		if (!tokenizer->fn(list, &input))
+		{
+			perror(PROGRAM_NAME);
+			free(line);
 			return (0);
+		}
 	}
+	free(line);
 	return (1);
 }
