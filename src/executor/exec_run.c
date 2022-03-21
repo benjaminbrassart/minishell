@@ -6,14 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/15 13:29:53 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:26:59 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "env.h"
 #include "executor.h"
-//#include "heredoc.h"
+#include "heredoc.h"
 #include "lexer.h"
 #include "minishell.h"
 #include "sighandler.h"
@@ -63,10 +63,11 @@ static void	close_fds(t_exec_meta *meta)
 
 static void	child_destroy(t_exec *exec)
 {
+	close_fds(exec->meta);
 	env_destroy(&exec->meta->sh->env);
 	lex_delete(&exec->meta->sh->tokens);
 	parent_close(exec->meta, (int)(exec - exec->meta->exec));
-	//lex_heredoc_delete(&exec->meta->sh->heredoc);
+	lex_heredoc_delete(&exec->meta->sh->heredoc);
 	free(exec->argv);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
@@ -83,8 +84,15 @@ static void	exec_child(t_exec *exec)
 	int					status;
 	struct stat			st;
 
+	//printf("child %lu: %d\n", exec->index, getpid());
 	sigint_default();
 	sigquit_default();
+	if (!exec_redirect(exec))
+	{
+		//perror(PROGRAM_NAME);
+		child_destroy(exec);
+		exit(EXIT_STATUS_MAJOR);
+	}
 	if (dup2(exec->fd_in, STDIN_FILENO) == -1 || dup2(exec->fd_out, STDOUT_FILENO) == -1)
 	{
 		perror(PROGRAM_NAME);
@@ -123,22 +131,6 @@ static void	exec_child(t_exec *exec)
 	child_destroy(exec);
 	exit(EXIT_STATUS_MAJOR);
 }
-
-//static t_exec_red	*get_last_heredoc(t_exec *exec)
-//{
-//	t_exec_red	*iter;
-//	t_exec_red	*red;
-
-//	iter = exec->red;
-//	red = NULL;
-//	while (iter)
-//	{
-//		if (iter->type == D_LESS)
-//			red = iter;
-//		iter = iter->next;
-//	}
-//	return (red);
-//}
 
 int	exec_run(t_exec_meta *meta)
 {

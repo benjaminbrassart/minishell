@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:43:42 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/10 07:50:20 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:49:04 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,5 @@ int	exec_pipe(t_exec_meta *meta)
 		meta->exec[n + 1].fd_in = fds[0];
 		++n;
 	}
-	n = 0;
-	while (n < meta->count)
-		if (!exec_redirect(&meta->exec[n++]))
-			return (0);
 	return (1);
 }
