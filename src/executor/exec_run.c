@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/21 17:26:59 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 00:27:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ static void	exec_child(t_exec *exec)
 	sigquit_default();
 	if (!exec_redirect(exec))
 	{
-		//perror(PROGRAM_NAME);
 		child_destroy(exec);
 		exit(EXIT_STATUS_MAJOR);
 	}
@@ -198,6 +197,7 @@ int	exec_run(t_exec_meta *meta)
 		}
 		++n;
 	}
+	exec_delete_redirect(meta);
 	parent_close(meta, -1);
 	free(pids);
 	sigint_install();

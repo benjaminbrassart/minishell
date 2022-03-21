@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 04:48:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 20:50:16 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/21 23:00:11 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ int		exec_run(t_exec_meta *meta);
 int		exec_empty(t_exec_meta *meta);
 
 void	exec_delete(t_exec_meta *meta);
+
+void	exec_delete_redirect(t_exec_meta *meta);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/21 23:27:49 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/22 00:13:57 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,6 +94,7 @@ SRC						= \
 							executor/exec_build_redirect.c \
 							executor/exec_redirect.c \
 							executor/exec_empty.c \
+							executor/exec_delete_redirect.c \
 							util/path_search.c \
 							util/command_count.c \
 							util/open_red.c \
@@ -108,7 +109,7 @@ OBJ						= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP						= $(OBJ:.o=.d)
 
 $(NAME):				$(OBJ)
-						$(CC) -g3 $^ -o $@ $(LDFLAGS) $(LDLIBS)
+						$(CC) $^ -o $@ $(LDFLAGS) $(LDLIBS)
 
 -include $(DEP)
 

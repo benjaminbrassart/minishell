@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:42:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 19:22:15 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 00:17:50 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	exec_redirect(t_exec *exec)
 	while (red)
 	{
 		if (!open_red(red))
-			return (0);
+			break ;
 		if (red->type & RED_IN)
 		{
 			if (red->type & D_LESS)
@@ -49,5 +49,6 @@ int	exec_redirect(t_exec *exec)
 		}
 		red = red->next;
 	}
-	return (1);
+	exec_delete_redirect(exec->meta);
+	return (red == NULL);
 }
