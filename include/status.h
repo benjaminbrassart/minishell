@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:35:22 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/18 15:12:26 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 01:21:16 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define EXIT_STATUS_OK 0
 # define EXIT_STATUS_MINOR 1
 # define EXIT_STATUS_MAJOR 2
-# define EXIT_STATUS_EXEC_DIR 126
+# define EXIT_STATUS_NON_EXECUTABLE 126
 # define EXIT_STATUS_NOT_FOUND 127
 # define EXIT_STATUS_SIGNAL_OFFSET 128
 # define EXIT_STATUS_MAX 256

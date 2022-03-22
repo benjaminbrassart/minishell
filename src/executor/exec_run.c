@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 00:27:36 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 01:41:55 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,29 @@ static void	exec_child(t_exec *exec)
 	}
 	else
 	{
-		if (stat(exec->interface.path, &st) == 0 && S_ISDIR(st.st_mode))
+		status = 0;
+		if (stat(exec->interface.path, &st) == 0)
 		{
-			ft_perror(exec->argv[0], MESSAGE_EXEC_DIR);
+			if (S_ISDIR(st.st_mode))
+			{
+				ft_perror(exec->argv[0], MESSAGE_EXEC_DIR);
+				status = EXIT_STATUS_NON_EXECUTABLE;
+			}
+			else if (access(exec->interface.path, X_OK) != 0)
+			{
+				ft_perror(exec->argv[0], strerror(errno));
+				status = EXIT_STATUS_NON_EXECUTABLE;
+			}
+		}
+		else
+		{
+			ft_perror(exec->argv[0], strerror(errno));
+			status = EXIT_STATUS_NOT_FOUND;
+		}
+		if (status)
+		{
 			child_destroy(exec);
-			exit(EXIT_STATUS_MAJOR);
+			exit(status);
 		}
 	}
 	envp = env_toarray(&exec->meta->sh->env);
@@ -126,7 +144,7 @@ static void	exec_child(t_exec *exec)
 		close_fds(exec->meta);
 		execve(exec->interface.path, exec->argv, envp);
 	}
-	perror(PROGRAM_NAME);
+	ft_perror(exec->argv[0], strerror(errno));
 	child_destroy(exec);
 	exit(EXIT_STATUS_MAJOR);
 }
@@ -139,8 +157,11 @@ int	exec_run(t_exec_meta *meta)
 	int		save_fd[2];
 
 	pids = malloc(sizeof (*pids) * meta->count);
-	if (!pids)
+	if (pids == NULL)
+	{
+		perror(PROGRAM_NAME);
 		return (0);
+	}
 	sigint_ignore();
 	n = 0;
 	while (n < meta->count)
