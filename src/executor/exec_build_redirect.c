@@ -6,11 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 06:13:37 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/11 08:08:31 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 00:52:23 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
+#include "minishell.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 static int	add_red(t_exec *exec, char *path, int type, int hd_index)
@@ -19,8 +21,11 @@ static int	add_red(t_exec *exec, char *path, int type, int hd_index)
 	t_exec_red	*iter;
 
 	red = malloc(sizeof (*red));
-	if (!red)
+	if (red == NULL)
+	{
+		perror(PROGRAM_NAME);
 		return (0);
+	}
 	red->path = path;
 	red->type = type;
 	red->hd_idx = hd_index;

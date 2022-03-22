@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 05:59:27 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/10 08:22:05 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 00:53:07 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "heredoc.h"
 #include "lexer.h"
 #include "token.h"
+#include "minishell.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 int	lex_heredoc_build(t_token_list *list, t_heredoc *heredoc)
@@ -32,7 +34,10 @@ int	lex_heredoc_build(t_token_list *list, t_heredoc *heredoc)
 	}
 	heredoc->buffers = malloc(sizeof (*heredoc->buffers) * heredoc->count);
 	if (!heredoc->buffers)
+	{
+		perror(PROGRAM_NAME);
 		return (0);
+	}
 	n = 0;
 	while (n < heredoc->count)
 	{

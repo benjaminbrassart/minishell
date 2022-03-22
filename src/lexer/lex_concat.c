@@ -6,13 +6,15 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 03:27:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/18 17:41:36 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 01:23:20 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "buffer.h"
 #include "ft.h"
 #include "lexer.h"
+#include "minishell.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 static int	list_add(t_token_list *list, int token, char *value)
@@ -61,7 +63,7 @@ int	lex_concat(t_token_list *list)
 	while (node)
 	{
 		if (!lex_concat_inline(&buffer, &new_list, node))
-			return (buffer_delete(&buffer), 0);
+			return (buffer_delete(&buffer), perror(PROGRAM_NAME), 0);
 		node = node->next;
 	}
 	if (!buffer_flush(&buffer) || !list_add(&new_list, WORD, buffer.buf))
