@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 01:41:55 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 05:13:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ static void	exec_child(t_exec *exec)
 	int					status;
 	struct stat			st;
 
-	//printf("child %lu: %d\n", exec->index, getpid());
 	sigint_default();
 	sigquit_default();
 	if (!exec_redirect(exec))

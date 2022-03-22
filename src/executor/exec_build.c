@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 07:15:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 04:45:47 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 05:11:06 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,23 @@ static size_t	count_argc(t_token_node *node)
 	return (n);
 }
 
+static void	_skip_red(t_token_node **node, t_exec *exec)
+{
+	size_t	n;
+
+	n = 0;
+	while (n < exec->argc)
+	{
+		while ((*node)->token & (RED_IN | RED_OUT))
+			*node = (*node)->next->next;
+		exec->argv[n] = (*node)->value;
+		*node = (*node)->next;
+		++n;
+	}
+}
+
 static int	copy_argv(t_token_node **node, t_exec *exec)
 {
-	size_t			n;
-
 	exec->fd_out = STDOUT_FILENO;
 	while (*node)
 	{
@@ -58,20 +71,12 @@ static int	copy_argv(t_token_node **node, t_exec *exec)
 	}
 	exec->argc = count_argc(*node);
 	exec->argv = ft_calloc(exec->argc + 1, sizeof (*exec->argv));
-	n = 0;
 	if (exec->argv == NULL)
 	{
 		perror(PROGRAM_NAME);
 		return (0);
 	}
-	while (n < exec->argc)
-	{
-		while ((*node)->token & (RED_IN | RED_OUT))
-			*node = (*node)->next->next;
-		exec->argv[n] = (*node)->value;
-		*node = (*node)->next;
-		++n;
-	}
+	_skip_red(node, exec);
 	return (1);
 }
 
