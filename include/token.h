@@ -6,37 +6,36 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:29:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/12 06:12:14 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 05:13:13 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKEN_H
 # define TOKEN_H
 
-// TODO revert to decimal or hexadecimal
 /* word */
-# define WORD_NQ			0b1
+# define WORD_NQ			1
 /* 'word' */
-# define WORD_SQ			0b10
+# define WORD_SQ			2
 /* "word" */
-# define WORD_DQ			0b100
-/* word, 'word' or "word" */
-# define WORD				0b111
+# define WORD_DQ			4
+/* WORD_NQ | WORD_SQ | WORD_SQ */
+# define WORD				7
 /* | */
-# define PIPE				0b1000
+# define PIPE				8
 /* < */
-# define LESS				0b10000
+# define LESS				16
 /* << */
-# define D_LESS				0b100000
-/* < or << */
-# define RED_IN				0b110000
+# define D_LESS				32
+/* LESS | D_LESS */
+# define RED_IN				48
 /* > */
-# define GREAT				0b1000000
+# define GREAT				64
 /* >> */
-# define D_GREAT			0b10000000
-/* > or >> */
-# define RED_OUT			0b11000000
+# define D_GREAT			128
+/* GREAT | D_GREAT */
+# define RED_OUT			192
 /* word separator */
-# define SEPARATOR			0b100000000
+# define SEPARATOR			256
 
 #endif
