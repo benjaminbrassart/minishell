@@ -1,2 +1,4 @@
 handle errors properly and print messages
 norminette!
+
+protect dup/dup2
