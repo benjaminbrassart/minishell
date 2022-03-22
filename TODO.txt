@@ -1,5 +1,2 @@
-close pipes when error on redirection
-fix memory leak when error on redirection
 handle errors properly and print messages
-set proper error exit status
 norminette!
