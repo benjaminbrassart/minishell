@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 07:38:11 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/09 01:02:57 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 04:44:34 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "lexer.h"
 #include "minishell.h"
 #include "status.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 static int	env_buffer_append(t_env_table *env, t_buffer *buffer, char const *s,
@@ -35,8 +36,11 @@ static int	status_buffer_append(t_buffer *buffer)
 	int		res;
 
 	s = ft_itoa(g_exit_status);
-	if (!s)
+	if (s == NULL)
+	{
+		perror(PROGRAM_NAME);
 		return (0);
+	}
 	res = buffer_append(buffer, s);
 	free(s);
 	return (res);

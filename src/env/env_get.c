@@ -6,12 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 02:10:59 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/18 17:59:57 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 04:42:06 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "ft.h"
+#include "minishell.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 char	*env_get(t_env_table *env, char const *key)
@@ -36,7 +38,10 @@ char	*env_getn(t_env_table *env, char const *key, size_t n)
 	entry = env->first_entry;
 	new_key = ft_strndup(key, n);
 	if (new_key == NULL)
+	{
+		perror(PROGRAM_NAME);
 		return (NULL);
+	}
 	while (entry)
 	{
 		if (ft_strcmp(entry->key, new_key) == 0)

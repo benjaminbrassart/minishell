@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 07:15:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 16:59:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 04:45:47 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 #include "env.h"
 #include "executor.h"
 #include "ft.h"
+#include "minishell.h"
 #include "utils.h"
 #include <errno.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -57,8 +59,11 @@ static int	copy_argv(t_token_node **node, t_exec *exec)
 	exec->argc = count_argc(*node);
 	exec->argv = ft_calloc(exec->argc + 1, sizeof (*exec->argv));
 	n = 0;
-	if (!exec->argv)
+	if (exec->argv == NULL)
+	{
+		perror(PROGRAM_NAME);
 		return (0);
+	}
 	while (n < exec->argc)
 	{
 		while ((*node)->token & (RED_IN | RED_OUT))
@@ -98,8 +103,11 @@ int	exec_build(t_token_list *list, t_exec_meta *meta_p)
 	if (meta_p->count == 0)
 		return (1);
 	meta_p->exec = ft_calloc(meta_p->count, sizeof (*meta_p->exec));
-	if (!meta_p->exec)
+	if (meta_p->exec == NULL)
+	{
+		perror(PROGRAM_NAME);
 		return (0);
+	}
 	n = 0;
 	node = list->first_node;
 	while (n < meta_p->count)

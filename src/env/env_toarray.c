@@ -6,13 +6,15 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 05:50:51 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/14 13:40:05 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 04:45:09 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "buffer.h"
 #include "env.h"
 #include "ft.h"
+#include "minishell.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 char	**env_toarray(t_env_table *env)
@@ -23,8 +25,11 @@ char	**env_toarray(t_env_table *env)
 	size_t		n;
 
 	envp = ft_calloc(env->count + 1, sizeof (*envp));
-	if (!envp)
+	if (envp == NULL)
+	{
+		perror(PROGRAM_NAME);
 		return (NULL);
+	}
 	node = env->first_entry;
 	n = 0;
 	while (node != NULL)

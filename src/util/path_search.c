@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 11:40:06 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 17:57:42 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 04:46:50 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "env.h"
 #include "ft.h"
 #include "utils.h"
+#include "minishell.h"
 #include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,8 +63,11 @@ char	*path_search(t_env_table *env, char const *bin_name)
 	if (!path_var)
 		return (NULL);
 	path_entries = ft_split(path_var, ':');
-	if (!path_entries)
+	if (path_entries == NULL)
+	{
+		perror(PROGRAM_NAME);
 		return (NULL);
+	}
 	exec = path_search_entries(path_entries, bin_name);
 	ft_split_destroy(path_entries);
 	return (exec);
