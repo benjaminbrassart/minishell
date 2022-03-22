@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 05:50:51 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 04:45:09 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/22 04:55:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@
 #include "minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+static int	_append_buf(t_buffer *buffer, t_env *node)
+{
+	buffer_init(buffer);
+	return (buffer_append(buffer, node->key)
+		&& buffer_cappend(buffer, '=')
+		&& buffer_append(buffer, node->value)
+		&& buffer_flush(buffer));
+}
 
 char	**env_toarray(t_env_table *env)
 {
@@ -34,13 +43,8 @@ char	**env_toarray(t_env_table *env)
 	n = 0;
 	while (node != NULL)
 	{
-		buffer_init(&buffer);
-		if (!buffer_append(&buffer, node->key) || !buffer_cappend(&buffer, '=')
-			|| !buffer_append(&buffer, node->value) || !buffer_flush(&buffer))
-		{
-			buffer_delete(&buffer);
-			return (ft_split_destroy(envp));
-		}
+		if (!_append_buf(&buffer, node))
+			return (buffer_delete(&buffer), ft_split_destroy(envp));
 		envp[n++] = buffer.buf;
 		node = node->next;
 	}
