@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:42:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 05:18:56 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/23 03:54:37 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ static void	_red_in(t_exec_red *red, t_exec_red **last_heredoc)
 {
 	if (red->type & D_LESS)
 	{
-		if (last_heredoc)
+		if (*last_heredoc)
+		{
+			close((*last_heredoc)->exec->meta->sh->heredoc
+				.buffers[(*last_heredoc)->hd_idx].fd);
 			close((*last_heredoc)->fd);
+		}
 		*last_heredoc = red;
 	}
 	if (red->exec->fd_in != STDIN_FILENO)
@@ -55,6 +59,5 @@ int	exec_redirect(t_exec *exec)
 			_red_out(red);
 		red = red->next;
 	}
-	exec_delete_redirect(exec->meta);
 	return (red == NULL);
 }

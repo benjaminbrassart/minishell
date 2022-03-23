@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 06:13:37 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 05:11:47 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/23 04:12:55 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,11 @@ static int	add_red(t_exec *exec, char *path, int type, int hd_index)
 	return (1);
 }
 
-static int	_loop(t_token_node **node, t_exec_meta *meta)
+static int	_loop(t_token_node **node, t_exec_meta *meta, int *hd_index)
 {
 	size_t	n;
-	int		hd_index;
 
 	n = 0;
-	hd_index = 0;
 	if ((*node)->token == PIPE)
 		++n;
 	else if ((*node)->token & (RED_OUT | LESS))
@@ -61,7 +59,7 @@ static int	_loop(t_token_node **node, t_exec_meta *meta)
 	}
 	else if ((*node)->token == D_LESS)
 	{
-		if (!add_red(&meta->exec[n], NULL, D_LESS, hd_index++))
+		if (!add_red(&meta->exec[n], NULL, D_LESS, (*hd_index)++))
 			return (0);
 		*node = (*node)->next;
 	}
@@ -74,10 +72,12 @@ int	exec_build_redirect(t_exec_meta *meta)
 {
 	t_token_list const	*list = &meta->sh->tokens;
 	t_token_node		*node;
+	int					hd_index;
 
 	node = list->first_node;
+	hd_index = 0;
 	while (node)
-		if (!_loop(&node, meta))
+		if (!_loop(&node, meta, &hd_index))
 			return (0);
 	return (1);
 }

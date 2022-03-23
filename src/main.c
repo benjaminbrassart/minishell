@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 05:05:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/23 01:36:58 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	process_line(t_sh *sh)
 	meta.sh = sh;
 	if (command_count(&sh->tokens) > 0)
 	{
-		if (exec_build(&sh->tokens, &meta) && lex_heredoc_write(&meta))
+		if (exec_build(&sh->tokens, &meta))
 			exec_run(&meta);
 	}
 	else

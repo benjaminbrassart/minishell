@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/22 00:13:57 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/22 15:39:08 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,13 +88,14 @@ SRC						= \
 							env/env_toarray.c \
 							env/env_from_literal.c \
 							executor/exec_build.c \
-							executor/exec_run.c \
 							executor/exec_delete.c \
 							executor/exec_pipe.c \
 							executor/exec_build_redirect.c \
 							executor/exec_redirect.c \
 							executor/exec_empty.c \
 							executor/exec_delete_redirect.c \
+							executor/run/exec_run.c \
+							executor/run/exec_run_destroy.c \
 							util/path_search.c \
 							util/command_count.c \
 							util/open_red.c \

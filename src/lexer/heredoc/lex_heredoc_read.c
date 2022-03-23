@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 08:14:45 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/18 18:26:50 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/23 01:39:42 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ int	lex_heredoc_read(t_heredoc *heredoc)
 					close(STDIN_FILENO);
 				else
 					heredoc_read_eof(heredoc->buffers[n].delimiter);
+				free(heredoc->buffers[n].delimiter);
 				dup2(fd, STDIN_FILENO);
+				close(fd);
 				break ;
 			}
 			free(line);

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 06:05:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/11 07:15:41 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/23 03:31:34 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ void	lex_heredoc_delete(t_heredoc *heredoc);
 
 int		lex_heredoc_read(t_heredoc *heredoc);
 
-int		lex_heredoc_write(t_exec_meta *meta);
+int		lex_heredoc_write(t_exec *exec);
 
 #endif
