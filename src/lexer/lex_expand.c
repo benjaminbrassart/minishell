@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 07:38:11 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 04:44:34 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/23 03:39:14 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "status.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h> // TODO remove
 
 static int	env_buffer_append(t_env_table *env, t_buffer *buffer, char const *s,
 int n)
@@ -46,6 +47,23 @@ static int	status_buffer_append(t_buffer *buffer)
 	return (res);
 }
 
+// TODO remove!
+static int	pid_buffer_append(t_buffer *buffer)
+{
+	char	*s;
+	int		res;
+
+	s = ft_itoa(getpid());
+	if (s == NULL)
+	{
+		perror(PROGRAM_NAME);
+		return (0);
+	}
+	res = buffer_append(buffer, s);
+	free(s);
+	return (res);
+}
+
 static int	append(t_buffer *buffer, t_env_table *env, char const **s, int n)
 {
 	if (n == 0)
@@ -54,6 +72,12 @@ static int	append(t_buffer *buffer, t_env_table *env, char const **s, int n)
 		{
 			++*s;
 			if (!status_buffer_append(buffer))
+				return (0);
+		}
+		else if (**s == '$')
+		{
+			++*s;
+			if (!pid_buffer_append(buffer))
 				return (0);
 		}
 		else if (!buffer_cappend(buffer, '$'))
