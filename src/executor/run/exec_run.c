@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/24 06:30:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/24 06:42:09 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,6 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
-
-static void	_exec_builtin(t_exec *exec)
-{
-	t_env_table *const	env = &exec->meta->sh->env;
-	int					save_fd[2];
-
-	save_fd[0] = dup(STDIN_FILENO);
-	save_fd[1] = dup(STDOUT_FILENO);
-	dup2(exec->fd_in, STDIN_FILENO);
-	dup2(exec->fd_out, STDOUT_FILENO);
-	if (exec->fd_in != STDIN_FILENO)
-		close(exec->fd_in);
-	if (exec->fd_out != STDOUT_FILENO)
-		close(exec->fd_out);
-	g_exit_status = exec->interface.builtin(exec->argc, exec->argv, env);
-	dup2(save_fd[0], STDIN_FILENO);
-	dup2(save_fd[1], STDOUT_FILENO);
-	close(save_fd[0]);
-	close(save_fd[1]);
-}
 
 static int	_exec_fork(t_exec *exec, int *pids)
 {
@@ -119,7 +99,7 @@ int	exec_run(t_exec_meta *meta)
 	while (n < meta->count)
 	{
 		if (n == 0 && meta->exec->is_builtin)
-			_exec_builtin(meta->exec);
+			exec_run_builtin(meta->exec);
 		else
 			_exec_fork(&meta->exec[n], pids);
 		++n;

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/24 05:49:40 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/24 06:46:46 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,32 +47,25 @@ static void	_exec_nf(t_exec *exec)
 
 static void	_exec_path(t_exec *exec)
 {
-	int			status;
 	struct stat	st;
 
-	status = 0;
 	if (stat(exec->interface.path, &st) == 0)
 	{
 		if (S_ISDIR(st.st_mode))
 		{
 			ft_perror(exec->argv[0], MESSAGE_EXEC_DIR);
-			status = EXIT_STATUS_NON_EXECUTABLE;
+			exit(EXIT_STATUS_NON_EXECUTABLE);
 		}
-		else if (access(exec->interface.path, X_OK) != 0)
+		if (access(exec->interface.path, X_OK) != 0)
 		{
 			ft_perror(exec->argv[0], strerror(errno));
-			status = EXIT_STATUS_NON_EXECUTABLE;
+			exit(EXIT_STATUS_NON_EXECUTABLE);
 		}
 	}
 	else
 	{
 		ft_perror(exec->argv[0], strerror(errno));
-		status = EXIT_STATUS_NOT_FOUND;
-	}
-	if (status)
-	{
-		child_destroy(exec);
-		exit(status);
+		exit(EXIT_STATUS_NOT_FOUND);
 	}
 }
 
