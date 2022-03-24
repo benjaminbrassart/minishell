@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 04:48:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 05:24:15 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/24 05:49:47 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,9 @@ void	close_fds(t_exec_meta *meta);
 void	parent_close(t_exec_meta *meta, int index);
 
 void	child_destroy(t_exec *exec);
+
+void	exec_run_setup_child(t_exec *exec);
+
+void	exec_run_child(t_exec *exec);
 
 #endif
