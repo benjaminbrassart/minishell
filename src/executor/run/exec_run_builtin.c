@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 06:34:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/24 06:41:41 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:56:13 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	try_dup(int fd, int *fd_out)
 	new_fd = dup(fd);
 	if (new_fd == -1)
 	{
-		perror(PROGRAM_NAME);
+		perror(PROGRAM_NAME " dup");
 		return (0);
 	}
 	*fd_out = new_fd;
@@ -42,7 +42,7 @@ static int	try_dup2(int fd, int fd2)
 {
 	if (dup2(fd, fd2) == -1)
 	{
-		perror(PROGRAM_NAME);
+		perror(PROGRAM_NAME " dup2");
 		return (0);
 	}
 	return (1);
@@ -63,8 +63,8 @@ void	exec_run_builtin(t_exec *exec)
 	if (exec->fd_out != STDOUT_FILENO)
 		close(exec->fd_out);
 	g_exit_status = exec->interface.builtin(exec->argc, exec->argv, env);
-	if (!try_dup2(exec->fd_in, STDIN_FILENO)
-		|| !try_dup2(exec->fd_out, STDOUT_FILENO))
+	if (!try_dup2(save_fd[0], STDIN_FILENO)
+		|| !try_dup2(save_fd[1], STDOUT_FILENO))
 		return ;
 	close(save_fd[0]);
 	close(save_fd[1]);
