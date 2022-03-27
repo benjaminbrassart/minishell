@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnlen.c                                       :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 07:40:34 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/01/11 07:46:12 by bbrassar         ###   ########.fr       */
+/*   Created: 2021/12/13 03:56:55 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/27 04:20:15 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "ft.h"
 
-size_t	ft_nsstrlen(char const *s)
+int	ft_isalpha(int c)
 {
-	size_t	len;
-
-	if (!s)
-		return (0);
-	len = 0;
-	while (s[len])
-		++len;
-	return (len);
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }

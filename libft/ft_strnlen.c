@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strnlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 01:38:04 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/13 01:39:09 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/11 07:40:34 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/27 04:21:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "ft.h"
 
-void	*ft_memset(void *dst, int c, size_t n)
+size_t	ft_nsstrlen(char const *s)
 {
-	unsigned char		*d;
-	unsigned char const	ch = c;
+	size_t	len;
 
-	d = (unsigned char *)dst;
-	while (n--)
-		*d++ = ch;
-	return (dst);
+	if (!s)
+		return (0);
+	len = 0;
+	while (s[len])
+		++len;
+	return (len);
 }

@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:56:55 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/02/03 20:37:33 by bbrassar         ###   ########.fr       */
+/*   Created: 2021/12/13 01:38:04 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/27 04:21:40 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft.h"
 
-int	ft_isalpha(int c)
+void	*ft_memset(void *dst, int c, size_t n)
 {
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+	unsigned char		*d;
+	unsigned char const	ch = c;
+
+	d = (unsigned char *)dst;
+	while (n--)
+		*d++ = ch;
+	return (dst);
 }

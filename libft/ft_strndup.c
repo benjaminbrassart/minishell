@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcspn.c                                       :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 01:39:40 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/13 01:41:45 by bbrassar         ###   ########.fr       */
+/*   Created: 2021/12/13 01:34:02 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/27 04:21:20 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "ft.h"
+#include <stdlib.h>
 
-size_t	ft_strcspn(char const *s, char const *reject)
+char	*ft_strndup(char const *s, size_t n)
 {
-	size_t	i;
-	size_t	j;
+	char	*new_s;
+	size_t	len;
 
-	i = 0;
-	while (s[i])
+	len = 0;
+	while (len < n && s[len])
+		++len;
+	new_s = (char *)malloc(sizeof (*new_s) * (len + 1));
+	if (new_s)
 	{
-		j = 0;
-		while (reject[j])
-		{
-			if (s[i] == reject[j])
-				return (i);
-			++j;
-		}
-		++i;
+		new_s[len] = 0;
+		while (len--)
+			new_s[len] = s[len];
 	}
-	return (i);
+	return (new_s);
 }

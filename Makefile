@@ -6,16 +6,17 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/24 06:43:05 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/27 04:22:10 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME					= minishell
+
 DIR_LIBFT				= libft
 NAME_LIBFT				= $(DIR_LIBFT)/libft.a
 
-CFLAGS					= -Wall -Werror -Wextra -c -MMD -MP -Iinclude
-LDLIBS					= -lreadline
+CFLAGS					= -Wall -Werror -Wextra -c -MMD -MP -Iinclude -I$(DIR_LIBFT)
+LDLIBS					= -lreadline -L$(DIR_LIBFT) -lft
 
 ifeq ($(DEBUG), true)
 CURRENT_MAKEFILE		:= $(lastword $(MAKEFILE_LIST))
@@ -42,25 +43,6 @@ SRC						= \
 							buffer/buffer_delete.c \
 							buffer/buffer_flush.c \
 							buffer/buffer_append.c \
-							ft/ft_memset.c \
-							ft/ft_strcspn.c \
-							ft/ft_strndup.c \
-							ft/ft_strdup.c \
-							ft/ft_strjoin.c \
-							ft/ft_strlen.c \
-							ft/ft_strcmp.c \
-							ft/ft_split.c \
-							ft/ft_strncmp.c \
-							ft/ft_isspace.c \
-							ft/ft_memmove.c \
-							ft/ft_itoa.c \
-							ft/ft_isalnum.c \
-							ft/ft_isalpha.c \
-							ft/ft_strchr.c \
-							ft/ft_isdigit.c \
-							ft/ft_calloc.c \
-							ft/ft_strtrim.c \
-							ft/ft_strtoi.c \
 							lexer/__lex_add.c \
 							lexer/lex_tokenize.c \
 							lexer/lex_delete.c \
@@ -108,18 +90,20 @@ SRC						= \
 							lexer/heredoc/lex_heredoc_read.c \
 							lexer/heredoc/lex_heredoc_build.c \
 							lexer/heredoc/lex_heredoc_write.c
-
 OBJ						= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP						= $(OBJ:.o=.d)
 
-$(NAME):				$(OBJ)
-						$(CC) $^ -o $@ $(LDFLAGS) $(LDLIBS)
+$(NAME):				$(OBJ) $(NAME_LIBFT)
+						$(CC) $(filter %.o,$^) -o $@ $(LDFLAGS) $(LDLIBS)
 
 -include $(DEP)
 
 $(OBJ): $(DIR_OBJ)/%.o:	$(DIR_SRC)/%.c $(CURRENT_MAKEFILE)
 						@mkdir -p $(@D)
 						$(CC) $(CFLAGS) $< -o $@
+
+$(NAME_LIBFT):
+						$(MAKE) -C $(DIR_LIBFT)
 
 all:					$(NAME)
 

@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 03:42:44 by bbrassar          #+#    #+#             */
-/*   Updated: 2021/12/13 03:43:22 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/01/11 07:47:27 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/03/27 04:21:46 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stddef.h>
+#include "ft.h"
 
-size_t	ft_strlen(char const *s)
+char	*ft_strncat(char *dst, char const *src, size_t n)
 {
-	size_t	n;
+	char	*d;
 
-	n = 0;
-	while (s[n])
-		++n;
-	return (n);
+	d = dst;
+	if (n)
+	{
+		while (*dst)
+			++dst;
+		while (n-- && *src)
+			*dst++ = *src++;
+	}
+	return (d);
 }
