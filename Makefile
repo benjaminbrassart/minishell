@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/27 04:22:10 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/27 04:23:59 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ CFLAGS					= -Wall -Werror -Wextra -c -MMD -MP -Iinclude -I$(DIR_LIBFT)
 LDLIBS					= -lreadline -L$(DIR_LIBFT) -lft
 
 ifeq ($(DEBUG), true)
-CURRENT_MAKEFILE		:= $(lastword $(MAKEFILE_LIST))
 CFLAGS					+= -g3
 endif
 
@@ -93,12 +92,12 @@ SRC						= \
 OBJ						= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP						= $(OBJ:.o=.d)
 
-$(NAME):				$(OBJ) $(NAME_LIBFT)
+$(NAME):				$(NAME_LIBFT) $(OBJ)
 						$(CC) $(filter %.o,$^) -o $@ $(LDFLAGS) $(LDLIBS)
 
 -include $(DEP)
 
-$(OBJ): $(DIR_OBJ)/%.o:	$(DIR_SRC)/%.c $(CURRENT_MAKEFILE)
+$(OBJ): $(DIR_OBJ)/%.o:	$(DIR_SRC)/%.c
 						@mkdir -p $(@D)
 						$(CC) $(CFLAGS) $< -o $@
 
