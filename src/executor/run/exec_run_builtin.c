@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 06:34:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/25 16:56:13 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/27 05:49:57 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	try_dup(int fd, int *fd_out)
 	new_fd = dup(fd);
 	if (new_fd == -1)
 	{
-		perror(PROGRAM_NAME " dup");
+		perror(PROGRAM_NAME);
 		return (0);
 	}
 	*fd_out = new_fd;
@@ -42,7 +42,7 @@ static int	try_dup2(int fd, int fd2)
 {
 	if (dup2(fd, fd2) == -1)
 	{
-		perror(PROGRAM_NAME " dup2");
+		perror(PROGRAM_NAME);
 		return (0);
 	}
 	return (1);
