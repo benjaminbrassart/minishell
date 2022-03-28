@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 04:48:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/24 06:42:22 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:04:24 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int		exec_pipe(t_exec_meta *meta);
 int		exec_redirect(t_exec *exec);
 
 int		exec_run(t_exec_meta *meta);
-
-int		exec_empty(t_exec_meta *meta);
 
 void	exec_delete(t_exec_meta *meta);
 

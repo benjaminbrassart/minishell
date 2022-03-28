@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/27 04:23:59 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/28 12:04:12 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,6 @@ SRC						= \
 							executor/exec_pipe.c \
 							executor/exec_build_redirect.c \
 							executor/exec_redirect.c \
-							executor/exec_empty.c \
 							executor/exec_delete_redirect.c \
 							executor/run/exec_run.c \
 							executor/run/exec_run_child.c \
