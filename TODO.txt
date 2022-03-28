@@ -1,7 +1,5 @@
 memory leaks in redirections without command
 
-export a='' --->> error
-
 unhandled:
 	echo 123 | > test.log
 	echo 123 | < test.log
