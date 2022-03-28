@@ -1,8 +1,0 @@
-{
-	"C_Cpp.default.defines": ["_DEFAULT_SOURCE"],
-	"files.exclude": {
-		"**/.nfs*": true,
-		"obj/": true,
-		"minishell": true
-	}
-}
