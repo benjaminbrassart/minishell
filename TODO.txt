@@ -1,10 +1,4 @@
 memory leaks in redirections without command
-heap overflow when a redirection or a pipe is last:
-	cat |
-	cat >
-	cat <
-	cat <<
-	cat >>
 
 export a='' --->> error
 
