@@ -28,7 +28,7 @@
 			"command": "sh",
 			"args": [
 				"-c",
-				"! norminette | grep -v 'OK!'",
+				"! norminette | grep -v 'OK!$'",
 			],
 			"group": {
 				"kind": "test",
