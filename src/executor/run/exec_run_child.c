@@ -6,12 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 11:48:53 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:41:55 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "executor.h"
+#include "heredoc.h"
 #include "status.h"
 #include "utils.h"
 #include <errno.h>
@@ -82,6 +83,7 @@ void	exec_run_child(t_exec *exec)
 	envp = env_toarray(&exec->meta->sh->env);
 	if (envp)
 	{
+		lex_heredoc_close(exec);
 		close_fds(exec->meta);
 		execve(exec->interface.path, exec->argv, envp);
 	}

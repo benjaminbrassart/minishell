@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 06:34:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 12:34:43 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:40:34 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,6 @@ static int	try_dup2(int fd, int fd2)
 	return (1);
 }
 
-static void	_close_heredoc(t_exec *exec)
-{
-	t_exec_red	*red;
-
-	red = exec->red;
-	while (red)
-	{
-		close(exec->meta->sh->heredoc.buffers[red->hd_idx].fd);
-		red = red->next;
-	}
-}
-
 void	exec_run_builtin(t_exec *exec)
 {
 	t_env_table *const	env = &exec->meta->sh->env;
@@ -83,5 +71,5 @@ void	exec_run_builtin(t_exec *exec)
 		return ;
 	close(save_fd[0]);
 	close(save_fd[1]);
-	_close_heredoc(exec);
+	lex_heredoc_close(exec);
 }
