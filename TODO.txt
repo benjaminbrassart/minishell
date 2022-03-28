@@ -1,1 +1,9 @@
-protect dup/dup2
+memory leaks in redirections without command
+unhandled:
+	echo 123 | > test.log
+	echo 123 | < test.log
+	echo 123 | << EOF...
+	echo 123 | >> test.log
+
+	expected:	no output and file open
+	current:	syntax error
