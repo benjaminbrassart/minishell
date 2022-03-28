@@ -2,7 +2,10 @@
     "configurations": [
         {
             "name": "Linux",
-            "includePath": ["${workspaceFolder}/include"],
+            "includePath": [
+			"${workspaceFolder}/include",
+			"${workspaceFolder}/libft"
+			],
             "compilerPath": "/usr/bin/gcc"
             //"configurationProvider": "ms-vscode.makefile-tools"
         }
