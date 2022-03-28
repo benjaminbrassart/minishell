@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/24 06:46:46 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/28 11:48:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ static void	_exec_builtin(t_exec *exec)
 	t_env_table *const	env = &exec->meta->sh->env;
 	int					status;
 
-	if (exec->is_builtin)
+	if (exec->is_builtin || exec->argc == 0)
 	{
-		status = exec->interface.builtin(exec->argc, exec->argv, env);
+		status = g_exit_status;
+		if (exec->is_builtin)
+			status = exec->interface.builtin(exec->argc, exec->argv, env);
 		child_destroy(exec);
 		exit(status);
 	}
@@ -36,7 +38,7 @@ static void	_exec_builtin(t_exec *exec)
 
 static void	_exec_nf(t_exec *exec)
 {
-	if (exec->interface.path == NULL)
+	if (exec->interface.path == NULL && exec->argc > 0)
 	{
 		if (exec->search_path)
 			ft_perror(exec->argv[0], MESSAGE_COMMAND_NF);

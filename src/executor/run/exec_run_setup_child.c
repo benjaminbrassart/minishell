@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:34 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/24 05:50:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/28 11:42:08 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-// executed in child
 void	exec_run_setup_child(t_exec *exec)
 {
 	sigint_default();

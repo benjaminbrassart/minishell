@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/24 06:42:09 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/28 11:43:39 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	_cleanup(t_exec_meta *meta, pid_t *pids)
 	size_t	n;
 
 	n = 0;
-	if (meta->exec->is_builtin)
+	if (meta->exec->is_builtin || meta->exec->argc == 0)
 		++n;
 	close_fds(meta);
 	while (n < meta->count)
@@ -98,7 +98,7 @@ int	exec_run(t_exec_meta *meta)
 	n = 0;
 	while (n < meta->count)
 	{
-		if (n == 0 && meta->exec->is_builtin)
+		if (n == 0 && (meta->exec->is_builtin || meta->exec[n].argc == 0))
 			exec_run_builtin(meta->exec);
 		else
 			_exec_fork(&meta->exec[n], pids);

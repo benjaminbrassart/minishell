@@ -6,12 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:20:20 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/15 13:28:01 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/28 11:31:46 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "executor.h"
+#include "status.h"
 #include "utils.h"
 #include <errno.h>
 #include <fcntl.h>
@@ -42,5 +43,6 @@ int	open_red(t_exec_red *red)
 	if (red->fd != -1)
 		return (1);
 	ft_perror(red->path, strerror(errno));
+	g_exit_status = EXIT_STATUS_MINOR;
 	return (0);
 }

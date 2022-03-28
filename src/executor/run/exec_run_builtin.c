@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 06:34:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/27 05:49:57 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/28 11:29:59 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	exec_run_builtin(t_exec *exec)
 	t_env_table *const	env = &exec->meta->sh->env;
 	int					save_fd[2];
 
-	if (!try_dup(STDIN_FILENO, &save_fd[0])
+	if (!exec_redirect(exec) || !try_dup(STDIN_FILENO, &save_fd[0])
 		|| !try_dup(STDOUT_FILENO, &save_fd[1])
 		|| !try_dup2(exec->fd_in, STDIN_FILENO)
 		|| !try_dup2(exec->fd_out, STDOUT_FILENO))
@@ -62,7 +62,9 @@ void	exec_run_builtin(t_exec *exec)
 		close(exec->fd_in);
 	if (exec->fd_out != STDOUT_FILENO)
 		close(exec->fd_out);
-	g_exit_status = exec->interface.builtin(exec->argc, exec->argv, env);
+	g_exit_status = 0;
+	if (exec->argc > 0)
+		g_exit_status = exec->interface.builtin(exec->argc, exec->argv, env);
 	if (!try_dup2(save_fd[0], STDIN_FILENO)
 		|| !try_dup2(save_fd[1], STDOUT_FILENO))
 		return ;

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/23 01:36:58 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/28 10:32:06 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,8 @@ static void	process_line(t_sh *sh)
 
 	ft_memset(&meta, 0, sizeof (meta));
 	meta.sh = sh;
-	if (command_count(&sh->tokens) > 0)
-	{
-		if (exec_build(&sh->tokens, &meta))
-			exec_run(&meta);
-	}
-	else
-		exec_empty(&meta);
+	if (exec_build(&sh->tokens, &meta))
+		exec_run(&meta);
 }
 
 static void	post_process_line(t_sh *sh, char *line)
