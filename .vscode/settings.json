@@ -1,11 +1,5 @@
 {
 	"C_Cpp.default.defines": ["_DEFAULT_SOURCE"],
-	"VsCodeTaskButtons.tasks": [
-		{
-			"label": "Norminette (active file)",
-			"task": "norminette file"
-		}
-	],
 	"files.exclude": {
 		"**/.nfs*": true,
 		"obj/": true,
