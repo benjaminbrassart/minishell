@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 05:55:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/10 03:40:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/28 10:13:57 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,11 @@ int	lex_check_syntax(t_token_list *list)
 		if (node == list->last_node && (node->token
 				& (PIPE | RED_IN | RED_OUT)))
 			return (_print_error(node->next));
-		if (node->token & (PIPE | RED_IN | RED_OUT)
-			&& (node->next->token & ~WORD))
+		if ((node->token & PIPE) && (node->next == NULL
+				|| (node->next->token & ~(WORD | RED_IN | RED_OUT))))
+			return (_print_error(node->next));
+		if (node->token & (RED_IN | RED_OUT)
+			&& (node->next == NULL || (node->next->token & ~WORD)))
 			return (_print_error(node->next));
 		node = node->next;
 	}

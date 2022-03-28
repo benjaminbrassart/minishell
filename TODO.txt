@@ -7,4 +7,4 @@ unhandled:
 	echo 123 | >> test.log
 
 	expected:	no output and file open
-	current:	syntax error
+	current:	segfault
