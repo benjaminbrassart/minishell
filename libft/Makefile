@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/27 04:08:31 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/27 04:16:51 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/29 11:18:08 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SRC						= \
 							ft_isdigit.c \
 							ft_calloc.c \
 							ft_strtrim.c \
-							ft_strtoi.c
+							ft_strtoi.c \
+							get_next_line.c
 OBJ						= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP						= $(OBJ:.o=.d)
 

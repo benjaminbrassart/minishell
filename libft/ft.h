@@ -6,12 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 17:04:23 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/27 04:21:50 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/29 11:18:34 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_H
 # define FT_H
+
+# define BUFFER_SIZE 4096
 
 # include <stddef.h>
 
@@ -61,5 +63,7 @@ char			*ft_strtrim(char const *s)
 				__attribute__((malloc));
 
 int				ft_strtoi(char const *s, char **endptr);
+
+int				get_next_line(int fd, char **line);
 
 #endif
