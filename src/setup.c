@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 09:24:19 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/21 23:27:23 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/29 11:30:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft.h"
 #include "minishell.h"
 #include "sighandler.h"
+#include <errno.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,6 +53,24 @@ static int	set_shlvl(t_env_table *env)
 	return (res);
 }
 
+static int	check_tty(t_sh *sh)
+{
+	sh->is_interactive = 1;
+	sh->is_interactive &= isatty(STDIN_FILENO);
+	if (errno == EBADF)
+	{
+		perror(PROGRAM_NAME);
+		return (0);
+	}
+	sh->is_interactive &= isatty(STDERR_FILENO);
+	if (errno == EBADF)
+	{
+		perror(PROGRAM_NAME);
+		return (0);
+	}
+	return (1);
+}
+
 int	setup(t_sh *sh, char *ev[])
 {
 	const t_sh	sh_init = {
@@ -59,9 +78,10 @@ int	setup(t_sh *sh, char *ev[])
 		.env = {.first_entry = NULL, .last_entry = NULL, .count = 0, .sh = sh},
 		.heredoc = {.buffers = NULL, .count = 0},
 		.force_exit = 0,
+		.is_interactive = 0
 	};
 
 	ft_memmove(sh, &sh_init, sizeof (sh_init));
 	setup_signal_handlers();
-	return (env_init(&sh->env, ev) && set_shlvl(&sh->env));
+	return (check_tty(sh) && env_init(&sh->env, ev) && set_shlvl(&sh->env));
 }
