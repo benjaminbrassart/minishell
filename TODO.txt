@@ -1,0 +1,3 @@
+handle too many pipes (one or two pipes at a time) (fd + mem leaks)
+handle too many args (malloc failed?)
+handle heredocs with temp files (see https://www.oilshell.org/blog/2016/10/18.html)
