@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/11 08:06:06 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/29 11:06:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ struct s_sh
 	t_env_table		env;
 	t_heredoc		heredoc;
 	int				force_exit;
+	int				is_interactive;
 };
 
 #endif
