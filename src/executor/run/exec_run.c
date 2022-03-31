@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/31 06:22:36 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 22:13:11 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,31 @@ static int	_exec_fork(t_exec *exec, int *pids)
 	}
 	if (pids[exec->index] == 0)
 	{
-		close(exec->fds[0]);
-		if (exec->index != 0)
-			dup2(exec->meta->exec[exec->index - 1].fds[0], STDIN_FILENO); // ! handle
-		close(exec->meta->exec[exec->index - 1].fds[0]);
-		if (exec->index != exec->meta->count - 1)
-			dup2(exec->fds[1], STDOUT_FILENO); // ! handle
-		close(exec->fds[1]);
+		if (exec->index != 0 && (exec - 1)->fds[0] != STDIN_FILENO)
+		{
+			if (dup2((exec - 1)->fds[0], STDIN_FILENO) == -1)
+			{
+				perror(PROGRAM_NAME);
+				return (0);
+			} // ! handle
+			close((exec - 1)->fds[0]);
+		}
+		if (exec->index != exec->meta->count - 1 && exec->fds[1] != STDOUT_FILENO)
+		{
+			if (dup2(exec->fds[1], STDOUT_FILENO) == -1)
+			{
+				perror(PROGRAM_NAME);
+				return (0);
+			} // ! handle
+			close(exec->fds[1]);
+		}
 		free(pids);
 		exec_run_child(exec);
 	}
-	if (exec->index == exec->meta->count - 1)
+	if (exec->index != 0 && (exec - 1)->fds[0] != STDIN_FILENO)
+		close((exec - 1)->fds[0]);
+	if (exec->index == exec->meta->count - 1 && exec->fds[0] != STDIN_FILENO)
 		close(exec->fds[0]);
-	if (exec->index != 0)
-		close(exec->meta->exec[exec->index - 1].fds[0]);
-	close(exec->fds[1]);
 	return (1);
 }
 
@@ -84,7 +94,7 @@ static void	_cleanup(t_exec_meta *meta, pid_t *pids)
 	n = 0;
 	if (meta->exec->is_builtin || meta->exec->argc == 0)
 		++n;
-	close_fds(meta);
+	// close_fds(meta);
 	while (n < meta->count)
 		_wait_child(meta, pids, n++);
 	exec_delete_redirect(meta);
@@ -111,8 +121,21 @@ int	exec_run(t_exec_meta *meta)
 	while (n < meta->count)
 	{
 		if (pipe(meta->exec[n].fds) == -1)
+		{
+			perror(PROGRAM_NAME);
 			return (0); // ! handle error properly
-		if (n == 0 && (meta->exec->is_builtin || meta->exec[n].argc == 0))
+		}
+		if (n == 0)
+		{
+			close(meta->exec[n].fds[0]);
+			meta->exec[n].fds[0] = STDIN_FILENO;
+		}
+		if (n == meta->count - 1)
+		{
+			close(meta->exec[n].fds[1]);
+			meta->exec[n].fds[1] = STDOUT_FILENO;
+		}
+		if (n == 0 && meta->exec->is_builtin)
 			exec_run_builtin(meta->exec);
 		else
 			_exec_fork(&meta->exec[n], pids);
