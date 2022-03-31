@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 04:14:06 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/15 13:29:10 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 18:54:46 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int	builtin_cd(
 	if (argc == 2)
 	{
 		if (chdir(argv[1]) == 0)
-			return (EXIT_STATUS_OK);
+			return (g_exit_status = EXIT_STATUS_OK);
 		ft_perror(BUILTIN_CD, strerror(errno));
 	}
 	else if (argc < 2)
 		ft_perror(BUILTIN_CD, "Not enough arguments");
 	else if (argc > 2)
 		ft_perror(BUILTIN_CD, "Too many arguments");
-	return (EXIT_STATUS_MINOR);
+	return (g_exit_status = EXIT_STATUS_MINOR);
 }

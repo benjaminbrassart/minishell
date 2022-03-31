@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 07:15:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/31 06:04:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 20:18:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	_skip_red(t_token_node **node, t_exec *exec)
 
 static int	copy_argv(t_token_node **node, t_exec *exec)
 {
-	exec->fd_out = STDOUT_FILENO;
+	exec->fds[1] = STDOUT_FILENO;
 	while (*node)
 	{
 		if ((*node)->token == WORD)
@@ -115,7 +115,8 @@ int	exec_build(t_token_list *list, t_exec_meta *meta_p)
 	node = list->first_node;
 	while (n < meta_p->count)
 	{
-		meta_p->exec[n].fd_out = 1;
+		meta_p->exec[n].fds[0] = 0;
+		meta_p->exec[n].fds[1] = 1;
 		meta_p->exec[n].meta = meta_p;
 		meta_p->exec[n].index = n;
 		if (!copy_argv(&node, &meta_p->exec[n]))

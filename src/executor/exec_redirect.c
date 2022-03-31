@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:42:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/23 03:54:37 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 19:09:02 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ static void	_red_in(t_exec_red *red, t_exec_red **last_heredoc)
 		}
 		*last_heredoc = red;
 	}
-	if (red->exec->fd_in != STDIN_FILENO)
-		close(red->exec->fd_in);
-	red->exec->fd_in = red->fd;
+	if (red->exec->fds[0] != STDIN_FILENO)
+		close(red->exec->fds[0]);
+	red->exec->fds[0] = red->fd;
 }
 
 static void	_red_out(t_exec_red *red)
 {
-	if (red->exec->fd_out != STDOUT_FILENO)
-		close(red->exec->fd_out);
-	red->exec->fd_out = red->fd;
+	if (red->exec->fds[1] != STDOUT_FILENO)
+		close(red->exec->fds[1]);
+	red->exec->fds[1] = red->fd;
 }
 
 int	exec_redirect(t_exec *exec)

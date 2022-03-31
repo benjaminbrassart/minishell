@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 02:29:20 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/31 06:13:55 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 19:07:38 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ struct s_exec
 	size_t					index;
 	char					**argv;
 	int						is_builtin;
-	int						fd_in;
-	int						fd_out;
 	int						search_path;
 	int						fds[2];
 	t_exec_red				*red;

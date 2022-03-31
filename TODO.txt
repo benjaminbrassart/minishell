@@ -1,7 +1,4 @@
-handle too many pipes (one or two pipes at a time) (fd + mem leaks)
 open redirections in child processes instead of parent
 no command exec must be run in a child process as well
 handle too many args (malloc failed?)
 handle heredocs with temp files (see https://www.oilshell.org/blog/2016/10/18.html)
-builtins executed in main process must modify g_exit_status themselves
-builtins executed in subprocess must return so thé calling process can wait for them
