@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/29 14:22:38 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/31 06:04:35 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,6 @@ SRC						= \
 							env/env_from_literal.c \
 							executor/exec_build.c \
 							executor/exec_delete.c \
-							executor/exec_pipe.c \
 							executor/exec_build_redirect.c \
 							executor/exec_redirect.c \
 							executor/exec_delete_redirect.c \

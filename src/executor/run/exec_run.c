@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 11:43:39 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 06:22:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,21 @@ static int	_exec_fork(t_exec *exec, int *pids)
 	}
 	if (pids[exec->index] == 0)
 	{
+		close(exec->fds[0]);
+		if (exec->index != 0)
+			dup2(exec->meta->exec[exec->index - 1].fds[0], STDIN_FILENO); // ! handle
+		close(exec->meta->exec[exec->index - 1].fds[0]);
+		if (exec->index != exec->meta->count - 1)
+			dup2(exec->fds[1], STDOUT_FILENO); // ! handle
+		close(exec->fds[1]);
 		free(pids);
 		exec_run_child(exec);
 	}
+	if (exec->index == exec->meta->count - 1)
+		close(exec->fds[0]);
+	if (exec->index != 0)
+		close(exec->meta->exec[exec->index - 1].fds[0]);
+	close(exec->fds[1]);
 	return (1);
 }
 
@@ -98,6 +110,8 @@ int	exec_run(t_exec_meta *meta)
 	n = 0;
 	while (n < meta->count)
 	{
+		if (pipe(meta->exec[n].fds) == -1)
+			return (0); // ! handle error properly
 		if (n == 0 && (meta->exec->is_builtin || meta->exec[n].argc == 0))
 			exec_run_builtin(meta->exec);
 		else

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 04:48:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 12:04:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 05:57:26 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 int		exec_build(t_token_list *list, t_exec_meta *meta_p);
 
 int		exec_build_redirect(t_exec_meta *meta);
-
-int		exec_pipe(t_exec_meta *meta);
 
 int		exec_redirect(t_exec *exec);
 
