@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/28 12:40:07 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/03/31 06:04:35 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,6 @@ SRC						= \
 							env/env_from_literal.c \
 							executor/exec_build.c \
 							executor/exec_delete.c \
-							executor/exec_pipe.c \
 							executor/exec_build_redirect.c \
 							executor/exec_redirect.c \
 							executor/exec_delete_redirect.c \
@@ -101,7 +100,7 @@ $(OBJ): $(DIR_OBJ)/%.o:	$(DIR_SRC)/%.c
 						@mkdir -p $(@D)
 						$(CC) $(CFLAGS) $< -o $@
 
-$(NAME_LIBFT):
+$(NAME_LIBFT):			.FORCE
 						$(MAKE) -C $(DIR_LIBFT)
 
 all:					$(NAME)
@@ -116,4 +115,5 @@ re:						fclean all
 
 -include mk/valgrind.mk
 
+.FORCE:
 .PHONY:					all clean fclean re
