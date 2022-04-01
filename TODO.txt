@@ -1,5 +1,3 @@
-open redirections in child processes instead of parent
-no command exec must be run in a child process as well
 handle too many args (malloc failed?)
-handle heredocs with temp files (see https://www.oilshell.org/blog/2016/10/18.html)
 fix output checking in test script
+check for memory/fd leaks
