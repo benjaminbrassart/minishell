@@ -8,10 +8,17 @@ YELLOW=$(tput setaf 3)
 BLUE=$(tput setaf 4)
 RESET=$(tput sgr0)
 
+mkfifo .msh-pipe
+mkfifo .bash-pipe
+
 while read cmd; do
 	printf -- "${BLUE}%s ${RESET}" "$cmd"
-	msh_res=$(echo "$cmd" | (./minishell 2>&1; msh_st="$?") | sed -e '1d;$d' -e 's/^minishell: //')
-	bash_res=$(echo "$cmd" | (bash 2>&1; bash_st="$?") | sed -e 's/^bash: line 1: //')
+	msh_res="$(sed -e '1d;$d' -e 's/^minishell: //' < .msh-pipe)" &
+	echo "$cmd" | ./minishell > .msh-pipe 2>&1
+	msh_st="$?"
+	bash_res="$(sed -e 's/^bash: line 1: //' < .bash-pipe)" &
+	echo "$cmd" | bash > .bash-pipe 2>&1
+	bash_st="$?"
 
 	printf -- ""
 	if [ "$msh_res" != "$bash_res" ]; then
@@ -26,3 +33,6 @@ while read cmd; do
 	fi
 	printf "\n"
 done < "$CMDFILE"
+
+rm -f .msh-pipe
+rm -f .bash-pipe

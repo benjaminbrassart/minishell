@@ -17,3 +17,4 @@ exit -1
 exit 5000
 cd .
 touch /
+alias
