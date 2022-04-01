@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 07:15:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/31 20:18:53 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/01 06:14:27 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,21 @@ static void	_skip_red(t_token_node **node, t_exec *exec)
 	n = 0;
 	while (n < exec->argc)
 	{
-		while ((*node)->token & (RED_IN | RED_OUT))
+		if (*node)
+		{
+			exec->argv[n] = (*node)->value;
+			*node = (*node)->next;
+			++n;
+		}
+		while (*node && (*node)->token & (RED_IN | RED_OUT))
 			*node = (*node)->next->next;
-		exec->argv[n] = (*node)->value;
-		*node = (*node)->next;
-		++n;
 	}
 }
 
 static int	copy_argv(t_token_node **node, t_exec *exec)
 {
-	exec->fds[1] = STDOUT_FILENO;
-	while (*node)
-	{
-		if ((*node)->token == WORD)
-			break ;
-		if ((*node)->token & (RED_IN | RED_OUT))
-			*node = (*node)->next;
-		*node = (*node)->next;
-	}
+	while (*node && ((*node)->token & (RED_IN | RED_OUT)))
+		*node = (*node)->next->next;
 	exec->argc = count_argc(*node);
 	exec->argv = ft_calloc(exec->argc + 1, sizeof (*exec->argv));
 	if (exec->argv == NULL)
@@ -115,16 +111,17 @@ int	exec_build(t_token_list *list, t_exec_meta *meta_p)
 	node = list->first_node;
 	while (n < meta_p->count)
 	{
-		meta_p->exec[n].fds[0] = 0;
-		meta_p->exec[n].fds[1] = 1;
+		meta_p->exec[n].fd_in = STDIN_FILENO;
+		meta_p->exec[n].fd_out = STDOUT_FILENO;
 		meta_p->exec[n].meta = meta_p;
 		meta_p->exec[n].index = n;
+		if (node->token == PIPE)
+			node = node->next;
 		if (!copy_argv(&node, &meta_p->exec[n]))
 			return (0);
 		if (meta_p->exec[n].argc > 0)
 			set_path(&meta_p->exec[n]);
 		++n;
 	}
-
-	return (exec_build_redirect(meta_p)); // ! exec_pipe was here
+	return (exec_build_redirect(meta_p));
 }
