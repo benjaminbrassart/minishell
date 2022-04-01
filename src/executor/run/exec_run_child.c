@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 12:41:55 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/01 04:01:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	_exec_builtin(t_exec *exec)
 	t_env_table *const	env = &exec->meta->sh->env;
 	int					status;
 
-	if (exec->is_builtin || exec->argc == 0)
+	if (exec->is_builtin)
 	{
 		status = g_exit_status;
 		if (exec->is_builtin)
@@ -52,6 +52,8 @@ static void	_exec_path(t_exec *exec)
 {
 	struct stat	st;
 
+	if (!exec->search_path)
+		return ;
 	if (stat(exec->interface.path, &st) == 0)
 	{
 		if (S_ISDIR(st.st_mode))
@@ -76,18 +78,21 @@ void	exec_run_child(t_exec *exec)
 {
 	char	**envp;
 
-	exec_run_setup_child(exec);
+	// exec_run_setup_child(exec);
+	// fprintf(stderr, "pid: %d, stdin: %d, stdout: %d\n", getpid(),
+		// exec->fds[0], exec->fds[1]);
+	if (exec->argc == 0)
+		exit(0);
 	_exec_builtin(exec);
 	_exec_nf(exec);
 	_exec_path(exec);
 	envp = env_toarray(&exec->meta->sh->env);
 	if (envp)
 	{
-		lex_heredoc_close(exec);
-		close_fds(exec->meta);
+		// lex_heredoc_close(exec);
 		execve(exec->interface.path, exec->argv, envp);
 	}
 	ft_perror(exec->argv[0], strerror(errno));
-	child_destroy(exec);
+	// child_destroy(exec);
 	exit(EXIT_STATUS_MAJOR);
 }

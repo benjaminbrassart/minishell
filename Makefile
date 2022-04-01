@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/03/31 06:04:35 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/04/01 06:32:41 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,9 @@ NAME_LIBFT				= $(DIR_LIBFT)/libft.a
 
 CFLAGS					= -Wall -Werror -Wextra -c -MMD -MP -Iinclude -I$(DIR_LIBFT)
 LDLIBS					= -lreadline -L$(DIR_LIBFT) -lft
+
+# TODO remove!
+DEBUG					= true
 
 ifeq ($(DEBUG), true)
 CFLAGS					+= -g3

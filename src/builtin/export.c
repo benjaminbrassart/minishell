@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:09:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/15 13:29:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 18:58:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,5 @@ int	builtin_export(int argc, char *argv[], t_env_table *env)
 			export_var(env, argv[i], &res);
 		++i;
 	}
-	return (res);
+	return (g_exit_status = res);
 }

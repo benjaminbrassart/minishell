@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:06:36 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 13:38:21 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 18:57:44 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,17 @@ int	builtin_exit(
 	t_env_table *env __attribute__((unused))
 )
 {
-	int	status;
-
 	if (argc > 2)
 	{
 		ft_perror(BUILTIN_EXIT, "Too many arguments");
-		return (EXIT_STATUS_MINOR);
-	}
-	status = 0;
-	if (argc == 2 && !parse_exit_status(argv[1], &status))
-	{
-		ft_perror(BUILTIN_EXIT, "Numeric argument required");
-		status = EXIT_STATUS_MAJOR;
+		return (g_exit_status = EXIT_STATUS_MINOR);
 	}
 	((t_sh *)(env->sh))->force_exit = 1;
 	close(STDIN_FILENO);
-	return (status);
+	if (argc == 2 && !parse_exit_status(argv[1], &g_exit_status))
+	{
+		ft_perror(BUILTIN_EXIT, "Numeric argument required");
+		g_exit_status = EXIT_STATUS_MAJOR;
+	}
+	return (g_exit_status);
 }

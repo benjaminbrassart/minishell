@@ -6,12 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:07:04 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 14:31:10 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 18:55:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "ft.h"
+#include "status.h"
 #include "utils.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -54,5 +55,5 @@ int	builtin_echo(
 	print_args(argv + i);
 	if (nl)
 		write(STDOUT_FILENO, "\n", 1);
-	return (0);
+	return (g_exit_status = 0);
 }

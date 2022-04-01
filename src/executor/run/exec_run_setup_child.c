@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:34 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 11:42:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 20:04:51 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,6 @@ void	exec_run_setup_child(t_exec *exec)
 	sigquit_default();
 	if (!exec_redirect(exec))
 	{
-		child_destroy(exec);
-		exit(EXIT_STATUS_MAJOR);
-	}
-	if (dup2(exec->fd_in, STDIN_FILENO) == -1
-		|| dup2(exec->fd_out, STDOUT_FILENO) == -1)
-	{
-		perror(PROGRAM_NAME);
 		child_destroy(exec);
 		exit(EXIT_STATUS_MAJOR);
 	}

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 17:53:56 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/31 05:12:27 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 20:30:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int		get_status(int rawst);
 #define stop() __stop(__FUNCTION__, __FILE__, __LINE__, strerror(errno))
 #pragma endregion
 
-#define CHILD_COUNT 1000000
+#define CHILD_COUNT 1000
 
 int	fds[CHILD_COUNT][2];
 

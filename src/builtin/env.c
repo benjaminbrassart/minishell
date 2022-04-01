@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 12:28:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/18 16:31:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 18:55:22 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	builtin_env(
 	if (argc != 1)
 	{
 		ft_perror(BUILTIN_ENV, "Too many arguments");
-		return (EXIT_STATUS_MINOR);
+		return (g_exit_status = EXIT_STATUS_MINOR);
 	}
 	entry = env->first_entry;
 	while (entry)
@@ -35,5 +35,5 @@ int	builtin_env(
 		printf("%s=%s\n", entry->key, entry->value);
 		entry = entry->next;
 	}
-	return (0);
+	return (g_exit_status = 0);
 }
