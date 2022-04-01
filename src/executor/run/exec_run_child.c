@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 04:01:32 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/01 14:10:39 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,25 @@ void	exec_run_child(t_exec *exec)
 {
 	char	**envp;
 
-	// exec_run_setup_child(exec);
 	// fprintf(stderr, "pid: %d, stdin: %d, stdout: %d\n", getpid(),
 		// exec->fds[0], exec->fds[1]);
 	if (exec->argc == 0)
+	{
+		child_destroy(exec);
 		exit(0);
+	}
 	_exec_builtin(exec);
 	_exec_nf(exec);
 	_exec_path(exec);
+	if (exec->index == 0)
+		close(exec->fds[0]);
 	envp = env_toarray(&exec->meta->sh->env);
 	if (envp)
 	{
-		// lex_heredoc_close(exec);
+		lex_heredoc_close(exec);
 		execve(exec->interface.path, exec->argv, envp);
 	}
 	ft_perror(exec->argv[0], strerror(errno));
-	// child_destroy(exec);
+	child_destroy(exec);
 	exit(EXIT_STATUS_MAJOR);
 }

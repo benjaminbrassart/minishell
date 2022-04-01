@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:34 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/31 20:04:51 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/01 09:39:55 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exec_run_setup_child(t_exec *exec)
 	if (!exec_redirect(exec))
 	{
 		child_destroy(exec);
-		exit(EXIT_STATUS_MAJOR);
+		exit(EXIT_STATUS_MINOR);
 	}
 	lex_heredoc_write(exec);
 }

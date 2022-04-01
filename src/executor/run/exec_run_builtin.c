@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 06:34:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 06:22:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/01 10:29:37 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static int	try_dup2(int fd, int fd2)
 	return (1);
 }
 
+// main process
 void	exec_run_builtin(t_exec *exec)
 {
 	t_env_table *const	env = &exec->meta->sh->env;

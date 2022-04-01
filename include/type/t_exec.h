@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 02:29:20 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 01:40:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/01 09:22:15 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ union u_exec_interface
 
 struct s_exec_red
 {
-	char		*path;
-	int			type;
-	int			fd;
-	int			hd_idx;
-	t_exec		*exec;
-	t_exec_red	*next;
+	char				*path;
+	int					type;
+	int					fd;
+	t_heredoc_buffer	*hd;
+	t_exec				*exec;
+	t_exec_red			*next;
 };
 
 struct s_exec_meta
