@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 12:13:54 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/01 14:01:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ static int	_exec_fork(t_exec *exec, int *pids)
 	if (pids[exec->index] == 0)
 	{
 		free(pids);
+		if (exec->index == exec->meta->count - 1 && exec->fds[1] != STDOUT_FILENO)
+		{
+			close(exec->fds[1]);
+			exec->fd_out = STDOUT_FILENO;
+		}
 		exec_run_setup_child(exec);
 		if (exec->fd_in != STDIN_FILENO)
 		{
@@ -48,7 +53,7 @@ static int	_exec_fork(t_exec *exec, int *pids)
 			}
 			close(exec->fd_in);
 		}
-		if ((exec->fd_out != exec->fds[1] || exec->index != exec->meta->count - 1) && exec->fd_out != STDOUT_FILENO)
+		if (exec->fd_out != STDOUT_FILENO)
 		{
 			if (dup2(exec->fd_out, STDOUT_FILENO) == -1)
 			{
@@ -57,7 +62,11 @@ static int	_exec_fork(t_exec *exec, int *pids)
 			}
 			close(exec->fd_out);
 		}
-		free(pids);
+		// if (exec->index != 0)
+		if (exec->index != 0 && (exec - 1)->fds[0] != STDIN_FILENO)
+			close((exec - 1)->fds[0]);
+		if ((exec->index == exec->meta->count - 1) && exec->fds[0] != STDIN_FILENO)
+			close(exec->fds[0]);
 		exec_run_child(exec);
 	}
 	if (exec->index != 0 && (exec - 1)->fds[0] != STDIN_FILENO)
