@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 14:10:39 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/01 15:50:41 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ void	exec_run_child(t_exec *exec)
 	_exec_builtin(exec);
 	_exec_nf(exec);
 	_exec_path(exec);
-	if (exec->index == 0)
-		close(exec->fds[0]);
 	envp = env_toarray(&exec->meta->sh->env);
 	if (envp)
 	{
