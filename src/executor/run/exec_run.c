@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 06:53:50 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/01 12:13:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ static int	_exec_fork(t_exec *exec, int *pids)
 	pids[exec->index] = fork();
 	if (pids[exec->index] == -1)
 	{
+		free(pids);
 		perror(PROGRAM_NAME);
 		return (0);
 	}
 	if (pids[exec->index] == 0)
 	{
+		free(pids);
 		exec_run_setup_child(exec);
-		if (exec->fds[0] != STDIN_FILENO)
-			close(exec->fds[0]);
 		if (exec->fd_in != STDIN_FILENO)
 		{
 			if (dup2(exec->fd_in, STDIN_FILENO) == -1)
@@ -119,13 +119,12 @@ int	exec_run(t_exec_meta *meta)
 		return (0);
 	}
 	sigint_ignore();
-	if (pids == NULL)
-		return (0);
 	n = 0;
 	while (n < meta->count)
 	{
 		if (pipe(meta->exec[n].fds) == -1)
 		{
+			free(pids);
 			perror(PROGRAM_NAME);
 			return (0);
 		}
