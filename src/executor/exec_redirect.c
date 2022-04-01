@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:42:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 06:37:46 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/01 09:26:16 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ static void	_red_in(t_exec_red *red, t_exec_red **last_heredoc)
 	{
 		if (*last_heredoc)
 		{
-			close((*last_heredoc)->exec->meta->sh->heredoc
-				.buffers[(*last_heredoc)->hd_idx].fd);
+			close((*last_heredoc)->hd->fd);
 			close((*last_heredoc)->fd);
 		}
 		*last_heredoc = red;

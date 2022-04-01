@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 07:14:17 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 12:33:58 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/01 09:27:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	lex_heredoc_write(t_exec *exec)
 	res = 1;
 	if (red)
 	{
-		buf = &exec->meta->sh->heredoc.buffers[red->hd_idx];
+		buf = red->hd;
 		if (write(buf->fd, buf->buffer.buf, buf->buffer.length) < 0)
 		{
 			perror(PROGRAM_NAME);
