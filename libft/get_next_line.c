@@ -5,6 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD
 /*   Created: 2022/03/29 11:17:05 by bbrassar          #+#    #+#             */
 /*   Updated: 2022/03/29 11:17:09 by bbrassar         ###   ########.fr       */
 /*                                                                            */
@@ -13,6 +14,16 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "ft.h"
+=======
+/*   Created: 2022/04/02 14:07:39 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/02 14:07:50 by bbrassar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft.h"
+#include <stdlib.h>
+#include <unistd.h>
+>>>>>>> bb482b249a862788f06c770ce4cf0d9658a78275
 
 static void	gnl_join(char **line, char *buffer, size_t n)
 {

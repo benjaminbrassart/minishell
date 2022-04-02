@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:42:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 15:30:38 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 14:27:26 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,15 @@ static void	_red_out(t_exec_red *red)
 	red->exec->fd_out = red->fd;
 }
 
+static int	_close_on_error(t_exec *exec)
+{
+	if (exec->fd_in != STDIN_FILENO)
+		close(exec->fd_in);
+	if (exec->fd_out != STDOUT_FILENO)
+		close(exec->fd_out);
+	return (0);
+}
+
 int	exec_redirect(t_exec *exec)
 {
 	t_exec_red	*red;
@@ -66,7 +75,7 @@ int	exec_redirect(t_exec *exec)
 	while (red)
 	{
 		if (!open_red(red))
-			return (0);
+			return (_close_on_error(exec));
 		if (red->type & RED_IN)
 			_red_in(red, &last_heredoc);
 		else if (red->type & RED_OUT)

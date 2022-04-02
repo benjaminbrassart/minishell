@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 03:27:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 09:46:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 15:27:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,26 @@ static int	list_add(t_token_list *list, int token, char *value)
 static int	lex_concat_inline(t_buffer *buffer, t_token_list *new_list,
 t_token_node *node)
 {
+	static t_token_node	*last_node = NULL;
+
 	if ((node->token & WORD) && !buffer_append(buffer, node->value))
 		return (0);
 	if (node->token == WORD_NQ && *(node->value) == 0)
+	{
+		last_node = node;
 		return (1);
+	}
 	if (node->token & ~WORD)
 	{
-		if ((buffer->length || buffer->position) && (!buffer_flush(buffer)
+		if (((last_node->token & (WORD_DQ | WORD_NQ)) || buffer->length
+				|| buffer->position) && (!buffer_flush(buffer)
 				|| !list_add(new_list, WORD, buffer->buf)))
 			return (0);
 		if (node->token != SEPARATOR && !list_add(new_list, node->token, NULL))
 			return (0);
 		buffer_init(buffer);
 	}
+	last_node = node;
 	return (1);
 }
 
