@@ -6,12 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:42:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 14:27:26 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 19:51:51 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "executor.h"
+#include "heredoc.h"
 #include "utils.h"
 #include <errno.h>
 #include <fcntl.h>
@@ -26,6 +27,7 @@ static void	_red_in(t_exec_red *red, t_exec_red **last_heredoc)
 		{
 			close((*last_heredoc)->hd->fd);
 			close((*last_heredoc)->fd);
+			(*last_heredoc)->open = 0;
 		}
 		*last_heredoc = red;
 	}
@@ -53,6 +55,7 @@ static void	_red_out(t_exec_red *red)
 
 static int	_close_on_error(t_exec *exec)
 {
+	lex_close_last_heredoc(exec);
 	if (exec->fd_in != STDIN_FILENO)
 		close(exec->fd_in);
 	if (exec->fd_out != STDOUT_FILENO)

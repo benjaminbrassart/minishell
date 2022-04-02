@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 15:50:41 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 18:09:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ void	exec_run_child(t_exec *exec)
 		child_destroy(exec);
 		exit(0);
 	}
+	lex_heredoc_close(exec);
 	_exec_builtin(exec);
 	_exec_nf(exec);
 	_exec_path(exec);
 	envp = env_toarray(&exec->meta->sh->env);
 	if (envp)
 	{
-		lex_heredoc_close(exec);
 		execve(exec->interface.path, exec->argv, envp);
 	}
 	ft_perror(exec->argv[0], strerror(errno));

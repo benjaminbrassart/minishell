@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_heredoc_write.c                                :+:      :+:    :+:   */
+/*   lex_close_last_heredoc.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/11 07:14:17 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 19:09:39 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/02 19:14:49 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/02 19:21:23 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "buffer.h"
-#include "builtin.h"
 #include "heredoc.h"
-#include "minishell.h"
-#include <stdio.h>
 #include <unistd.h>
 
-int	lex_heredoc_write(t_exec *exec)
+void	lex_close_last_heredoc(t_exec *exec)
 {
-	t_exec_red			*red;
-	t_heredoc_buffer	*buf;
-	int					res;
+	t_exec_red	*red;
 
-	red = lex_get_last_heredoc(exec, 0);
-	res = 1;
-	if (red)
+	red = lex_get_last_heredoc(exec, 1);
+	if (red && red->open)
 	{
-		buf = red->hd;
-		if (write(buf->fd, buf->buffer.buf, buf->buffer.length) < 0)
-		{
-			perror(PROGRAM_NAME);
-			res = 0;
-		}
-		buffer_delete(&buf->buffer);
+		close(red->fd);
+		close(red->hd->fd);
 	}
-	return (res);
 }

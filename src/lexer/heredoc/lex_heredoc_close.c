@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 12:37:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 09:22:44 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 18:08:59 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	lex_heredoc_close(t_exec *exec)
 	while (red)
 	{
 		if (red->hd)
+		{
+			close(red->fd);
 			close(red->hd->fd);
+		}
 		red = red->next;
 	}
 }
