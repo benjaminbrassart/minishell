@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 14:53:27 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 14:17:56 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,25 @@
 
 int	g_exit_status;
 
+static char	*get_line(t_sh *sh)
+{
+	char	*line;
+	int		res;
+
+	if (sh->is_interactive)
+		return (readline(DEFAULT_PROMPT));
+	res = get_next_line(STDIN_FILENO, &line);
+	if (res < 0 || (res == 0 && *line == 0))
+	{
+		if (res == 0)
+			free(line);
+		else
+			perror(PROGRAM_NAME);
+		return (NULL);
+	}
+	return (line);
+}
+
 static void	process_line(t_sh *sh)
 {
 	t_exec_meta	meta;
@@ -39,7 +58,8 @@ static void	process_line(t_sh *sh)
 
 static void	post_process_line(t_sh *sh, char *line)
 {
-	add_history(line);
+	if (sh->is_interactive)
+		add_history(line);
 	lex_delete(&sh->tokens);
 	lex_heredoc_delete(&sh->heredoc);
 	free(line);
@@ -50,7 +70,8 @@ static int	process_end(t_sh *sh)
 	lex_delete(&sh->tokens);
 	env_destroy(&sh->env);
 	clear_history();
-	write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof (EXIT_MESSAGE));
+	if (sh->is_interactive)
+		write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof (EXIT_MESSAGE));
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
@@ -72,7 +93,7 @@ int	main(
 		return (EXIT_FAILURE);
 	while (!sh.force_exit)
 	{
-		line = readline(DEFAULT_PROMPT);
+		line = get_line(&sh);
 		if (line == NULL)
 			break ;
 		n = 0;
