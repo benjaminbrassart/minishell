@@ -1,39 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_heredoc_write.c                                :+:      :+:    :+:   */
+/*   get_line.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/11 07:14:17 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 19:09:39 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/02 16:05:00 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/02 16:57:11 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "buffer.h"
-#include "builtin.h"
-#include "heredoc.h"
+#include "ft.h"
 #include "minishell.h"
+#include "type/t_sh.h"
+#include "utils.h"
+#include <readline/readline.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
-int	lex_heredoc_write(t_exec *exec)
+char	*get_line(t_sh *sh, char const *prompt)
 {
-	t_exec_red			*red;
-	t_heredoc_buffer	*buf;
-	int					res;
+	char	*line;
+	int		res;
 
-	red = lex_get_last_heredoc(exec, 0);
-	res = 1;
-	if (red)
+	if (sh->is_interactive)
+		return (readline(prompt));
+	res = get_next_line(STDIN_FILENO, &line);
+	if (res < 0 || (res == 0 && line != NULL && *line == 0))
 	{
-		buf = red->hd;
-		if (write(buf->fd, buf->buffer.buf, buf->buffer.length) < 0)
-		{
+		if (res == 0)
+			free(line);
+		else
 			perror(PROGRAM_NAME);
-			res = 0;
-		}
-		buffer_delete(&buf->buffer);
+		return (NULL);
 	}
-	return (res);
+	return (line);
 }

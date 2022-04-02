@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 05:59:27 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 00:53:07 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 17:09:17 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	lex_heredoc_build(t_token_list *list, t_heredoc *heredoc)
 	t_token_node	*node;
 	size_t			n;
 
-	ft_memset(heredoc, 0, sizeof (*heredoc));
 	node = list->first_node;
 	while (node)
 	{
@@ -42,6 +41,7 @@ int	lex_heredoc_build(t_token_list *list, t_heredoc *heredoc)
 	while (n < heredoc->count)
 	{
 		buffer_init(&heredoc->buffers[n].buffer);
+		heredoc->buffers[n].heredoc = heredoc;
 		heredoc->buffers[n++].delimiter = NULL;
 	}
 	return (1);

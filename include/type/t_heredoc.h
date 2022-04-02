@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 05:50:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/11 06:52:56 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 16:12:04 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,20 @@
 typedef struct s_heredoc_buffer	t_heredoc_buffer;
 typedef struct s_heredoc		t_heredoc;
 
-struct s_heredoc_buffer
-{
-	t_buffer	buffer;
-	char		*delimiter;
-	int			fd;
-};
-
 struct s_heredoc
 {
+	void				*sh;
 	t_heredoc_buffer	*buffers;
 	size_t				count;
+};
+
+struct s_heredoc_buffer
+{
+	t_heredoc	*heredoc;
+	t_buffer	buffer;
+	char		*delimiter;
+	int			expand;
+	int			fd;
 };
 
 #endif

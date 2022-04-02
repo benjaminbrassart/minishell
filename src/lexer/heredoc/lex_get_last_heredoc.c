@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_heredoc_write.c                                :+:      :+:    :+:   */
+/*   lex_get_last_heredoc.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/11 07:14:17 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 19:09:39 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/02 17:46:42 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/02 18:05:43 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "buffer.h"
-#include "builtin.h"
+#include "executor.h"
 #include "heredoc.h"
-#include "minishell.h"
-#include <stdio.h>
+#include "token.h"
 #include <unistd.h>
 
-int	lex_heredoc_write(t_exec *exec)
+t_exec_red	*lex_get_last_heredoc(t_exec *exec, int skip_simple)
 {
-	t_exec_red			*red;
-	t_heredoc_buffer	*buf;
-	int					res;
+	t_exec_red	*red;
+	t_exec_red	*last;
 
-	red = lex_get_last_heredoc(exec, 0);
-	res = 1;
-	if (red)
+	red = exec->red;
+	last = NULL;
+	while (red)
 	{
-		buf = red->hd;
-		if (write(buf->fd, buf->buffer.buf, buf->buffer.length) < 0)
-		{
-			perror(PROGRAM_NAME);
-			res = 0;
-		}
-		buffer_delete(&buf->buffer);
+		if (red->type == D_LESS)
+			last = red;
+		else if (red->type == LESS && !skip_simple)
+			last = NULL;
+		red = red->next;
 	}
-	return (res);
+	return (last);
 }

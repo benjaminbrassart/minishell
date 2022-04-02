@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:34 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 15:33:32 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 19:51:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	exec_run_setup_child(t_exec *exec)
 	sigquit_default();
 	if (!exec_redirect(exec))
 	{
+		lex_close_last_heredoc(exec);
 		close(exec->fd_in);
 		close(exec->fd_out);
 		child_destroy(exec);

@@ -6,7 +6,11 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 09:24:19 by bbrassar          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/04/02 15:42:39 by msainton         ###   ########.fr       */
+=======
+/*   Updated: 2022/04/02 16:04:55 by bbrassar         ###   ########.fr       */
+>>>>>>> 7e893cec12d35919e5792dda8bb8e99234a6b47d
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +81,7 @@ int	setup(t_sh *sh, char *ev[])
 	const t_sh	sh_init = {
 		.tokens = {.sh = sh, .first_node = NULL, .last_node = NULL, 0},
 		.env = {.first_entry = NULL, .last_entry = NULL, .count = 0, .sh = sh},
-		.heredoc = {.buffers = NULL, .count = 0},
+		.heredoc = {.sh = sh, .buffers = NULL, .count = 0},
 		.force_exit = 0,
 		.is_interactive = 0,
 	};

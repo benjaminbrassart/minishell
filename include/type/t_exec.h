@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 02:29:20 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 09:22:15 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 19:16:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ struct s_exec_red
 	char				*path;
 	int					type;
 	int					fd;
+	int					open;
 	t_heredoc_buffer	*hd;
 	t_exec				*exec;
 	t_exec_red			*next;

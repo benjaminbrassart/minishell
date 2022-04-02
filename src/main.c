@@ -6,7 +6,11 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/04/02 15:41:37 by msainton         ###   ########.fr       */
+=======
+/*   Updated: 2022/04/02 17:37:59 by bbrassar         ###   ########.fr       */
+>>>>>>> 7e893cec12d35919e5792dda8bb8e99234a6b47d
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +30,6 @@
 #include <unistd.h>
 
 int	g_exit_status;
-
-static char	*get_line(t_sh *sh)
-{
-	char	*line;
-	int		res;
-
-	if (sh->is_interactive)
-		return (readline(DEFAULT_PROMPT));
-	res = get_next_line(STDIN_FILENO, &line);
-	if (res < 0 || (res == 0 && *line == 0))
-	{
-		if (res == 0)
-			free(line);
-		else
-			perror(PROGRAM_NAME);
-		return (NULL);
-	}
-	return (line);
-}
 
 static void	process_line(t_sh *sh)
 {
@@ -93,7 +78,7 @@ int	main(
 		return (EXIT_FAILURE);
 	while (!sh.force_exit)
 	{
-		line = get_line(&sh);
+		line = get_line(&sh, DEFAULT_PROMPT);
 		if (line == NULL)
 			break ;
 		n = 0;
@@ -103,7 +88,8 @@ int	main(
 			continue ;
 		if (lex_tokenize(&sh.tokens, line)
 			&& lex_heredoc(&sh.tokens, &sh.heredoc)
-			&& lex_expand(&sh.tokens, &sh.env) && lex_postexpand(&sh.tokens)
+			&& lex_expand(&sh.tokens, &sh.env)
+			&& lex_postexpand(&sh.tokens)
 			&& lex_check_syntax(&sh.tokens) && sh.tokens.length > 0)
 			process_line(&sh);
 		post_process_line(&sh, line);
