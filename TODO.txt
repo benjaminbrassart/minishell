@@ -1,3 +1,17 @@
 handle too many args (malloc failed?)
 fix output checking in test script
 check for memory/fd leaks
+norminette
+
+cat | cat | ls
+
+<< EOF
+hello
+EOF
+	-> leaks pipe
+
+<< SEP1 << SEP2
+SEP1
+SEP2
+
+	-> only closes with SEP1
