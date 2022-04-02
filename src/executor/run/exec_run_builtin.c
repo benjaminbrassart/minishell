@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 06:34:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 10:29:37 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 23:23:20 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	exec_run_builtin(t_exec *exec)
 {
 	t_env_table *const	env = &exec->meta->sh->env;
 	int					save_fd[2];
+	t_exec_red			*red;
 
 	// printf("<parent>, stdin: %d, stdout: %d\n", exec->fd_in, exec->fd_out);
 	if (!exec_redirect(exec)
@@ -60,7 +61,10 @@ void	exec_run_builtin(t_exec *exec)
 		|| !try_dup(STDOUT_FILENO, &save_fd[1])
 		|| !try_dup2(exec->fd_in, STDIN_FILENO)
 		|| !try_dup2(exec->fd_out, STDOUT_FILENO))
-		return ;
+		return (lex_close_last_heredoc(exec));
+	red = lex_get_last_heredoc(exec, 1);
+	if (red)
+		close(red->hd->fd);
 	if (exec->fd_in != STDIN_FILENO && exec->fd_in != exec->fds[0])
 		close(exec->fd_in);
 	if (exec->fd_out != STDOUT_FILENO && exec->fd_out != exec->fds[1])

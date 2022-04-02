@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 06:13:37 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 09:25:46 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 22:26:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ size_t *n)
 		++(*n);
 	else if ((*node)->token & (RED_OUT | LESS))
 	{
-		if (!add_red(&meta->exec[*n], (*node)->next->value, (*node)->token, NULL))
+		if (!add_red(&meta->exec[*n], (*node)->next->value,
+				(*node)->token, NULL))
 			return (0);
 		*node = (*node)->next;
 	}
@@ -66,27 +67,6 @@ size_t *n)
 	return (1);
 }
 
-static int	_destroy(t_exec_meta *meta)
-{
-	size_t		n;
-	t_exec_red	*red;
-	t_exec_red	*fast;
-
-	n = 0;
-	while (n < meta->count)
-	{
-		red = meta->exec[n].red;
-		while (red)
-		{
-			fast = red->next;
-			free(red);
-			red = fast;
-		}
-		++n;
-	}
-	return (0);
-}
-
 int	exec_build_redirect(t_exec_meta *meta)
 {
 	t_token_list const	*list = &meta->sh->tokens;
@@ -98,7 +78,12 @@ int	exec_build_redirect(t_exec_meta *meta)
 	hd = meta->sh->heredoc.buffers;
 	n = 0;
 	while (node)
+	{
 		if (!_loop(&node, meta, &hd, &n))
-			return (_destroy(meta));
+		{
+			exec_delete_redirect(meta);
+			return (0);
+		}
+	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 07:14:17 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 19:09:39 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 22:02:27 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	lex_heredoc_write(t_exec *exec)
 			res = 0;
 		}
 		buffer_delete(&buf->buffer);
+		close(buf->fd);
 	}
 	return (res);
 }

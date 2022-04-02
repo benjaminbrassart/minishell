@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 05:59:27 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 17:09:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 22:55:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	lex_heredoc_build(t_token_list *list, t_heredoc *heredoc)
 			++heredoc->count;
 		node = node->next;
 	}
-	heredoc->buffers = malloc(sizeof (*heredoc->buffers) * heredoc->count);
+	heredoc->buffers = ft_calloc(heredoc->count, sizeof (*heredoc->buffers));
 	if (!heredoc->buffers)
 	{
 		perror(PROGRAM_NAME);
@@ -42,7 +42,8 @@ int	lex_heredoc_build(t_token_list *list, t_heredoc *heredoc)
 	{
 		buffer_init(&heredoc->buffers[n].buffer);
 		heredoc->buffers[n].heredoc = heredoc;
-		heredoc->buffers[n++].delimiter = NULL;
+		heredoc->buffers[n].delimiter = NULL;
+		++n;
 	}
 	return (1);
 }

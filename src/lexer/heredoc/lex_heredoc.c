@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 05:43:38 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 17:17:35 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 20:46:07 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ int	lex_heredoc(t_token_list *list, t_heredoc *heredoc)
 		if (node && node->next && (node->next->token & WORD))
 		{
 			if (!_heredoc(node->next, &heredoc->buffers[n]))
+			{
+				lex_heredoc_delete(heredoc);
 				return (0);
+			}
 			node = node->next->next;
 		}
 		else

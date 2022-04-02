@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:42:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 19:51:51 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 19:58:59 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	_red_in(t_exec_red *red, t_exec_red **last_heredoc)
 		{
 			close((*last_heredoc)->hd->fd);
 			close((*last_heredoc)->fd);
-			(*last_heredoc)->open = 0;
+			(*last_heredoc)->hd->open = 0;
 		}
 		*last_heredoc = red;
 	}

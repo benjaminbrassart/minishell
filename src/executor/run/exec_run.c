@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 19:19:52 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 23:15:52 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	_exec_fork(t_exec *exec, int *pids)
 			if (dup2(exec->fd_in, STDIN_FILENO) == -1)
 			{
 				perror(PROGRAM_NAME);
-				lex_heredoc_close(exec);
+				lex_close_last_heredoc(exec);
 				exit(EXIT_STATUS_MAJOR);
 			}
 			close(exec->fd_in);
@@ -66,7 +66,8 @@ static int	_exec_fork(t_exec *exec, int *pids)
 			}
 			close(exec->fd_out);
 		}
-		lex_heredoc_close(exec);
+		lex_close_last_heredoc(exec);
+		// lex_heredoc_delete(exec->meta);
 		// if (exec->index != 0)
 		if (exec->index != 0 && (exec - 1)->fds[0] != STDIN_FILENO)
 			close((exec - 1)->fds[0]);

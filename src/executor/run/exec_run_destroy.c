@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 05:21:17 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 03:57:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 23:21:28 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	child_destroy(t_exec *exec)
 	lex_delete(&exec->meta->sh->tokens);
 	exec_delete_redirect(exec->meta);
 	parent_close(exec->meta, (int)(exec - exec->meta->exec));
+	lex_close_last_heredoc(exec);
 	lex_heredoc_delete(&exec->meta->sh->heredoc);
 	free(exec->argv);
 	close(STDIN_FILENO);
