@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 05:50:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 16:12:04 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 22:49:16 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ struct s_heredoc_buffer
 	char		*delimiter;
 	int			expand;
 	int			fd;
+	int			open;
 };
 
 #endif

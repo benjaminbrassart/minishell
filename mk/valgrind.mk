@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/02 16:12:07 by bbrassar          #+#    #+#              #
-#    Updated: 2022/04/01 03:00:24 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/04/02 20:44:03 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ VALGRIND_OPT		= \
 					--leak-check=full \
 					--show-leak-kinds=all \
 					--trace-children=yes \
+					--track-origins=yes \
 					--track-fds=yes
 EXC_NAME			= $(dir $(NAME))$(notdir $(NAME))
 
