@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 21:07:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 00:55:04 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 22:22:21 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,25 @@ int	lex_postexpand(t_token_list *list)
 {
 	t_token_list	new_list;
 	t_token_node	*node;
+	t_token_node	*slow;
 	t_token_node	*fast;
 
 	ft_memset(&new_list, 0, sizeof (new_list));
 	node = list->first_node;
+	slow = NULL;
 	while (node)
 	{
 		fast = node->next;
-		if ((node->token & WORD_NQ) && ft_strchr(node->value, ' ') != NULL)
+		if ((node->token & WORD_NQ) && slow
+			&& (slow->token & ~(RED_IN | RED_OUT))
+			&& ft_strchr(node->value, ' ') != NULL)
 		{
 			if (!list_add_nq(&new_list, node))
 				return (0);
 		}
 		else
 			list_add(&new_list, node);
+		slow = node;
 		node = fast;
 	}
 	return (lex_concat(list));
