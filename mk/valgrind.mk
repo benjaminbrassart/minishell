@@ -6,18 +6,17 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/02 16:12:07 by bbrassar          #+#    #+#              #
-#    Updated: 2022/04/02 20:44:03 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/04/03 01:35:16 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 VALGRIND			= valgrind
-VALGRIND_OPT		= \
-					--suppressions=readline.supp \
-					--leak-check=full \
-					--show-leak-kinds=all \
-					--trace-children=yes \
-					--track-origins=yes \
-					--track-fds=yes
+VALGRIND_OPT		+= --suppressions=readline.supp
+VALGRIND_OPT		+= --trace-children=yes
+VALGRIND_OPT		+= --track-origins=yes
+VALGRIND_OPT		+= --track-fds=yes
+VALGRIND_OPT		+= --leak-check=full
+VALGRIND_OPT		+= --show-leak-kinds=all
 EXC_NAME			= $(dir $(NAME))$(notdir $(NAME))
 
 valgrind:
