@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run_child.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 18:09:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 20:11:22 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,13 @@ void	exec_run_child(t_exec *exec)
 	_exec_nf(exec);
 	_exec_path(exec);
 	envp = env_toarray(&exec->meta->sh->env);
-	if (envp)
+	if (!envp)
 	{
-		execve(exec->interface.path, exec->argv, envp);
+		ft_perror(exec->argv[0], strerror(errno));
+		exit(EXIT_STATUS_MAJOR);
 	}
+	execve(exec->interface.path, exec->argv, envp);
 	ft_perror(exec->argv[0], strerror(errno));
 	child_destroy(exec);
-	exit(EXIT_STATUS_MAJOR);
+	exit(EXIT_STATUS_NON_EXECUTABLE);
 }
