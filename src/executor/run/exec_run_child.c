@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 22:10:12 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 23:41:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,26 +51,33 @@ static void	_exec_nf(t_exec *exec)
 static void	_exec_path(t_exec *exec)
 {
 	struct stat	st;
+	int			status;
 
 	if (exec->argc == 0)
 		return ;
+	status = 0;
 	if (stat(exec->interface.path, &st) == 0)
 	{
 		if (S_ISDIR(st.st_mode))
 		{
 			ft_perror(exec->argv[0], MESSAGE_EXEC_DIR);
-			exit(EXIT_STATUS_NON_EXECUTABLE);
+			status = EXIT_STATUS_NON_EXECUTABLE;
 		}
-		if (access(exec->interface.path, X_OK) != 0)
+		else if (access(exec->interface.path, X_OK) != 0)
 		{
 			ft_perror(exec->argv[0], strerror(errno));
-			exit(EXIT_STATUS_NON_EXECUTABLE);
+			status = EXIT_STATUS_NON_EXECUTABLE;
 		}
 	}
 	else
 	{
 		ft_perror(exec->argv[0], strerror(errno));
-		exit(EXIT_STATUS_NOT_FOUND);
+		status = EXIT_STATUS_NOT_FOUND;
+	}
+	if (status != 0)
+	{
+		child_destroy(exec);
+		exit(status);
 	}
 }
 
@@ -91,9 +98,7 @@ void	exec_run_child(t_exec *exec)
 	_exec_path(exec);
 	envp = env_toarray(&exec->meta->sh->env);
 	if (envp)
-	{
 		execve(exec->interface.path, exec->argv, envp);
-	}
 	ft_perror(exec->argv[0], strerror(errno));
 	child_destroy(exec);
 	exit(EXIT_STATUS_MAJOR);
