@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 18:09:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 20:18:49 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	_exec_path(t_exec *exec)
 {
 	struct stat	st;
 
-	if (!exec->search_path)
+	if (exec->argc == 0)
 		return ;
 	if (stat(exec->interface.path, &st) == 0)
 	{
