@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/03/29 11:21:29 by bbrassar         ###   ########.fr       */
-=======
-/*   Updated: 2022/04/02 14:17:56 by bbrassar         ###   ########.fr       */
->>>>>>> bb482b249a862788f06c770ce4cf0d9658a78275
+/*   Updated: 2022/04/02 15:41:37 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +35,6 @@ static char	*get_line(t_sh *sh)
 	if (sh->is_interactive)
 		return (readline(DEFAULT_PROMPT));
 	res = get_next_line(STDIN_FILENO, &line);
-<<<<<<< HEAD
-	if (res == 1)
-		return (line);
-	if (res == -1)
-		perror(PROGRAM_NAME);
-	return (NULL);
-=======
 	if (res < 0 || (res == 0 && *line == 0))
 	{
 		if (res == 0)
@@ -55,7 +44,6 @@ static char	*get_line(t_sh *sh)
 		return (NULL);
 	}
 	return (line);
->>>>>>> bb482b249a862788f06c770ce4cf0d9658a78275
 }
 
 static void	process_line(t_sh *sh)
@@ -81,17 +69,9 @@ static int	process_end(t_sh *sh)
 {
 	lex_delete(&sh->tokens);
 	env_destroy(&sh->env);
-<<<<<<< HEAD
-	if (sh->is_interactive)
-	{
-		clear_history();
-		write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof (EXIT_MESSAGE));
-	}
-=======
 	clear_history();
 	if (sh->is_interactive)
 		write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof (EXIT_MESSAGE));
->>>>>>> bb482b249a862788f06c770ce4cf0d9658a78275
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);

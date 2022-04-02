@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 09:24:19 by bbrassar          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/03/29 11:30:48 by bbrassar         ###   ########.fr       */
-=======
-/*   Updated: 2022/04/02 14:18:23 by bbrassar         ###   ########.fr       */
->>>>>>> bb482b249a862788f06c770ce4cf0d9658a78275
+/*   Updated: 2022/04/02 15:42:39 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +14,7 @@
 #include "ft.h"
 #include "minishell.h"
 #include "sighandler.h"
-<<<<<<< HEAD
-=======
 #include "utils.h"
->>>>>>> bb482b249a862788f06c770ce4cf0d9658a78275
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>
@@ -62,21 +55,6 @@ static int	set_shlvl(t_env_table *env)
 	return (res);
 }
 
-<<<<<<< HEAD
-static int	check_tty(t_sh *sh)
-{
-	sh->is_interactive = 1;
-	sh->is_interactive &= isatty(STDIN_FILENO);
-	if (errno == EBADF)
-	{
-		perror(PROGRAM_NAME);
-		return (0);
-	}
-	sh->is_interactive &= isatty(STDERR_FILENO);
-	if (errno == EBADF)
-	{
-		perror(PROGRAM_NAME);
-=======
 int	_set_interactive(t_sh *sh)
 {
 	sh->is_interactive = isatty(STDIN_FILENO);
@@ -89,7 +67,6 @@ int	_set_interactive(t_sh *sh)
 	if (!sh->is_interactive && errno == EBADF)
 	{
 		ft_perror("failed to set interactive mode", strerror(errno));
->>>>>>> bb482b249a862788f06c770ce4cf0d9658a78275
 		return (0);
 	}
 	return (1);
@@ -102,19 +79,11 @@ int	setup(t_sh *sh, char *ev[])
 		.env = {.first_entry = NULL, .last_entry = NULL, .count = 0, .sh = sh},
 		.heredoc = {.buffers = NULL, .count = 0},
 		.force_exit = 0,
-<<<<<<< HEAD
-		.is_interactive = 0
-=======
 		.is_interactive = 0,
->>>>>>> bb482b249a862788f06c770ce4cf0d9658a78275
 	};
 
 	ft_memmove(sh, &sh_init, sizeof (sh_init));
 	setup_signal_handlers();
-<<<<<<< HEAD
-	return (check_tty(sh) && env_init(&sh->env, ev) && set_shlvl(&sh->env));
-=======
 	return (_set_interactive(sh) && env_init(&sh->env, ev)
 		&& set_shlvl(&sh->env));
->>>>>>> bb482b249a862788f06c770ce4cf0d9658a78275
 }
