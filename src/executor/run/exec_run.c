@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 23:15:52 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/03 01:32:35 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ static int	_exec_fork(t_exec *exec, int *pids)
 	if (pids[exec->index] == 0)
 	{
 		free(pids);
-		if (exec->fds[0] != STDIN_FILENO)
-			close(exec->fds[0]);
 		if (exec->index == exec->meta->count - 1 && exec->fds[1] != STDOUT_FILENO)
 		{
 			close(exec->fds[1]);
 			exec->fd_out = STDOUT_FILENO;
 		}
 		exec_run_setup_child(exec);
+		if (exec->fds[0] != STDIN_FILENO && exec->fds[0] != exec->fd_in)
+			close(exec->fds[0]);
 		if (exec->fd_in != STDIN_FILENO)
 		{
 			if (dup2(exec->fd_in, STDIN_FILENO) == -1)
@@ -137,23 +137,18 @@ int	exec_run(t_exec_meta *meta)
 	n = 0;
 	while (n < meta->count)
 	{
-		if (pipe(meta->exec[n].fds) == -1)
-		{
-			free(pids);
-			perror(PROGRAM_NAME);
-			return (0);
-		}
 		if (n == meta->count - 1)
 		{
-			if (meta->exec[n].fds[0] != STDIN_FILENO)
+			meta->exec[n].fds[0] = STDIN_FILENO;
+			meta->exec[n].fds[1] = STDOUT_FILENO;
+		}
+		else
+		{
+			if (pipe(meta->exec[n].fds) == -1)
 			{
-				close(meta->exec[n].fds[0]);
-				meta->exec[n].fds[0] = STDIN_FILENO;
-			}
-			if (meta->exec[n].fds[1] != STDOUT_FILENO)
-			{
-				close(meta->exec[n].fds[1]);
-				meta->exec[n].fds[1] = STDOUT_FILENO;
+				free(pids);
+				perror(PROGRAM_NAME);
+				return (0);
 			}
 		}
 		if (n == 0 && meta->exec->is_builtin)
