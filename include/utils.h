@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:38:48 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 16:49:18 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/03 05:18:18 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,10 @@ char	*str_expand(t_env_table *env, char const *s);
  * get a line, with a prompt if sh is in interactive mode
  */
 char	*get_line(t_sh *sh, char const *prompt);
+
+/**
+ * set environment variable SHLVL
+ */
+int		set_shlvl(t_env_table *env);
 
 #endif

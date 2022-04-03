@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/04/02 19:20:43 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/04/03 05:15:54 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,6 +87,7 @@ SRC						= \
 							util/ft_perror.c \
 							util/str_expand.c \
 							util/get_line.c \
+							util/set_shlvl.c \
 							lexer/heredoc/lex_heredoc.c \
 							lexer/heredoc/lex_heredoc_delete.c \
 							lexer/heredoc/lex_heredoc_read.c \
