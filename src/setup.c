@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 09:24:19 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 16:04:55 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/03 01:52:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,22 @@ static int	set_shlvl(t_env_table *env)
 
 int	_set_interactive(t_sh *sh)
 {
-	sh->is_interactive = isatty(STDIN_FILENO);
-	if (!sh->is_interactive && errno == EBADF)
+	sh->is_interactive &= isatty(STDIN_FILENO);
+	if (!sh->is_interactive)
 	{
-		ft_perror("failed to set interactive mode", strerror(errno));
+		if (errno == EBADF)
+			ft_perror("failed to set interactive mode", strerror(errno));
+		else
+			return (1);
 		return (0);
 	}
 	sh->is_interactive &= isatty(STDERR_FILENO);
-	if (!sh->is_interactive && errno == EBADF)
+	if (!sh->is_interactive)
 	{
-		ft_perror("failed to set interactive mode", strerror(errno));
+		if (errno == EBADF)
+			ft_perror("failed to set interactive mode", strerror(errno));
+		else
+			return (1);
 		return (0);
 	}
 	return (1);
@@ -79,7 +85,7 @@ int	setup(t_sh *sh, char *ev[])
 		.env = {.first_entry = NULL, .last_entry = NULL, .count = 0, .sh = sh},
 		.heredoc = {.sh = sh, .buffers = NULL, .count = 0},
 		.force_exit = 0,
-		.is_interactive = 0,
+		.is_interactive = sh->is_interactive,
 	};
 
 	ft_memmove(sh, &sh_init, sizeof (sh_init));
