@@ -58,8 +58,10 @@
 
 # Tips
 
+First things first, read the [Bash manual](https://www.gnu.org/software/bash/manual/bash.html).
+
 When creating forks and pipes, if the first executable is a builtin, bash executes it in its main process.
-If a builtin is not the first executable, bash executes it in a child process, causing builtins like `cd` or `export` to do nothing.
+If a builtin is not the first executable, bash executes it in a child process.
 
 - [How builtins work](https://unix.stackexchange.com/a/266824)
 - [zsh use of getcwd()](https://github.com/zsh-users/zsh/blob/00d20ed15e18f5af682f0daec140d6b8383c479a/Src/compat.c#L532)
@@ -76,3 +78,157 @@ valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all ./
 ```
 
 Thanks to [JonathanDUFOUR](https://github.com/JonathanDUFOUR/minishell/blob/cd0dc720ab1d3911afa8831fc81c86415f555e80/ignoreliberror)
+
+# Extra features
+- SHLVL environment variable that is incremented for each shell child process (bash/zsh/maybe others)
+- Unique pipe &ndash; pipeline is implemented one pipe at a time (like in microshell)
+
+# Things to test
+
+Everything you will see down there is either written in the [Bash manual](https://www.gnu.org/software/bash/manual/bash.html),
+the [readline manual](https://tiswww.case.edu/php/chet/readline/readline.html)
+or the [libc manual](https://linux.die.net/man/).
+
+---
+
+## Close your file descriptors
+
+```sh
+cat | cat | ls
+```
+
+**Good**
+
+*&lt;enter&gt;*
+*&lt;enter&gt;*
+
+**Bad**
+
+*&lt;enter&gt;*
+*&lt;enter&gt;*
+*&lt;enter&gt;*
+...
+*&lt;CTRL-D&gt;*
+
+**How to fix**
+
+It is likely that you are not be closing enough file descriptors (especially pipes) in your sub processes.
+Make sure you `close` every file descriptor as soon as you don't need them anymore.
+Please keep in mind that child process created with `fork` copies its parent's memory, including signal handlers and file descriptors.
+
+---
+
+## Heredoc separators
+
+```sh
+<< $sep
+hello
+world
+heredoc
+$sep
+```
+
+Your heredocs must break when reading the literal separator (no expansion is performed on here-document separators)
+
+---
+
+## Heredoc expandable mode
+
+```sh
+<< 'SEP'
+'PATH: $PATH'
+SEP
+# output: 'PATH: $PATH'
+
+<< SEP
+'PATH: $PATH'
+SEP
+# output: 'PATH: /bin:/usr/bin:...'
+```
+
+These two here documents do not produce the same result.
+When the heredoc separator contains quoted words (being empty, simple or composite), your heredoc must **NOT** expand variables.
+
+---
+
+## File redirection words are not split
+
+```sh
+export FILE='this is a file'
+echo Hello World > $FILE
+ls -l
+#...
+#-rw-r--r-- 1 user42 2021_paris 0 Apr  3 08:37 'this is a file'
+#...
+
+# Same goes for '<' and '>>'
+```
+
+---
+
+##  Pipeline commands only made of redirections are valid!
+
+```sh
+> test.out
+>> test.out
+< Makefile | cat
+pwd | > test.out
+pwd | < Makefile
+pwd | >> test.out < Makefile | cat | >> test2.out | rev
+# all these inputs are valid
+```
+
+---
+
+## Check your exit status
+
+The message you print does not really matter as long as it is relevant. What is more important is the status you will return if something goes wrong.
+
+```sh
+./NotFound		# 'Command not found' => 127
+./NotExecutable	# 'Permission denied' => 126
+/home/			# 'Is a directory' or 'Permission denied' => 126
+| cat			# 'Syntax error' => 2
+```
+
+If your command gets terminated or stopped by a signal, you must exit with `128` + `signal` (for example, `SIGINT` on Linux is `2` so it must exit with `128 + 2 = 130`).
+
+You should use `WIF*` macros (defined in `<wait.h>`) to get the real exit status of a process when using `wait` or `waitpid`. See [man 2 waitpid](https://linux.die.net/man/2/waitpid).
+
+---
+
+## Wait after you execute
+
+Fork in loop, then wait in another. That way, commands may run in parallel.
+
+```c
+int	pid;
+int	status;
+
+while (condition)
+{
+	// pipe here
+	pid = fork();
+	if (pid == -1)
+		handle_error();
+	if (pid == 0)
+		execute_child();
+}
+while (condition)
+{
+	pid = wait(&status); // wait for any child
+	if (pid == -1)
+		handle_error();
+	if (check_last_pid(pid))
+	{
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_exit_status = 128 + WTERMSIG(status);
+		else if (WIFSTOPPED(status))
+			g_exit_status = 128 + WSTOPSIG(status);
+		else
+			g_exit_status = status;
+	}
+}
+```
