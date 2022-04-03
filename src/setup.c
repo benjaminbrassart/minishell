@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 09:24:19 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/03 01:52:03 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/03 05:13:26 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	setup(t_sh *sh, char *ev[])
 		.env = {.first_entry = NULL, .last_entry = NULL, .count = 0, .sh = sh},
 		.heredoc = {.sh = sh, .buffers = NULL, .count = 0},
 		.force_exit = 0,
-		.is_interactive = sh->is_interactive,
+		.is_interactive = 1,
 	};
 
 	ft_memmove(sh, &sh_init, sizeof (sh_init));
