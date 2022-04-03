@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 21:07:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/03 03:02:56 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/03 04:16:16 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,19 @@ static int	list_add_nq(t_token_list *list, t_token_node *node)
 	{
 		new_node = malloc(sizeof (*new_node));
 		if (!new_node)
-			return (ft_split_destroy(array), perror(PROGRAM_NAME), 0);
-		list_add(list, fill_node(new_node, array[n++]));
+			break ;
+		list_add(list, fill_node(new_node, array[n]));
 		new_node = malloc(sizeof (*new_node));
 		if (!new_node)
-			return (ft_split_destroy(array), perror(PROGRAM_NAME), 0);
+			break ;
 		list_add(list, fill_node(new_node, NULL));
+		++n;
 	}
-	return (1);
+	if (array[n])
+		return (1);
+	ft_split_destroy(array);
+	perror(PROGRAM_NAME);
+	return (0);
 }
 
 int	lex_postexpand(t_token_list *list)
