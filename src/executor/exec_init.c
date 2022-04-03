@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_sh.h                                             :+:      :+:    :+:   */
+/*   exec_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/03 23:22:13 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/04 00:20:01 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/04 00:21:55 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_SH_H
-# define T_SH_H
+#include "executor.h"
+#include "ft.h"
+#include "minishell.h"
+#include "utils.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-# include "type/t_env_table.h"
-# include "type/t_heredoc.h"
-# include "type/t_token_list.h"
-
-typedef struct s_sh	t_sh;
-
-struct s_sh
+int	exec_init(t_token_list *list, t_exec_meta *meta)
 {
-	char			*line;
-	t_token_list	tokens;
-	t_env_table		env;
-	t_heredoc		heredoc;
-	int				force_exit;
-	int				is_interactive;
-};
-
-#endif
+	meta->count = command_count(list);
+	meta->exec = ft_calloc(meta->count, sizeof (*meta->exec));
+	if (meta->exec == NULL)
+	{
+		perror(PROGRAM_NAME);
+		return (0);
+	}
+	return (1);
+}

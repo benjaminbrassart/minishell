@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/03 01:32:35 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 00:19:05 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,29 +127,17 @@ int	exec_run(t_exec_meta *meta)
 	size_t	n;
 	pid_t	*pids;
 
-	pids = malloc(sizeof (*pids) * meta->count);
+	pids = exec_pids_init(meta);
 	if (pids == NULL)
-	{
-		perror(PROGRAM_NAME);
 		return (0);
-	}
 	sigint_ignore();
 	n = 0;
 	while (n < meta->count)
 	{
-		if (n == meta->count - 1)
+		if (exec_pipe(&meta->exec[n]) < 0)
 		{
-			meta->exec[n].fds[0] = STDIN_FILENO;
-			meta->exec[n].fds[1] = STDOUT_FILENO;
-		}
-		else
-		{
-			if (pipe(meta->exec[n].fds) == -1)
-			{
-				free(pids);
-				perror(PROGRAM_NAME);
-				return (0);
-			}
+			free(pids);
+			return (0);
 		}
 		if (n == 0 && meta->exec->is_builtin)
 			exec_run_builtin(meta->exec);

@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_sh.h                                             :+:      :+:    :+:   */
+/*   exec_pids_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/03 23:22:13 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/04 00:15:34 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/04 00:18:13 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_SH_H
-# define T_SH_H
+#include "executor.h"
+#include "minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
 
-# include "type/t_env_table.h"
-# include "type/t_heredoc.h"
-# include "type/t_token_list.h"
-
-typedef struct s_sh	t_sh;
-
-struct s_sh
+pid_t	*exec_pids_init(t_exec_meta *meta)
 {
-	char			*line;
-	t_token_list	tokens;
-	t_env_table		env;
-	t_heredoc		heredoc;
-	int				force_exit;
-	int				is_interactive;
-};
+	pid_t	*pids;
 
-#endif
+	pids = malloc(sizeof (*pids) * meta->count);
+	if (!pids)
+		perror(PROGRAM_NAME);
+	return (pids);
+}
