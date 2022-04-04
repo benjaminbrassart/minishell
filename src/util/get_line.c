@@ -1,39 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   get_line.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/22 12:28:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/31 18:55:22 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/02 16:05:00 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/04 04:14:20 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
-#include "status.h"
+#include "ft.h"
+#include "minishell.h"
+#include "type/t_sh.h"
 #include "utils.h"
+#include <readline/readline.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
-int	builtin_env(
-	int argc __attribute__((unused)),
-	char *argv[] __attribute__((unused)),
-	t_env_table *env
-)
+char	*get_line(t_sh *sh, char const *prompt)
 {
-	t_env	*entry;
+	char	*line;
+	int		res;
 
-	if (argc != 1)
+	if (sh->is_interactive)
+		return (readline(prompt));
+	res = get_next_line(STDIN_FILENO, &line);
+	if (res < 0 || (res == 0 && (line == NULL || *line == 0)))
 	{
-		ft_perror(BUILTIN_ENV, "Too many arguments");
-		return (g_exit_status = EXIT_STATUS_MINOR);
+		if (res == 0)
+			free(line);
+		else
+			perror(PROGRAM_NAME);
+		line = NULL;
 	}
-	entry = env->first_entry;
-	while (entry)
-	{
-		printf("%s=%s\n", entry->key, entry->value);
-		entry = entry->next;
-	}
-	return (g_exit_status = 0);
+	return (line);
 }

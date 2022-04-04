@@ -1,40 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_run_setup_child.c                             :+:      :+:    :+:   */
+/*   set_shlvl.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/24 05:34:34 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 19:51:48 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/03 05:15:06 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/03 05:18:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include "executor.h"
-#include "heredoc.h"
+#include "ft.h"
 #include "minishell.h"
-#include "sighandler.h"
-#include "status.h"
-#include "utils.h"
-#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <unistd.h>
 
-void	exec_run_setup_child(t_exec *exec)
+int	set_shlvl(t_env_table *env)
 {
-	sigint_default();
-	sigquit_default();
-	if (!exec_redirect(exec))
+	char	*shlvl_var;
+	char	*end;
+	int		shlvl;
+	int		res;
+
+	shlvl_var = env_get(env, "SHLVL");
+	shlvl = 0;
+	if (shlvl_var)
 	{
-		lex_close_last_heredoc(exec);
-		close(exec->fd_in);
-		close(exec->fd_out);
-		child_destroy(exec);
-		exit(EXIT_STATUS_MINOR);
+		shlvl = ft_strtoi(shlvl_var, &end);
+		if (shlvl_var == end || *end != 0)
+			shlvl = 0;
 	}
-	lex_heredoc_write(exec);
+	res = 0;
+	shlvl_var = ft_itoa(++shlvl);
+	if (shlvl_var)
+	{
+		res = env_set(env, "SHLVL", shlvl_var);
+		free(shlvl_var);
+	}
+	if (!res)
+		perror(PROGRAM_NAME);
+	return (res);
 }

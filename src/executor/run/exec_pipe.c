@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_heredoc.h                                        :+:      :+:    :+:   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/15 05:50:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 22:49:16 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/04 00:10:54 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/04 00:51:20 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_HEREDOC_H
-# define T_HEREDOC_H
+#include "executor.h"
+#include "minishell.h"
+#include <stdio.h>
+#include <unistd.h>
 
-# include "type/t_buffer.h"
-
-typedef struct s_heredoc_buffer	t_heredoc_buffer;
-typedef struct s_heredoc		t_heredoc;
-
-struct s_heredoc
+int	exec_pipe(t_exec *exec)
 {
-	void				*sh;
-	t_heredoc_buffer	*buffers;
-	size_t				count;
-};
+	int	res;
 
-struct s_heredoc_buffer
-{
-	t_heredoc	*heredoc;
-	t_buffer	buffer;
-	char		*delimiter;
-	int			expand;
-	int			fd;
-	int			open;
-};
-
-#endif
+	if (exec->index == exec->meta->count - 1)
+	{
+		exec->fds[0] = STDIN_FILENO;
+		exec->fds[1] = STDOUT_FILENO;
+		return (0);
+	}
+	res = pipe(exec->fds);
+	if (res < 0)
+		perror(PROGRAM_NAME);
+	return (res);
+}

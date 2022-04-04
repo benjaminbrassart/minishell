@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:05:50 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/15 13:29:34 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 19:00:11 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,11 @@ int	builtin_unset(
 		if (is_var_name(argv[n]))
 			env_unset(env, argv[n]);
 		else
+		{
 			ft_paerror(BUILTIN_UNSET, argv[n], "Not a valid identifier");
+			res = EXIT_STATUS_MINOR;
+		}
 		++n;
 	}
-	return (res);
+	return (g_exit_status = res);
 }

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 06:13:37 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/23 04:12:55 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 22:26:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int	add_red(t_exec *exec, char *path, int type, int hd_index)
+static int	add_red(t_exec *exec, char *path, int type, t_heredoc_buffer *hd)
 {
 	t_exec_red	*red;
 	t_exec_red	*iter;
@@ -28,7 +28,7 @@ static int	add_red(t_exec *exec, char *path, int type, int hd_index)
 	}
 	red->path = path;
 	red->type = type;
-	red->hd_idx = hd_index;
+	red->hd = hd;
 	red->next = NULL;
 	red->fd = -1;
 	red->exec = exec;
@@ -44,22 +44,21 @@ static int	add_red(t_exec *exec, char *path, int type, int hd_index)
 	return (1);
 }
 
-static int	_loop(t_token_node **node, t_exec_meta *meta, int *hd_index)
+static int	_loop(t_token_node **node, t_exec_meta *meta, t_heredoc_buffer **hd,
+size_t *n)
 {
-	size_t	n;
-
-	n = 0;
 	if ((*node)->token == PIPE)
-		++n;
+		++(*n);
 	else if ((*node)->token & (RED_OUT | LESS))
 	{
-		if (!add_red(&meta->exec[n], (*node)->next->value, (*node)->token, -1))
+		if (!add_red(&meta->exec[*n], (*node)->next->value,
+				(*node)->token, NULL))
 			return (0);
 		*node = (*node)->next;
 	}
 	else if ((*node)->token == D_LESS)
 	{
-		if (!add_red(&meta->exec[n], NULL, D_LESS, (*hd_index)++))
+		if (!add_red(&meta->exec[*n], NULL, D_LESS, (*hd)++))
 			return (0);
 		*node = (*node)->next;
 	}
@@ -72,12 +71,19 @@ int	exec_build_redirect(t_exec_meta *meta)
 {
 	t_token_list const	*list = &meta->sh->tokens;
 	t_token_node		*node;
-	int					hd_index;
+	t_heredoc_buffer	*hd;
+	size_t				n;
 
 	node = list->first_node;
-	hd_index = 0;
+	hd = meta->sh->heredoc.buffers;
+	n = 0;
 	while (node)
-		if (!_loop(&node, meta, &hd_index))
+	{
+		if (!_loop(&node, meta, &hd, &n))
+		{
+			exec_delete_redirect(meta);
 			return (0);
+		}
+	}
 	return (1);
 }

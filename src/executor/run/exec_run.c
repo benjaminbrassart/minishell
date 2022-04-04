@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 11:43:39 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 06:12:11 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,54 +31,23 @@ static int	_exec_fork(t_exec *exec, int *pids)
 	pids[exec->index] = fork();
 	if (pids[exec->index] == -1)
 	{
+		free(pids);
 		perror(PROGRAM_NAME);
 		return (0);
 	}
 	if (pids[exec->index] == 0)
 	{
 		free(pids);
-		exec_run_child(exec);
+		exec_fork(exec);
 	}
+	++exec->meta->started;
+	if (exec->index != 0 && (exec - 1)->fds[0] != STDIN_FILENO)
+		close((exec - 1)->fds[0]);
+	if (exec->index == exec->meta->count - 1 && exec->fds[0] != STDIN_FILENO)
+		close(exec->fds[0]);
+	if (exec->fds[1] != STDOUT_FILENO)
+		close(exec->fds[1]);
 	return (1);
-}
-
-static void	_wait_child(t_exec_meta *meta, pid_t *pids, size_t n)
-{
-	int	status;
-
-	if (waitpid(pids[n], &status, 0) == -1)
-	{
-		perror(PROGRAM_NAME);
-		return ;
-	}
-	g_exit_status = get_exit_status(status);
-	if (n == meta->count - 1 && WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGINT)
-			handle_sigint(0);
-		if (WTERMSIG(status) == SIGQUIT)
-			write(STDERR_FILENO, MESSAGE_CHILD_QUIT "\n",
-				sizeof (MESSAGE_CHILD_QUIT));
-		if (WTERMSIG(status) == SIGSEGV)
-			write(STDERR_FILENO, MESSAGE_CHILD_SEGV "\n",
-				sizeof (MESSAGE_CHILD_SEGV));
-	}
-}
-
-static void	_cleanup(t_exec_meta *meta, pid_t *pids)
-{
-	size_t	n;
-
-	n = 0;
-	if (meta->exec->is_builtin || meta->exec->argc == 0)
-		++n;
-	close_fds(meta);
-	while (n < meta->count)
-		_wait_child(meta, pids, n++);
-	exec_delete_redirect(meta);
-	parent_close(meta, -1);
-	free(pids);
-	sigint_install();
 }
 
 int	exec_run(t_exec_meta *meta)
@@ -86,24 +55,25 @@ int	exec_run(t_exec_meta *meta)
 	size_t	n;
 	pid_t	*pids;
 
-	pids = malloc(sizeof (*pids) * meta->count);
+	pids = exec_pids_init(meta);
 	if (pids == NULL)
-	{
-		perror(PROGRAM_NAME);
 		return (0);
-	}
 	sigint_ignore();
-	if (pids == NULL)
-		return (0);
 	n = 0;
 	while (n < meta->count)
 	{
-		if (n == 0 && (meta->exec->is_builtin || meta->exec[n].argc == 0))
+		if (exec_pipe(&meta->exec[n]) < 0)
+		{
+			free(pids);
+			return (0);
+		}
+		if (n == 0 && meta->exec->is_builtin)
 			exec_run_builtin(meta->exec);
 		else
 			_exec_fork(&meta->exec[n], pids);
 		++n;
 	}
-	_cleanup(meta, pids);
+	exec_wait(meta, pids);
+	exec_run_cleanup(meta, pids);
 	return (1);
 }

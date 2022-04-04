@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 03:27:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 09:46:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 04:56:47 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,48 +31,67 @@ static int	list_add(t_token_list *list, int token, char *value)
 	return (1);
 }
 
-static int	lex_concat_inline(t_buffer *buffer, t_token_list *new_list,
-t_token_node *node)
+static int	_not_word(int *is_arg, t_buffer *buf, t_token_node *node,
+t_token_list *new_list)
 {
-	if ((node->token & WORD) && !buffer_append(buffer, node->value))
-		return (0);
-	if (node->token == WORD_NQ && *(node->value) == 0)
-		return (1);
-	if (node->token & ~WORD)
+	if ((*is_arg && (!buffer_flush(buf) || !list_add(new_list, WORD, buf->buf)))
+		|| (node != NULL && node->token != SEPARATOR
+			&& !list_add(new_list, node->token, NULL)))
 	{
-		if ((buffer->length || buffer->position) && (!buffer_flush(buffer)
-				|| !list_add(new_list, WORD, buffer->buf)))
-			return (0);
-		if (node->token != SEPARATOR && !list_add(new_list, node->token, NULL))
-			return (0);
-		buffer_init(buffer);
+		buffer_delete(buf);
+		perror(PROGRAM_NAME);
+		return (0);
 	}
+	buffer_init(buf);
+	*is_arg = 0;
 	return (1);
+}
+
+static int	_word(int *is_arg, t_buffer *buf, t_token_node *node)
+{
+	if (!buffer_append(buf, node->value))
+	{
+		buffer_delete(buf);
+		perror(PROGRAM_NAME);
+		return (0);
+	}
+	if (((node->token & (WORD_DQ | WORD_SQ))
+			|| ((node->token & WORD_NQ) && *node->value != 0)))
+		*is_arg = 1;
+	return (1);
+}
+
+static void	_init(t_token_list *new_list, t_token_list *list, t_buffer *buf,
+int *is_arg)
+{
+	ft_memset(new_list, 0, sizeof (*new_list));
+	new_list->sh = list->sh;
+	*is_arg = 0;
+	buffer_init(buf);
 }
 
 int	lex_concat(t_token_list *list)
 {
 	t_buffer		buf;
 	t_token_list	new_list;
-	t_token_node	*slow;
 	t_token_node	*node;
+	int				is_arg;
 
-	ft_memset(&new_list, 0, sizeof (new_list));
-	new_list.sh = list->sh;
+	_init(&new_list, list, &buf, &is_arg);
 	node = list->first_node;
-	slow = NULL;
-	buffer_init(&buf);
-	while (node)
+	while (1)
 	{
-		if (!lex_concat_inline(&buf, &new_list, node))
-			return (buffer_delete(&buf), perror(PROGRAM_NAME), 0);
-		slow = node;
+		if (node == NULL || (node->token & ~WORD))
+		{
+			if (!_not_word(&is_arg, &buf, node, &new_list))
+				return (0);
+			if (node == NULL)
+				break ;
+		}
+		else if ((node->token & WORD) && !_word(&is_arg, &buf, node))
+			return (0);
 		node = node->next;
 	}
-	if (slow && ((slow->token & (WORD_SQ | WORD_DQ))
-			|| ((slow->token & WORD_NQ) && (buf.length || buf.position)))
-		&& (!buffer_flush(&buf) || !list_add(&new_list, WORD, buf.buf)))
-		return (0);
 	lex_delete(list);
 	ft_memmove(list, &new_list, sizeof (*list));
 	return (1);

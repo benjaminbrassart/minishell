@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_heredoc.h                                        :+:      :+:    :+:   */
+/*   lex_get_last_heredoc.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/15 05:50:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 22:49:16 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/02 17:46:42 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/02 18:05:43 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_HEREDOC_H
-# define T_HEREDOC_H
+#include "executor.h"
+#include "heredoc.h"
+#include "token.h"
+#include <unistd.h>
 
-# include "type/t_buffer.h"
-
-typedef struct s_heredoc_buffer	t_heredoc_buffer;
-typedef struct s_heredoc		t_heredoc;
-
-struct s_heredoc
+t_exec_red	*lex_get_last_heredoc(t_exec *exec, int skip_simple)
 {
-	void				*sh;
-	t_heredoc_buffer	*buffers;
-	size_t				count;
-};
+	t_exec_red	*red;
+	t_exec_red	*last;
 
-struct s_heredoc_buffer
-{
-	t_heredoc	*heredoc;
-	t_buffer	buffer;
-	char		*delimiter;
-	int			expand;
-	int			fd;
-	int			open;
-};
-
-#endif
+	red = exec->red;
+	last = NULL;
+	while (red)
+	{
+		if (red->type == D_LESS)
+			last = red;
+		else if (red->type == LESS && !skip_simple)
+			last = NULL;
+		red = red->next;
+	}
+	return (last);
+}

@@ -6,19 +6,20 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 05:43:38 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 16:10:36 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/02 20:46:07 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "buffer.h"
 #include "heredoc.h"
 
-static int	_heredoc(t_token_node *node, t_heredoc *heredoc, size_t n)
+static int	_heredoc(t_token_node *node, t_heredoc_buffer *heredoc)
 {
 	t_buffer	buffer;
+	int			expand;
 
 	buffer_init(&buffer);
-	node = node->next;
+	expand = 1;
 	while (node && (node->token & WORD))
 	{
 		if (!buffer_append(&buffer, node->value))
@@ -26,6 +27,7 @@ static int	_heredoc(t_token_node *node, t_heredoc *heredoc, size_t n)
 			buffer_delete(&buffer);
 			return (0);
 		}
+		expand &= (node->token & WORD_NQ);
 		node = node->next;
 	}
 	if (!buffer_flush(&buffer))
@@ -33,7 +35,8 @@ static int	_heredoc(t_token_node *node, t_heredoc *heredoc, size_t n)
 		buffer_delete(&buffer);
 		return (0);
 	}
-	heredoc->buffers[n].delimiter = buffer.buf;
+	heredoc->expand = expand;
+	heredoc->delimiter = buffer.buf;
 	return (1);
 }
 
@@ -52,8 +55,12 @@ int	lex_heredoc(t_token_list *list, t_heredoc *heredoc)
 			node = node->next;
 		if (node && node->next && (node->next->token & WORD))
 		{
-			if (!_heredoc(node, heredoc, n))
+			if (!_heredoc(node->next, &heredoc->buffers[n]))
+			{
+				lex_heredoc_delete(heredoc);
 				return (0);
+			}
+			node = node->next->next;
 		}
 		else
 			return (1);

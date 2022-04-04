@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_heredoc.h                                        :+:      :+:    :+:   */
+/*   exec_run_cleanup.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/15 05:50:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 22:49:16 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/04 06:00:44 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/04 06:01:21 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_HEREDOC_H
-# define T_HEREDOC_H
+#include "executor.h"
+#include "sighandler.h"
+#include <stdlib.h>
 
-# include "type/t_buffer.h"
-
-typedef struct s_heredoc_buffer	t_heredoc_buffer;
-typedef struct s_heredoc		t_heredoc;
-
-struct s_heredoc
+void	exec_run_cleanup(t_exec_meta *meta, pid_t *pids)
 {
-	void				*sh;
-	t_heredoc_buffer	*buffers;
-	size_t				count;
-};
-
-struct s_heredoc_buffer
-{
-	t_heredoc	*heredoc;
-	t_buffer	buffer;
-	char		*delimiter;
-	int			expand;
-	int			fd;
-	int			open;
-};
-
-#endif
+	exec_delete_redirect(meta);
+	parent_close(meta, -1);
+	free(pids);
+	sigint_install();
+}
