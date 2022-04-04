@@ -6,12 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/04 05:56:18 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:58:26 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "executor.h"
+#include "ft.h"
 #include "heredoc.h"
 #include "status.h"
 #include "utils.h"
@@ -93,10 +94,12 @@ void	exec_run_child(t_exec *exec)
 	if (!envp)
 	{
 		ft_perror(exec->argv[0], strerror(errno));
+		child_destroy(exec);
 		exit(EXIT_STATUS_MAJOR);
 	}
 	execve(exec->interface.path, exec->argv, envp);
 	ft_perror(exec->argv[0], strerror(errno));
+	ft_split_destroy(envp);
 	child_destroy(exec);
 	exit(EXIT_STATUS_NON_EXECUTABLE);
 }
