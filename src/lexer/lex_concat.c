@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 03:27:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/03 04:13:55 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 00:25:39 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,15 @@ static int	_not_word(int *isarg, t_buffer *buf, t_token_node *node,
 	return (1);
 }
 
+static void	_init(t_token_list *new_list, t_token_list *list, t_buffer *buf,
+int *is_arg)
+{
+	ft_memset(new_list, 0, sizeof (*new_list));
+	new_list->sh = list->sh;
+	*is_arg = 0;
+	buffer_init(buf);
+}
+
 int	lex_concat(t_token_list *list)
 {
 	t_buffer		buf;
@@ -57,11 +66,8 @@ int	lex_concat(t_token_list *list)
 	t_token_node	*node;
 	int				is_arg;
 
-	ft_memset(&new_list, 0, sizeof (new_list));
-	new_list.sh = list->sh;
+	_init(&new_list, list, &buf, &is_arg);
 	node = list->first_node;
-	is_arg = 0;
-	buffer_init(&buf);
 	while (1)
 	{
 		if (node == NULL || (node->token & ~WORD))
