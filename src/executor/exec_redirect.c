@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:42:58 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/03 22:22:52 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 09:54:45 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ static int	_close_on_error(t_exec *exec)
 		close(exec->fd_in);
 	if (exec->fd_out != STDOUT_FILENO)
 		close(exec->fd_out);
+	if (exec->fds[0] != STDIN_FILENO)
+		close(exec->fds[0]);
+	if (exec->fds[1] != STDOUT_FILENO)
+		close(exec->fds[1]);
 	return (0);
 }
 
