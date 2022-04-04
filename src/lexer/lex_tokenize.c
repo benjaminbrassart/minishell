@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 08:44:46 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 04:46:18 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,14 @@ int	lex_tokenize(t_token_list *list, char *input)
 	char		*line;
 
 	line = ft_strtrim(input);
+	free(input);
 	if (line == NULL)
 	{
 		perror(PROGRAM_NAME);
 		return (0);
 	}
 	input = line;
-	while (*input)
+	while (*input != 0)
 	{
 		while (ft_isspace(*input))
 			++input;
@@ -47,11 +48,10 @@ int	lex_tokenize(t_token_list *list, char *input)
 			break ;
 		tokenizer = get_tokenizer(input);
 		if (!_tokenize(tokenizer, list, &input))
-		{
-			free(line);
-			return (0);
-		}
+			break ;
 	}
+	if (*input != 0)
+		perror(PROGRAM_NAME);
 	free(line);
 	return (1);
 }

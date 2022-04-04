@@ -4,3 +4,6 @@
 /*.c
 *.log
 .nfs*
+!/test_pipe.c
+~*
+*.swp

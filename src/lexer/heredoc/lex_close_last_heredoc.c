@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_heredoc.h                                        :+:      :+:    :+:   */
+/*   lex_close_last_heredoc.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/15 05:50:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 22:49:16 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/02 19:14:49 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/02 23:21:02 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_HEREDOC_H
-# define T_HEREDOC_H
+#include "heredoc.h"
+#include <stdio.h>
+#include <unistd.h>
 
-# include "type/t_buffer.h"
-
-typedef struct s_heredoc_buffer	t_heredoc_buffer;
-typedef struct s_heredoc		t_heredoc;
-
-struct s_heredoc
+void	lex_close_last_heredoc(t_exec *exec)
 {
-	void				*sh;
-	t_heredoc_buffer	*buffers;
-	size_t				count;
-};
+	t_exec_red	*red;
 
-struct s_heredoc_buffer
-{
-	t_heredoc	*heredoc;
-	t_buffer	buffer;
-	char		*delimiter;
-	int			expand;
-	int			fd;
-	int			open;
-};
-
-#endif
+	red = lex_get_last_heredoc(exec, 1);
+	if (red && red->hd->open)
+	{
+		close(red->fd);
+		close(red->hd->fd);
+		red->hd->open = 0;
+	}
+}

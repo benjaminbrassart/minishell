@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:09:09 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/15 13:29:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:38:44 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ int	builtin_export(int argc, char *argv[], t_env_table *env)
 	int	res;
 
 	if (argc < 2)
-		return (ft_perror(BUILTIN_EXPORT, "Not enough arguments"), 1);
+	{
+		ft_perror(BUILTIN_EXPORT, "Not enough arguments");
+		return (g_exit_status = EXIT_STATUS_MINOR);
+	}
 	res = 0;
 	i = 1;
 	while (i < argc)
@@ -72,5 +75,5 @@ int	builtin_export(int argc, char *argv[], t_env_table *env)
 			export_var(env, argv[i], &res);
 		++i;
 	}
-	return (res);
+	return (g_exit_status = res);
 }

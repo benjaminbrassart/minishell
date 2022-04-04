@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 08:36:03 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/15 13:29:30 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/03/31 18:59:16 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ int	builtin_pwd(
 		len = ft_strlen(cwd);
 		cwd[len] = '\n';
 		if (write(STDOUT_FILENO, cwd, len + 1) >= 0)
-			return (free(cwd), EXIT_STATUS_OK);
+		{
+			free(cwd);
+			return (g_exit_status = EXIT_STATUS_OK);
+		}
 	}
-	free(cwd);
 	ft_perror(BUILTIN_PWD, strerror(errno));
-	return (EXIT_STATUS_MINOR);
+	return (g_exit_status = EXIT_STATUS_MINOR);
 }

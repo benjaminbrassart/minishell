@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 14:53:27 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 10:48:11 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,23 @@ static void	process_line(t_sh *sh)
 {
 	t_exec_meta	meta;
 
-	ft_memset(&meta, 0, sizeof (meta));
-	meta.sh = sh;
-	if (exec_build(&sh->tokens, &meta))
+	if (sh->is_interactive)
+		add_history(sh->line);
+	if (lex_tokenize(&sh->tokens, sh->line)
+		&& lex_heredoc(&sh->tokens, &sh->heredoc)
+		&& lex_expand(&sh->tokens, &sh->env)
+		&& lex_postexpand(&sh->tokens)
+		&& lex_check_syntax(&sh->tokens) && sh->tokens.length > 0)
+	{
+		ft_memset(&meta, 0, sizeof (meta));
+		meta.sh = sh;
+		if (!exec_build(&sh->tokens, &meta))
+		{
+			g_exit_status = EXIT_STATUS_MINOR;
+			return ;
+		}
 		exec_run(&meta);
-}
-
-static void	post_process_line(t_sh *sh, char *line)
-{
-	add_history(line);
-	lex_delete(&sh->tokens);
-	lex_heredoc_delete(&sh->heredoc);
-	free(line);
+	}
 }
 
 static int	process_end(t_sh *sh)
@@ -50,42 +55,39 @@ static int	process_end(t_sh *sh)
 	lex_delete(&sh->tokens);
 	env_destroy(&sh->env);
 	clear_history();
-	write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof (EXIT_MESSAGE));
+	if (sh->is_interactive)
+		write(STDERR_FILENO, EXIT_MESSAGE "\n", sizeof (EXIT_MESSAGE));
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
 	return (g_exit_status % EXIT_STATUS_MAX);
 }
 
-int	main(
-	int argc __attribute__((unused)),
-	char *argv[] __attribute__((unused)),
-	char *envp[]
-)
+int	main(int argc, char *argv[], char *envp[])
 {
 	t_sh	sh;
-	char	*line;
 	int		n;
 
+	((void)argc, (void)argv);
 	g_exit_status = 0;
 	if (!setup(&sh, envp))
 		return (EXIT_FAILURE);
 	while (!sh.force_exit)
 	{
-		line = readline(DEFAULT_PROMPT);
-		if (line == NULL)
+		sh.line = get_line(&sh, DEFAULT_PROMPT);
+		if (sh.line == NULL)
 			break ;
 		n = 0;
-		while (ft_isspace(line[n]))
+		while (ft_isspace(sh.line[n]))
 			++n;
-		if (line[n] == 0)
+		if (sh.line[n] == 0)
+		{
+			free(sh.line);
 			continue ;
-		if (lex_tokenize(&sh.tokens, line)
-			&& lex_heredoc(&sh.tokens, &sh.heredoc)
-			&& lex_expand(&sh.tokens, &sh.env) && lex_postexpand(&sh.tokens)
-			&& lex_check_syntax(&sh.tokens) && sh.tokens.length > 0)
-			process_line(&sh);
-		post_process_line(&sh, line);
+		}
+		process_line(&sh);
+		lex_delete(&sh.tokens);
+		lex_heredoc_delete(&sh.heredoc);
 	}
 	return (process_end(&sh));
 }

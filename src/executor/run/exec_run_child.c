@@ -6,12 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 12:41:55 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:58:26 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "executor.h"
+#include "ft.h"
 #include "heredoc.h"
 #include "status.h"
 #include "utils.h"
@@ -27,7 +28,7 @@ static void	_exec_builtin(t_exec *exec)
 	t_env_table *const	env = &exec->meta->sh->env;
 	int					status;
 
-	if (exec->is_builtin || exec->argc == 0)
+	if (exec->is_builtin)
 	{
 		status = g_exit_status;
 		if (exec->is_builtin)
@@ -51,43 +52,54 @@ static void	_exec_nf(t_exec *exec)
 static void	_exec_path(t_exec *exec)
 {
 	struct stat	st;
+	int			status;
+	int			err;
 
+	err = 0;
 	if (stat(exec->interface.path, &st) == 0)
 	{
 		if (S_ISDIR(st.st_mode))
 		{
-			ft_perror(exec->argv[0], MESSAGE_EXEC_DIR);
-			exit(EXIT_STATUS_NON_EXECUTABLE);
+			err = EISDIR;
+			status = EXIT_STATUS_NON_EXECUTABLE;
 		}
-		if (access(exec->interface.path, X_OK) != 0)
-		{
-			ft_perror(exec->argv[0], strerror(errno));
-			exit(EXIT_STATUS_NON_EXECUTABLE);
-		}
+		else if (access(exec->interface.path, X_OK) != 0)
+			status = EXIT_STATUS_NON_EXECUTABLE;
+		else
+			return ;
 	}
 	else
-	{
-		ft_perror(exec->argv[0], strerror(errno));
-		exit(EXIT_STATUS_NOT_FOUND);
-	}
+		status = EXIT_STATUS_NOT_FOUND;
+	if (err == 0)
+		err = errno;
+	ft_perror(exec->argv[0], strerror(err));
+	child_destroy(exec);
+	exit(status);
 }
 
 void	exec_run_child(t_exec *exec)
 {
 	char	**envp;
 
-	exec_run_setup_child(exec);
+	if (exec->argc == 0)
+	{
+		child_destroy(exec);
+		exit(0);
+	}
+	lex_close_last_heredoc(exec);
 	_exec_builtin(exec);
 	_exec_nf(exec);
 	_exec_path(exec);
 	envp = env_toarray(&exec->meta->sh->env);
-	if (envp)
+	if (!envp)
 	{
-		lex_heredoc_close(exec);
-		close_fds(exec->meta);
-		execve(exec->interface.path, exec->argv, envp);
+		ft_perror(exec->argv[0], strerror(errno));
+		child_destroy(exec);
+		exit(EXIT_STATUS_MAJOR);
 	}
+	execve(exec->interface.path, exec->argv, envp);
 	ft_perror(exec->argv[0], strerror(errno));
+	ft_split_destroy(envp);
 	child_destroy(exec);
-	exit(EXIT_STATUS_MAJOR);
+	exit(EXIT_STATUS_NON_EXECUTABLE);
 }

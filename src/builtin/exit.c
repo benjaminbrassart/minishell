@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:06:36 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/28 13:38:21 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:12:04 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 #include <errno.h>
 #include <unistd.h>
 
-static int	parse_exit_status(char const *arg, int *st_ptr)
+static int	_parse_exit_status(char const *arg, int *st_ptr)
 {
-	int	n;
-	int	sign;
-	int	value;
-	int	prev;
+	long long	n;
+	long long	sign;
+	long long	value;
+	long long	prev;
 
 	value = 0;
 	sign = 1;
@@ -40,7 +40,7 @@ static int	parse_exit_status(char const *arg, int *st_ptr)
 	}
 	if (arg[n] != '\0' || (n == 0 && value == 0))
 		return (0);
-	*st_ptr = value * sign;
+	*st_ptr = (int)((value * sign) % EXIT_STATUS_MAX);
 	return (1);
 }
 
@@ -50,20 +50,17 @@ int	builtin_exit(
 	t_env_table *env __attribute__((unused))
 )
 {
-	int	status;
-
 	if (argc > 2)
 	{
 		ft_perror(BUILTIN_EXIT, "Too many arguments");
-		return (EXIT_STATUS_MINOR);
-	}
-	status = 0;
-	if (argc == 2 && !parse_exit_status(argv[1], &status))
-	{
-		ft_perror(BUILTIN_EXIT, "Numeric argument required");
-		status = EXIT_STATUS_MAJOR;
+		return (g_exit_status = EXIT_STATUS_MINOR);
 	}
 	((t_sh *)(env->sh))->force_exit = 1;
 	close(STDIN_FILENO);
-	return (status);
+	if (argc == 2 && !_parse_exit_status(argv[1], &g_exit_status))
+	{
+		ft_perror(BUILTIN_EXIT, "Numeric argument required");
+		g_exit_status = EXIT_STATUS_MAJOR;
+	}
+	return (g_exit_status);
 }
