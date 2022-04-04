@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/04 04:11:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 04:27:23 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	process_line(t_sh *sh)
 {
 	t_exec_meta	meta;
 
+	if (sh->is_interactive)
+		add_history(sh->line);
 	if (lex_tokenize(&sh->tokens, sh->line)
 		&& lex_heredoc(&sh->tokens, &sh->heredoc)
 		&& lex_expand(&sh->tokens, &sh->env)
@@ -39,21 +41,13 @@ static void	process_line(t_sh *sh)
 	{
 		ft_memset(&meta, 0, sizeof (meta));
 		meta.sh = sh;
-		if (exec_build(&sh->tokens, &meta))
+		if (!exec_build(&sh->tokens, &meta))
 		{
-			exec_run(&meta);
+			g_exit_status = EXIT_STATUS_MINOR;
 			return ;
 		}
+		exec_run(&meta);
 	}
-	g_exit_status = EXIT_STATUS_MINOR;
-}
-
-static void	post_process_line(t_sh *sh, char *line)
-{
-	if (sh->is_interactive)
-		add_history(line);
-	lex_delete(&sh->tokens);
-	lex_heredoc_delete(&sh->heredoc);
 }
 
 static int	process_end(t_sh *sh)
@@ -89,7 +83,8 @@ int	main(int argc, char *argv[], char *envp[])
 		if (sh.line[n] == 0)
 			continue ;
 		process_line(&sh);
-		post_process_line(&sh, sh.line);
+		lex_delete(&sh.tokens);
+		lex_heredoc_delete(&sh.heredoc);
 	}
 	return (process_end(&sh));
 }

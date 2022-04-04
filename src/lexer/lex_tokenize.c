@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:42:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/04 04:12:29 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 04:29:51 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int	_tokenize(t_tokenizer *tokenizer, t_token_list *list, char **input)
+static int	_tokenize(t_tokenizer *tokenizer, t_token_list *list, char **input,
+	char *line)
 {
 	if (!tokenizer->fn(list, input))
 	{
@@ -40,19 +41,18 @@ int	lex_tokenize(t_token_list *list, char *input)
 		return (0);
 	}
 	input = line;
-	while (*input)
+	while (*input != 0)
 	{
 		while (ft_isspace(*input))
 			++input;
 		if (!*input)
 			break ;
 		tokenizer = get_tokenizer(input);
-		if (!_tokenize(tokenizer, list, &input))
-		{
-			free(line);
-			return (0);
-		}
+		if (!_tokenize(tokenizer, list, &input, line))
+			break ;
 	}
+	if (*input != 0)
+		perror(PROGRAM_NAME);
 	free(line);
 	return (1);
 }
