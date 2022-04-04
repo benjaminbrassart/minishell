@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_line.c                                         :+:      :+:    :+:   */
+/*   exec_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/02 16:05:00 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/04 04:14:20 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/04 00:20:01 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/04 04:59:47 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "executor.h"
 #include "ft.h"
 #include "minishell.h"
-#include "type/t_sh.h"
 #include "utils.h"
-#include <readline/readline.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <stdio.h>
 
-char	*get_line(t_sh *sh, char const *prompt)
+int	exec_init(t_token_list *list, t_exec_meta *meta)
 {
-	char	*line;
-	int		res;
-
-	if (sh->is_interactive)
-		return (readline(prompt));
-	res = get_next_line(STDIN_FILENO, &line);
-	if (res < 0 || (res == 0 && (line == NULL || *line == 0)))
+	meta->started = 0;
+	meta->count = command_count(list);
+	meta->exec = ft_calloc(meta->count, sizeof (*meta->exec));
+	if (meta->exec == NULL)
 	{
-		if (res == 0)
-			free(line);
-		else
-			perror(PROGRAM_NAME);
-		line = NULL;
+		perror(PROGRAM_NAME);
+		return (0);
 	}
-	return (line);
+	return (1);
 }

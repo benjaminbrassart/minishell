@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 02:29:20 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 19:58:30 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 04:59:18 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ struct s_exec_red
 struct s_exec_meta
 {
 	t_sh	*sh;
-	size_t	count;
 	t_exec	*exec;
+	size_t	count;
+	size_t	started;
 };
 
 struct s_exec

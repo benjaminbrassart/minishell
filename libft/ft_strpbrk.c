@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_sh.h                                             :+:      :+:    :+:   */
+/*   ft_strpbrk.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/03 23:22:13 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/04 02:31:39 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/04 02:45:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_SH_H
-# define T_SH_H
+#include "ft.h"
 
-# include "type/t_env_table.h"
-# include "type/t_heredoc.h"
-# include "type/t_token_list.h"
-
-typedef struct s_sh	t_sh;
-
-struct s_sh
+char	*ft_strpbrk(char const *s, char const *accept)
 {
-	char			*line;
-	t_token_list	tokens;
-	t_env_table		env;
-	t_heredoc		heredoc;
-	int				force_exit;
-	int				is_interactive;
-};
+	char const	*p;
 
-#endif
+	p = s;
+	while (*p != 0 && ft_strchr(accept, *p) != NULL)
+		++p;
+	if (*p == 0)
+		p = NULL;
+	return ((char *)p);
+}

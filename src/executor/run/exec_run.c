@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:52:54 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/03 01:32:35 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 06:12:11 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,43 +38,9 @@ static int	_exec_fork(t_exec *exec, int *pids)
 	if (pids[exec->index] == 0)
 	{
 		free(pids);
-		if (exec->index == exec->meta->count - 1 && exec->fds[1] != STDOUT_FILENO)
-		{
-			close(exec->fds[1]);
-			exec->fd_out = STDOUT_FILENO;
-		}
-		exec_run_setup_child(exec);
-		if (exec->fds[0] != STDIN_FILENO && exec->fds[0] != exec->fd_in)
-			close(exec->fds[0]);
-		if (exec->fd_in != STDIN_FILENO)
-		{
-			if (dup2(exec->fd_in, STDIN_FILENO) == -1)
-			{
-				perror(PROGRAM_NAME);
-				lex_close_last_heredoc(exec);
-				exit(EXIT_STATUS_MAJOR);
-			}
-			close(exec->fd_in);
-		}
-		if (exec->fd_out != STDOUT_FILENO)
-		{
-			if (dup2(exec->fd_out, STDOUT_FILENO) == -1)
-			{
-				perror(PROGRAM_NAME);
-				lex_close_last_heredoc(exec);
-				exit(EXIT_STATUS_MAJOR);
-			}
-			close(exec->fd_out);
-		}
-		lex_close_last_heredoc(exec);
-		// lex_heredoc_delete(exec->meta);
-		// if (exec->index != 0)
-		if (exec->index != 0 && (exec - 1)->fds[0] != STDIN_FILENO)
-			close((exec - 1)->fds[0]);
-		if ((exec->index == exec->meta->count - 1) && exec->fds[0] != STDIN_FILENO)
-			close(exec->fds[0]);
-		exec_run_child(exec);
+		exec_fork(exec);
 	}
+	++exec->meta->started;
 	if (exec->index != 0 && (exec - 1)->fds[0] != STDIN_FILENO)
 		close((exec - 1)->fds[0]);
 	if (exec->index == exec->meta->count - 1 && exec->fds[0] != STDIN_FILENO)
@@ -84,72 +50,22 @@ static int	_exec_fork(t_exec *exec, int *pids)
 	return (1);
 }
 
-static void	_wait_child(t_exec_meta *meta, pid_t *pids, size_t n)
-{
-	int	status;
-
-	if (waitpid(pids[n], &status, 0) == -1)
-	{
-		perror(PROGRAM_NAME);
-		return ;
-	}
-	g_exit_status = get_exit_status(status);
-	if (n == meta->count - 1 && WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGINT)
-			handle_sigint(0);
-		if (WTERMSIG(status) == SIGQUIT)
-			write(STDERR_FILENO, MESSAGE_CHILD_QUIT "\n",
-				sizeof (MESSAGE_CHILD_QUIT));
-		if (WTERMSIG(status) == SIGSEGV)
-			write(STDERR_FILENO, MESSAGE_CHILD_SEGV "\n",
-				sizeof (MESSAGE_CHILD_SEGV));
-	}
-}
-
-static void	_cleanup(t_exec_meta *meta, pid_t *pids)
-{
-	size_t	n;
-
-	n = 0;
-	if (meta->exec->is_builtin)
-		++n;
-	while (n < meta->count)
-		_wait_child(meta, pids, n++);
-	exec_delete_redirect(meta);
-	parent_close(meta, -1);
-	free(pids);
-	sigint_install();
-}
-
 int	exec_run(t_exec_meta *meta)
 {
 	size_t	n;
 	pid_t	*pids;
 
-	pids = malloc(sizeof (*pids) * meta->count);
+	pids = exec_pids_init(meta);
 	if (pids == NULL)
-	{
-		perror(PROGRAM_NAME);
 		return (0);
-	}
 	sigint_ignore();
 	n = 0;
 	while (n < meta->count)
 	{
-		if (n == meta->count - 1)
+		if (exec_pipe(&meta->exec[n]) < 0)
 		{
-			meta->exec[n].fds[0] = STDIN_FILENO;
-			meta->exec[n].fds[1] = STDOUT_FILENO;
-		}
-		else
-		{
-			if (pipe(meta->exec[n].fds) == -1)
-			{
-				free(pids);
-				perror(PROGRAM_NAME);
-				return (0);
-			}
+			free(pids);
+			return (0);
 		}
 		if (n == 0 && meta->exec->is_builtin)
 			exec_run_builtin(meta->exec);
@@ -157,6 +73,7 @@ int	exec_run(t_exec_meta *meta)
 			_exec_fork(&meta->exec[n], pids);
 		++n;
 	}
-	_cleanup(meta, pids);
+	exec_wait(meta, pids);
+	exec_run_cleanup(meta, pids);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 23:41:29 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 05:56:18 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,41 +52,34 @@ static void	_exec_path(t_exec *exec)
 {
 	struct stat	st;
 	int			status;
+	int			err;
 
-	if (exec->argc == 0)
-		return ;
-	status = 0;
+	err = 0;
 	if (stat(exec->interface.path, &st) == 0)
 	{
 		if (S_ISDIR(st.st_mode))
 		{
-			ft_perror(exec->argv[0], MESSAGE_EXEC_DIR);
+			err = EISDIR;
 			status = EXIT_STATUS_NON_EXECUTABLE;
 		}
 		else if (access(exec->interface.path, X_OK) != 0)
-		{
-			ft_perror(exec->argv[0], strerror(errno));
 			status = EXIT_STATUS_NON_EXECUTABLE;
-		}
+		else
+			return ;
 	}
 	else
-	{
-		ft_perror(exec->argv[0], strerror(errno));
 		status = EXIT_STATUS_NOT_FOUND;
-	}
-	if (status != 0)
-	{
-		child_destroy(exec);
-		exit(status);
-	}
+	if (err == 0)
+		err = errno;
+	ft_perror(exec->argv[0], strerror(err));
+	child_destroy(exec);
+	exit(status);
 }
 
 void	exec_run_child(t_exec *exec)
 {
 	char	**envp;
 
-	// fprintf(stderr, "pid: %d, stdin: %d, stdout: %d\n", getpid(),
-		// exec->fds[0], exec->fds[1]);
 	if (exec->argc == 0)
 	{
 		child_destroy(exec);
@@ -97,9 +90,13 @@ void	exec_run_child(t_exec *exec)
 	_exec_nf(exec);
 	_exec_path(exec);
 	envp = env_toarray(&exec->meta->sh->env);
-	if (envp)
-		execve(exec->interface.path, exec->argv, envp);
+	if (!envp)
+	{
+		ft_perror(exec->argv[0], strerror(errno));
+		exit(EXIT_STATUS_MAJOR);
+	}
+	execve(exec->interface.path, exec->argv, envp);
 	ft_perror(exec->argv[0], strerror(errno));
 	child_destroy(exec);
-	exit(EXIT_STATUS_MAJOR);
+	exit(EXIT_STATUS_NON_EXECUTABLE);
 }

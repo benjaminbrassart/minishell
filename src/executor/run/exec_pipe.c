@@ -1,39 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_line.c                                         :+:      :+:    :+:   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/02 16:05:00 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/04 04:14:20 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/04 00:10:54 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/04 00:51:20 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft.h"
+#include "executor.h"
 #include "minishell.h"
-#include "type/t_sh.h"
-#include "utils.h"
-#include <readline/readline.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
 
-char	*get_line(t_sh *sh, char const *prompt)
+int	exec_pipe(t_exec *exec)
 {
-	char	*line;
-	int		res;
+	int	res;
 
-	if (sh->is_interactive)
-		return (readline(prompt));
-	res = get_next_line(STDIN_FILENO, &line);
-	if (res < 0 || (res == 0 && (line == NULL || *line == 0)))
+	if (exec->index == exec->meta->count - 1)
 	{
-		if (res == 0)
-			free(line);
-		else
-			perror(PROGRAM_NAME);
-		line = NULL;
+		exec->fds[0] = STDIN_FILENO;
+		exec->fds[1] = STDOUT_FILENO;
+		return (0);
 	}
-	return (line);
+	res = pipe(exec->fds);
+	if (res < 0)
+		perror(PROGRAM_NAME);
+	return (res);
 }

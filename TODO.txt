@@ -1,5 +1,0 @@
-handle too many args (malloc failed?)
-fix output checking in test script
-check for memory/fd leaks
-norminette
-handle (syscall) errors properly

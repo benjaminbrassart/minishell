@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/27 04:08:31 by bbrassar          #+#    #+#              #
-#    Updated: 2022/04/02 14:19:16 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/04/04 02:40:28 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,10 @@ RM						= rm -f
 
 CC						= cc
 CFLAGS					= -Wall -Wextra -Werror -c -MMD -MP -I.
+
+ifeq ($(DEBUG), true)
+CFLAGS					+= -g3
+endif
 
 DIR_SRC					= .
 DIR_OBJ					= obj
@@ -42,6 +46,7 @@ SRC						= \
 							ft_calloc.c \
 							ft_strtrim.c \
 							ft_strtoi.c \
+							ft_strpbrk.c \
 							get_next_line.c
 OBJ						= $(addprefix $(DIR_OBJ)/, $(SRC:.c=.o))
 DEP						= $(OBJ:.o=.d)

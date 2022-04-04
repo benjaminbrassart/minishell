@@ -6,65 +6,64 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 21:07:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/03 04:16:16 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 06:14:37 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "ft.h"
 #include "lexer.h"
 #include "minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-static void	list_add(t_token_list *list, t_token_node *node)
-{
-	if (list->length == 0)
-		list->first_node = node;
-	else
-		list->last_node->next = node;
-	node->next = NULL;
-	list->last_node = node;
-	++(list->length);
-}
-
-static t_token_node	*fill_node(t_token_node *node, char *s)
+static t_token_node	*_fill_node(t_token_node *node, char *s)
 {
 	if (s == NULL)
 		node->token = SEPARATOR;
 	else
 		node->token = WORD_NQ;
 	node->value = s;
+	node->next = NULL;
 	return (node);
 }
 
-static int	list_add_nq(t_token_list *list, t_token_node *node)
+static int	_add_word_sep(t_token_list *list, char *value)
 {
-	char			**array;
 	t_token_node	*new_node;
-	int				n;
 
-	array = ft_split(node->value, ' ');
+	new_node = malloc(sizeof (*new_node));
+	if (!new_node)
+		return (0);
+	__lex_add(list, _fill_node(new_node, value));
+	new_node = malloc(sizeof (*new_node));
+	if (!new_node)
+		return (0);
+	__lex_add(list, _fill_node(new_node, NULL));
+	return (1);
+}
+
+static int	_list_add_nq(t_token_list *list, t_token_node *node)
+{
+	char	**array;
+	char	**ptr;
+
+	array = ft_split(node->value, IFS);
+	free(node->value);
 	free(node);
 	if (array == NULL)
 	{
 		perror(PROGRAM_NAME);
 		return (0);
 	}
-	n = 0;
-	while (array[n])
+	ptr = array;
+	while (*ptr && _add_word_sep(list, *ptr))
+		++ptr;
+	if (*ptr == NULL)
 	{
-		new_node = malloc(sizeof (*new_node));
-		if (!new_node)
-			break ;
-		list_add(list, fill_node(new_node, array[n]));
-		new_node = malloc(sizeof (*new_node));
-		if (!new_node)
-			break ;
-		list_add(list, fill_node(new_node, NULL));
-		++n;
-	}
-	if (array[n])
+		free(array);
 		return (1);
+	}
 	ft_split_destroy(array);
 	perror(PROGRAM_NAME);
 	return (0);
@@ -83,18 +82,18 @@ int	lex_postexpand(t_token_list *list)
 	while (node)
 	{
 		fast = node->next;
-		if ((node->token & WORD_NQ) && (slow == NULL
-		|| (slow->token & ~(RED_IN | RED_OUT)))
-			&& ft_strchr(node->value, ' ') != NULL)
+		if ((slow == NULL || (slow->token & ~(RED_IN | RED_OUT)))
+			&& node->token == WORD_NQ && ft_strpbrk(node->value, IFS) != NULL)
 		{
-			if (!list_add_nq(&new_list, node))
+			if (!_list_add_nq(&new_list, node))
 				return (0);
 		}
 		else
-			list_add(&new_list, node);
-		slow = node;
+		{
+			__lex_add(&new_list, node);
+			slow = node;
+		}
 		node = fast;
 	}
-	ft_memmove(list, &new_list, sizeof (*list));
-	return (lex_concat(list));
+	return (lex_concat(ft_memmove(list, &new_list, sizeof (*list))));
 }

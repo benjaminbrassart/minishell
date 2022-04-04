@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_sh.h                                             :+:      :+:    :+:   */
+/*   exec_run_cleanup.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 10:28:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/03 23:22:13 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/04 06:00:44 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/04 06:01:21 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_SH_H
-# define T_SH_H
+#include "executor.h"
+#include "sighandler.h"
+#include <stdlib.h>
 
-# include "type/t_env_table.h"
-# include "type/t_heredoc.h"
-# include "type/t_token_list.h"
-
-typedef struct s_sh	t_sh;
-
-struct s_sh
+void	exec_run_cleanup(t_exec_meta *meta, pid_t *pids)
 {
-	char			*line;
-	t_token_list	tokens;
-	t_env_table		env;
-	t_heredoc		heredoc;
-	int				force_exit;
-	int				is_interactive;
-};
-
-#endif
+	exec_delete_redirect(meta);
+	parent_close(meta, -1);
+	free(pids);
+	sigint_install();
+}

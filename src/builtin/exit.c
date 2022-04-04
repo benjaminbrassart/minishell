@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 13:06:36 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/31 18:57:44 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/01 09:43:09 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	builtin_exit(
 	if (argc > 2)
 	{
 		ft_perror(BUILTIN_EXIT, "Too many arguments");
-		return (g_exit_status = EXIT_STATUS_MINOR);
+		return (g_exit_status = EXIT_STATUS_MAJOR);
 	}
 	((t_sh *)(env->sh))->force_exit = 1;
 	close(STDIN_FILENO);
