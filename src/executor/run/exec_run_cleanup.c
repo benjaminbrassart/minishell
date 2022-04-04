@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_init.c                                        :+:      :+:    :+:   */
+/*   exec_run_cleanup.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 00:20:01 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/04 04:59:47 by bbrassar         ###   ########.fr       */
+/*   Created: 2022/04/04 06:00:44 by bbrassar          #+#    #+#             */
+/*   Updated: 2022/04/04 06:01:21 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
-#include "ft.h"
-#include "minishell.h"
-#include "utils.h"
+#include "sighandler.h"
 #include <stdlib.h>
-#include <stdio.h>
 
-int	exec_init(t_token_list *list, t_exec_meta *meta)
+void	exec_run_cleanup(t_exec_meta *meta, pid_t *pids)
 {
-	meta->started = 0;
-	meta->count = command_count(list);
-	meta->exec = ft_calloc(meta->count, sizeof (*meta->exec));
-	if (meta->exec == NULL)
-	{
-		perror(PROGRAM_NAME);
-		return (0);
-	}
-	return (1);
+	exec_delete_redirect(meta);
+	parent_close(meta, -1);
+	free(pids);
+	sigint_install();
 }

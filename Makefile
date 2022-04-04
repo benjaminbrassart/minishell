@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 22:16:18 by bbrassar          #+#    #+#              #
-#    Updated: 2022/04/04 00:36:10 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/04/04 06:12:37 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,8 +82,11 @@ SRC						= \
 							executor/run/exec_run_builtin.c \
 							executor/run/exec_run_setup_child.c \
 							executor/run/exec_run_destroy.c \
+							executor/run/exec_run_cleanup.c \
 							executor/run/exec_pipe.c \
+							executor/run/exec_wait.c \
 							executor/run/exec_pids_init.c \
+							executor/run/exec_fork.c \
 							util/path_search.c \
 							util/command_count.c \
 							util/open_red.c \

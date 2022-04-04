@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 21:07:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/04 03:50:54 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 06:14:37 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	_add_word_sep(t_token_list *list, char *value)
 	return (1);
 }
 
-static int	list_add_nq(t_token_list *list, t_token_node *node)
+static int	_list_add_nq(t_token_list *list, t_token_node *node)
 {
 	char	**array;
 	char	**ptr;
@@ -85,7 +85,7 @@ int	lex_postexpand(t_token_list *list)
 		if ((slow == NULL || (slow->token & ~(RED_IN | RED_OUT)))
 			&& node->token == WORD_NQ && ft_strpbrk(node->value, IFS) != NULL)
 		{
-			if (!list_add_nq(&new_list, node))
+			if (!_list_add_nq(&new_list, node))
 				return (0);
 		}
 		else
@@ -95,6 +95,5 @@ int	lex_postexpand(t_token_list *list)
 		}
 		node = fast;
 	}
-	ft_memmove(list, &new_list, sizeof (*list));
-	return (lex_concat(list));
+	return (lex_concat(ft_memmove(list, &new_list, sizeof (*list))));
 }
