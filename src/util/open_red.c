@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:20:20 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/01 09:23:21 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 12:10:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	open_red(t_exec_red *red)
 		{
 			red->fd = fds[0];
 			red->hd->fd = fds[1];
+			red->hd->open = 1;
 		}
 	}
 	else if (red->type == LESS)
