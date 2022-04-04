@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 16:05:00 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 16:57:11 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 04:14:20 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ char	*get_line(t_sh *sh, char const *prompt)
 	if (sh->is_interactive)
 		return (readline(prompt));
 	res = get_next_line(STDIN_FILENO, &line);
-	if (res < 0 || (res == 0 && line != NULL && *line == 0))
+	if (res < 0 || (res == 0 && (line == NULL || *line == 0)))
 	{
 		if (res == 0)
 			free(line);
 		else
 			perror(PROGRAM_NAME);
-		return (NULL);
+		line = NULL;
 	}
 	return (line);
 }
