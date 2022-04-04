@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:23:10 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/04 04:27:23 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 10:48:11 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int	main(int argc, char *argv[], char *envp[])
 		while (ft_isspace(sh.line[n]))
 			++n;
 		if (sh.line[n] == 0)
+		{
+			free(sh.line);
 			continue ;
+		}
 		process_line(&sh);
 		lex_delete(&sh.tokens);
 		lex_heredoc_delete(&sh.heredoc);
