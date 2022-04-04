@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 10:13:56 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/14 15:39:38 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 02:38:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "type/t_sh.h"
 
 # define PATH_VAR_NAME "PATH"
+# define PATH_SEPARATOR ":"
+# define IFS " \n\t"
 
 /**
  * Add an entry to an environment table

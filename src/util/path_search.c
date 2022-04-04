@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 11:40:06 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/03/22 04:46:50 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 02:21:49 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*path_search(t_env_table *env, char const *bin_name)
 
 	if (!path_var)
 		return (NULL);
-	path_entries = ft_split(path_var, ':');
+	path_entries = ft_split(path_var, PATH_SEPARATOR);
 	if (path_entries == NULL)
 	{
 		perror(PROGRAM_NAME);
