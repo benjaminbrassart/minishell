@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 06:34:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 23:23:20 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 03:37:44 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,12 @@ static int	try_dup2(int fd, int fd2)
 	return (1);
 }
 
-// main process
 void	exec_run_builtin(t_exec *exec)
 {
 	t_env_table *const	env = &exec->meta->sh->env;
 	int					save_fd[2];
 	t_exec_red			*red;
 
-	// printf("<parent>, stdin: %d, stdout: %d\n", exec->fd_in, exec->fd_out);
 	if (!exec_redirect(exec)
 		|| !try_dup(STDIN_FILENO, &save_fd[0])
 		|| !try_dup(STDOUT_FILENO, &save_fd[1])

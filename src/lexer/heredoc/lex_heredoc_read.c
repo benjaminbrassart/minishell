@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 08:14:45 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/02 20:48:02 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 03:22:02 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static char	*_getline(t_heredoc_buffer *hdbuf)
 		return (NULL);
 	if (hdbuf->expand && ft_strcmp(line, hdbuf->delimiter) != 0)
 	{
-
 		tmp_line = str_expand(&((t_sh *)(hdbuf->heredoc->sh))->env, line);
 		free(line);
 		line = tmp_line;

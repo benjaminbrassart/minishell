@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 05:34:18 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/03 22:22:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 03:46:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,41 +52,34 @@ static void	_exec_path(t_exec *exec)
 {
 	struct stat	st;
 	int			status;
+	int			err;
 
-	if (exec->argc == 0)
-		return ;
-	status = 0;
+	err = 0;
 	if (stat(exec->interface.path, &st) == 0)
 	{
 		if (S_ISDIR(st.st_mode))
 		{
-			ft_perror(exec->argv[0], MESSAGE_EXEC_DIR);
+			err = EISDIR;
 			status = EXIT_STATUS_NON_EXECUTABLE;
 		}
 		else if (access(exec->interface.path, X_OK) != 0)
-		{
-			ft_perror(exec->argv[0], strerror(errno));
 			status = EXIT_STATUS_NON_EXECUTABLE;
-		}
+		else
+			return ;
 	}
 	else
-	{
-		ft_perror(exec->argv[0], strerror(errno));
 		status = EXIT_STATUS_NOT_FOUND;
-	}
-	if (status != 0)
-	{
-		child_destroy(exec);
-		exit(status);
-	}
+	if (err == 0)
+		err = errno;
+	ft_perror(exec->argv[0], strerror(err));
+	child_destroy(exec);
+	exit(status);
 }
 
 void	exec_run_child(t_exec *exec)
 {
 	char	**envp;
 
-	// fprintf(stderr, "pid: %d, stdin: %d, stdout: %d\n", getpid(),
-		// exec->fds[0], exec->fds[1]);
 	if (exec->argc == 0)
 	{
 		child_destroy(exec);
@@ -95,7 +88,8 @@ void	exec_run_child(t_exec *exec)
 	lex_close_last_heredoc(exec);
 	_exec_builtin(exec);
 	_exec_nf(exec);
-	_exec_path(exec);
+	if (exec->argc > 0)
+		_exec_path(exec);
 	envp = env_toarray(&exec->meta->sh->env);
 	if (!envp)
 	{

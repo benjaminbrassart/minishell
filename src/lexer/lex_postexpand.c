@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 21:07:28 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/04 03:21:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 03:50:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,10 @@ int	lex_postexpand(t_token_list *list)
 				return (0);
 		}
 		else
+		{
 			__lex_add(&new_list, node);
-		slow = node;
+			slow = node;
+		}
 		node = fast;
 	}
 	ft_memmove(list, &new_list, sizeof (*list));
