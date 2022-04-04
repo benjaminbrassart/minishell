@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 03:27:52 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/04/04 00:25:39 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/04/04 04:56:47 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,33 @@ static int	list_add(t_token_list *list, int token, char *value)
 	return (1);
 }
 
-static int	_destroy(t_buffer *buf)
+static int	_not_word(int *is_arg, t_buffer *buf, t_token_node *node,
+t_token_list *new_list)
 {
-	buffer_delete(buf);
-	perror(PROGRAM_NAME);
-	return (0);
-}
-
-static int	_not_word(int *isarg, t_buffer *buf, t_token_node *node,
-	t_token_list *new_list)
-{
-	if ((*isarg && (!buffer_flush(buf) || !list_add(new_list, WORD, buf->buf)))
+	if ((*is_arg && (!buffer_flush(buf) || !list_add(new_list, WORD, buf->buf)))
 		|| (node != NULL && node->token != SEPARATOR
 			&& !list_add(new_list, node->token, NULL)))
-		return (_destroy(buf));
+	{
+		buffer_delete(buf);
+		perror(PROGRAM_NAME);
+		return (0);
+	}
 	buffer_init(buf);
-	*isarg = 0;
+	*is_arg = 0;
+	return (1);
+}
+
+static int	_word(int *is_arg, t_buffer *buf, t_token_node *node)
+{
+	if (!buffer_append(buf, node->value))
+	{
+		buffer_delete(buf);
+		perror(PROGRAM_NAME);
+		return (0);
+	}
+	if (((node->token & (WORD_DQ | WORD_SQ))
+			|| ((node->token & WORD_NQ) && *node->value != 0)))
+		*is_arg = 1;
 	return (1);
 }
 
@@ -77,14 +88,8 @@ int	lex_concat(t_token_list *list)
 			if (node == NULL)
 				break ;
 		}
-		else if (node->token & WORD)
-		{
-			if (!buffer_append(&buf, node->value))
-				return (_destroy(&buf));
-			if (((node->token & (WORD_DQ | WORD_SQ))
-					|| ((node->token & WORD_NQ) && *node->value != 0)))
-				is_arg = 1;
-		}
+		else if ((node->token & WORD) && !_word(&is_arg, &buf, node))
+			return (0);
 		node = node->next;
 	}
 	lex_delete(list);
